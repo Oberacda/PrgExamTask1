@@ -1,6 +1,6 @@
 package edu.kit.informatik.test;
 
-import edu.kit.infromatik.TestClass;
+import edu.kit.informatik.TestClass;
 import org.junit.Test;
 
 import static org.hamcrest.core.Is.is;

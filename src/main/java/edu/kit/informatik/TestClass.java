@@ -1,4 +1,4 @@
-package edu.kit.infromatik;
+package edu.kit.informatik;
 
 /**
  * Created by oberacda on 30.01.2017.
