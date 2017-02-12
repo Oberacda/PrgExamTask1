@@ -1,5 +1,7 @@
 package edu.kit.informatik.management.literature;
 
+import edu.kit.informatik.management.literature.util.PatternHolder;
+
 import java.util.*;
 
 /**
@@ -107,10 +109,17 @@ public class ConferenceSeries extends Venue  {
     //=================Override Methods=================
 
     @Override
-    public void addKeyword(final String keyword) {
-        this.getKeywordsTree().add(keyword);
-        for (Conference c: this.conferenceList.values()) {
-            c.addKeyword(keyword);
+    public void addKeyword(final String keyword)
+            throws IllegalArgumentException {
+        if (PatternHolder.KEYWORDPATTERN.matcher(keyword).matches()) {
+            this.getKeywordsTree().add(keyword);
+            for (Conference c: this.conferenceList.values()) {
+                c.addKeyword(keyword);
+            }
+        } else {
+            throw new IllegalArgumentException(String.format("keyword does not match"
+                            + " requirements : %s !",
+                    PatternHolder.KEYWORDPATTERN.pattern()));
         }
     }
 
