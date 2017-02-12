@@ -25,18 +25,22 @@ public class Article implements Entity {
     /**
      * Creates a new incomplete article.
      * <p>
-     *     A incomplete article has no authors assigned
-     *     to it. It always has a unique id and a title,
-     *     as well as a year. The keywords parameter specifies
-     *     the keywords the venue has the article is published with.
+     * A incomplete article has no authors assigned
+     * to it. It always has a unique id and a title,
+     * as well as a year. The keywords parameter specifies
+     * the keywords the venue has the article is published with.
      * </p>
      * <b>No Parameter should be null!</b>
      *
-     * @param id the unique id of the article.
-     * @param title the title of the article.
-     * @param year the year the article was published.
-     * @param keywords the keywords of the venue which
-     *                 publishes the article
+     * @param id
+     *         the unique id of the article.
+     * @param title
+     *         the title of the article.
+     * @param year
+     *         the year the article was published.
+     * @param keywords
+     *         the keywords of the venue which
+     *         publishes the article
      */
     public Article(final String id,
                    final String title,
@@ -55,7 +59,7 @@ public class Article implements Entity {
     /**
      * Returns the year the article was published.
      * <p>
-     *     Integer between 1000 and 9999.
+     * Integer between 1000 and 9999.
      * </p>
      *
      * @return the publication year.
@@ -97,10 +101,12 @@ public class Article implements Entity {
     /**
      * Adds a author to the article.
      * <p>
-     *     This methode can be called multible times on an
-     *     article to add more than one author.
+     * This methode can be called multible times on an
+     * article to add more than one author.
      * </p>
-     * @param author the instance of a author that should be added.
+     *
+     * @param author
+     *         the instance of a author that should be added.
      */
     public void addAuthor(Author author) {
         this.authorList.add(author);
@@ -109,15 +115,17 @@ public class Article implements Entity {
     /**
      * Adds a article to the litratureindex of this article.
      * <p>
-     *     This action is only possible if the citedArticle's publication year,
-     *     is absolute before the publication year of this article.
+     * This action is only possible if the citedArticle's publication year,
+     * is absolute before the publication year of this article.
      * </p>
-     * @param citedArticle Another article which was published
-     *                     before this article.
+     *
+     * @param citedArticle
+     *         Another article which was published
+     *         before this article.
      */
-     public void addCitation(final Article citedArticle) {
+    public void addCitation(final Article citedArticle) {
         this.literatureIndex.addCitation(citedArticle);
-     }
+    }
     //=================Override Methods=================
 
     @Override
@@ -133,8 +141,8 @@ public class Article implements Entity {
     }
 
     @Override
-    public SortedSet<String> getKeywords() {
-        return this.keywords.descendingSet();
+    public Stream<String> getKeywords() {
+        return this.keywords.stream();
     }
 
     @Override

@@ -7,10 +7,10 @@ import java.util.regex.Matcher;
 /**
  * Modeling a author with a first and a last name.
  * <p>
- *     A instance of a author is identified by the
- *     combination of first and last name. This
- *     identification is case sensitive for both
- *     first and last name.
+ * A instance of a author is identified by the
+ * combination of first and last name. This
+ * identification is case sensitive for both
+ * first and last name.
  * </p>
  *
  * @author David Oberacker
@@ -28,19 +28,23 @@ public class Author {
     /**
      * Creates a new author with a first and last name.
      * <p>
-     *     first/last Name - Combination of chars without
-     *     special chars or whitespaces.
+     * first/last Name - Combination of chars without
+     * special chars or whitespaces.
      * </p>
      * <b>No Parameter should be null!</b>
-     * @param firstName lirst name of the author.
-     * @param lastName last name of the author.
      *
-     * @throws IllegalArgumentException If the first or last name
+     * @param firstName
+     *         lirst name of the author.
+     * @param lastName
+     *         last name of the author.
+     *
+     * @throws IllegalArgumentException
+     *         If the first or last name
      *         contain illegal chars (special chars or whitespaces) this
      *         exception is thrown.
      */
     public Author(final String firstName, final String lastName)
-                  throws IllegalArgumentException {
+            throws IllegalArgumentException {
 
         Matcher firstNameMatcher = PatternHolder.NAMEPATTERN.matcher(firstName);
         Matcher lastNameMatcher = PatternHolder.NAMEPATTERN.matcher(lastName);
@@ -58,8 +62,9 @@ public class Author {
     /**
      * Returns the first name of the author.
      * <p>
-     *     name is combination of the chars {@literal [a-zA-Z]}.
+     * name is combination of the chars {@literal [a-zA-Z]}.
      * </p>
+     *
      * @return first name of the author.
      */
     public String getFirstName() {
@@ -69,8 +74,9 @@ public class Author {
     /**
      * Returns the last name of the author.
      * <p>
-     *     name is combination of the chars {@literal [a-zA-Z]}.
+     * name is combination of the chars {@literal [a-zA-Z]}.
      * </p>
+     *
      * @return last name of the author.
      */
     public String getLastName() {
@@ -82,8 +88,8 @@ public class Author {
     /**
      * Returns a string representation of the author.
      * <p>
-     *     The format is {@code "<firstName> <lastName>"}.
-     *     (Without {@literal the <> and the "" chars}.
+     * The format is {@code "<firstName> <lastName>"}.
+     * (Without {@literal the <> and the "" chars}.
      * </p>
      *
      * @return string representation of the author
@@ -97,11 +103,13 @@ public class Author {
      * Checks if the other instance and this instance of
      * author identify the same author.
      * <p>
-     *     Two authors are equal if the first and last name
-     *     are the same (case sensitive)!
+     * Two authors are equal if the first and last name
+     * are the same (case sensitive)!
      * </p>
      *
-     * @param o instance that should be checked.
+     * @param o
+     *         instance that should be checked.
+     *
      * @return true - this and o describe the same author.
      */
     @Override
