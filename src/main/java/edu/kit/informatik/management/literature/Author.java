@@ -31,20 +31,16 @@ public class Author {
      *     first/last Name - Combination of chars without
      *     special chars or whitespaces.
      * </p>
-     * No Parameter should be null!
+     * <b>No Parameter should be null!</b>
      * @param firstName lirst name of the author.
      * @param lastName last name of the author.
      *
      * @throws IllegalArgumentException If the first or last name
      *         contain illegal chars (special chars or whitespaces) this
      *         exception is thrown.
-     * @throws NullPointerException this exception is thrown if a parameter
-     *         is null.
      */
     public Author(final String firstName, final String lastName)
                   throws IllegalArgumentException {
-        if (firstName == null || lastName == null)
-            throw new NullPointerException("Names should not be null!");
 
         Matcher firstNameMatcher = PatternHolder.NAMEPATTERN.matcher(firstName);
         Matcher lastNameMatcher = PatternHolder.NAMEPATTERN.matcher(lastName);
