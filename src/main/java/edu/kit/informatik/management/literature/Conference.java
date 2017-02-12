@@ -1,6 +1,7 @@
 package edu.kit.informatik.management.literature;
 
 import edu.kit.informatik.management.literature.interfaces.Entity;
+import edu.kit.informatik.management.literature.util.PatternHolder;
 
 import java.util.*;
 
@@ -64,11 +65,18 @@ public class Conference implements Entity {
 
     //=================Override Methods=================
 
-    public void addKeyword(final String keyword) {
-        this.keywordsList.add(keyword);
+    @Override
+    public void addKeyword(final String keyword) throws IllegalArgumentException {
+        if (PatternHolder.KEYWORDPATTERN.matcher(keyword).matches()) {
+            this.keywordsList.add(keyword);
 
-        for (Article a:this.conferencePublications.values()) {
-            a.addKeyword(keyword);
+            for (Article a:this.conferencePublications.values()) {
+                a.addKeyword(keyword);
+            }
+        } else {
+            throw new IllegalArgumentException(String.format("keyword does not match"
+                            + " requirements : %s !",
+                    PatternHolder.KEYWORDPATTERN.pattern()));
         }
     }
 

@@ -60,13 +60,13 @@ public class ConferenceSeriesTest {
 
     @Test
     public void keywordsTest1() throws Exception {
-        c1.addKeyword("TestKeyword");
+        c1.addKeyword("testkeyword");
         c1.addConference(1997, "München");
         c1.addConference(1998, "München");
-        c1.addKeyword("TestKeyword2");
+        c1.addKeyword("testkeywordtwo");
         c1.addConference(1999, "München");
         c1.getConference(1999).addArticle("idp1","TestArticle");
-        c1.addKeyword("TestKeyword2");
-        c1.addKeyword("TestKeyword3");
+        c1.addKeyword("testkeywordtwo");
+        c1.addKeyword("testkeywordthree");
     }
 }
