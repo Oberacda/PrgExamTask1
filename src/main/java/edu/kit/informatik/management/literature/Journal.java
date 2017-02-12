@@ -4,7 +4,7 @@ import edu.kit.informatik.management.literature.util.PatternHolder;
 
 import java.util.SortedSet;
 import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.stream.Stream;
 
 /**
  * @author David Oberacker
@@ -49,8 +49,30 @@ public class Journal extends Venue {
         }
     }
 
+    /**
+     * Publishes a article by the venue its called on.
+     * <p>
+     * While publishing a {@linkplain Article#Article(String, String, * int, SortedSet) incomplete} article is created.
+     * </p>
+     *
+     * @param id
+     *         the unique of the new article
+     * @param year
+     *         the year the article is published
+     * @param title
+     *         the title of the article.
+     *
+     * @throws IllegalArgumentException
+     *         this exception is thrown
+     *         if there already is a article with this id.
+     */
     @Override
-    public SortedSet<Article> getArticles() {
+    public void addArticle(final String id, final int year, final String title) throws IllegalArgumentException {
+
+    }
+
+    @Override
+    public Stream<Article> getArticles() {
         return null;
     }
 }

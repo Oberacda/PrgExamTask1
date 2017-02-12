@@ -1,6 +1,6 @@
 package edu.kit.informatik.management.literature.interfaces;
 
-import java.util.SortedSet;
+import java.util.stream.Stream;
 
 /**
  * @author David Oberacker
@@ -23,13 +23,13 @@ public interface Entity {
     void addKeyword(String keyword) throws IllegalArgumentException;
 
     /**
-     * Returns a sorted set of all keywords of a entity.
+     * Returns a stream of all keywords of a entity.
      * <p>
-     *     the keywords in the set have to be sorted by the
+     *     the keywords in the stream have to be sorted by the
      *     natural order of chars!
      * </p>
      *
-     * @return Sorted set of keywords.
+     * @return Stream of keywords.
      */
-    SortedSet<String> getKeywords();
+    Stream<String> getKeywords();
 }
