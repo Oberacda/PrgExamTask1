@@ -3,6 +3,7 @@ package edu.kit.informatik.management.literature;
 import edu.kit.informatik.management.literature.interfaces.Entity;
 import edu.kit.informatik.management.literature.util.PatternHolder;
 
+import java.util.Optional;
 import java.util.TreeSet;
 import java.util.stream.Stream;
 
@@ -70,6 +71,8 @@ public abstract class Venue implements Entity {
         return this.keywords;
     }
 
+    //==================abstract Methods=================
+
     /**
      * Returns a stream of all articles published by the venue.
      * <p>
@@ -79,6 +82,17 @@ public abstract class Venue implements Entity {
      * @return Sorted stream of articles.
      */
     public abstract Stream<Article> getArticles();
+
+
+    /**
+     * Retuns a article form a conference form this series.
+     *
+     * @param id
+     *         the id of the desired article.
+     *
+     * @return article from the conference with this id.
+     */
+    public abstract Optional<Article> getArticle(String id);
 
     /**
      * Publishes a article by the venue its called on.
@@ -99,8 +113,9 @@ public abstract class Venue implements Entity {
      *         if there already is a article with this id.
      *
      */
-    public abstract void addArticle(final String id, final int year, final String title)
+    public abstract void addArticle(String id, int year, String title)
             throws IllegalArgumentException;
+
 
     //=================Override Methods=================
 

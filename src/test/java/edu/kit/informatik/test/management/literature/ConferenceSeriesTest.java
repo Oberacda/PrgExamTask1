@@ -30,16 +30,16 @@ public class ConferenceSeriesTest {
         c4 = new ConferenceSeries("tests");
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test
     public void getConferenceInvalidTest1() throws Exception {
-        c1.getConference(1997);
+        assertFalse(c1.getConference(1997).isPresent());
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test
     public void getConferenceInvalidTest2() throws Exception {
         c2.addConference(1997, "Karlsruhe");
         c2.addConference(1999, "Karlsruhe");
-        c2.getConference(1998);
+        assertFalse(c2.getConference(1998).isPresent());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -52,10 +52,10 @@ public class ConferenceSeriesTest {
     public void getConferenceValidTest1() throws Exception {
         c2.addConference(1997, "Karlsruhe");
         c2.addConference(1999, "Karlsruhe");
-        assertThat(c2.getConference(1997), isA(Conference.class));
-        Conference c97 = c2.getConference(1997);
+        assertThat(c2.getConference(1997).get(), isA(Conference.class));
+        Conference c97 = c2.getConference(1997).get();
         assertThat(c97.getLocation(), is("Karlsruhe"));
-        assertThat(c2.getConference(1999), isA(Conference.class));
+        assertThat(c2.getConference(1999).get(), isA(Conference.class));
     }
 
     @Test
@@ -65,7 +65,7 @@ public class ConferenceSeriesTest {
         c1.addConference(1998, "München");
         c1.addKeyword("testkeywordtwo");
         c1.addConference(1999, "München");
-        c1.getConference(1999).addArticle("idp1","TestArticle");
+        c1.getConference(1999).get().addArticle("idp1","TestArticle");
         c1.addKeyword("testkeywordtwo");
         c1.addKeyword("testkeywordthree");
     }

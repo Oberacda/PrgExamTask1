@@ -29,7 +29,7 @@ public class AuthorTest {
         a3 = new Author("christian", "gruenhage");
         a4 = new Author("rene", "Schmied");
         a5 = new Author("Test", "Test");
-        a6 = new Author("David", "Oberacker");
+        a6 = new Author("Anna", "Oberacker");
         a7 = new Author("Alexander", "Klug");
     }
 
@@ -96,10 +96,31 @@ public class AuthorTest {
     }
 
     @Test
+    public void toStringTest() throws Exception {
+        assertThat(a1.toString(), is("David Oberacker"));
+
+    }
+
+    @Test
     public void equals() throws Exception {
-        assertTrue(a1.equals(a6));
+        assertTrue(a1.equals(a1));
+        assertFalse(a1.equals(null));
+        assertFalse(a1.equals(new Object()));
+        assertFalse(a1.equals(a6));
         assertFalse(a1.equals(a2));
         assertFalse(a2.equals(a7));
     }
 
+    @Test
+    public void compareTest() throws Exception {
+        assertTrue(a1.compareTo(a2) < 0);
+        assertTrue(a2.compareTo(a1) > 0);
+        assertTrue(a1.compareTo(a1) == 0);
+        assertTrue(a1.compareTo(a6) > 0);
+    }
+
+    @Test
+    public void hashCodeTest() throws Exception {
+        assertTrue(Integer.compare(a1.hashCode(), a1.hashCode()) == 0);
+    }
 }
