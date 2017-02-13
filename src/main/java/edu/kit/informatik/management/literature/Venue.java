@@ -123,4 +123,23 @@ public abstract class Venue implements Entity {
     public Stream<String> getKeywords() {
         return this.getKeywordsTree().stream();
     }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Venue venue = (Venue) o;
+
+        return getTitle().equals(venue.getTitle());
+    }
+
+    @Override
+    public int hashCode() {
+        return getTitle().hashCode();
+    }
 }
