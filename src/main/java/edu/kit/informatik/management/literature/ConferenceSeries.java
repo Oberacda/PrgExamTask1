@@ -53,47 +53,22 @@ public class ConferenceSeries extends Venue {
      * <p>
      * This method returns the conference in the
      * specified year form this series.
-     * <p>
      * </p>
      *
      * @param year
      *         The year the conference from the series
      *         should have been set.
      *
-     * @return conference in the specific year.
+     * @return Optional containing the conference. If there is
+     * no conference in this year the optional is empty.
      *
-     * @throws NoSuchElementException
-     *         if there is no conference in this
-     *         year this exception is thrown.
      */
-    public Conference getConference(final int year) throws NoSuchElementException {
-        if (this.conferenceList.containsKey(year)) {
-            return this.conferenceList.get(year);
-        } else {
-            throw new NoSuchElementException("There is no conference in this year in this series!");
-        }
+    public Optional<Conference> getConference(final int year) {
+        return this.conferenceList.values().stream()
+                .filter(conference -> year == conference.getYear())
+                .findAny();
     }
 
-    /**
-     * Retuns a article form a conference form this series.
-     *
-     * @param year
-     *         the year the conference where the article was
-     *         published took place.
-     * @param id
-     *         the id of the desired article.
-     *
-     * @return article from the conference with this id.
-     *
-     * @throws NoSuchElementException
-     *         If there was no conference in this
-     *         year or no article with this id was published during the
-     *         conference this exception is thrown.
-     */
-    public Article getArticle(final int year, final String id)
-            throws NoSuchElementException {
-        return this.getConference(year).getArticle(id);
-    }
 
     //=================Methods==========================
 
@@ -171,6 +146,21 @@ public class ConferenceSeries extends Venue {
             throw new NoSuchElementException("There is no conference in this"
                     + " series in the specified year!");
         }
+    }
+
+    /**
+     * Retuns a article form a conference form this series.
+     *
+     * @param id
+     *         the id of the desired article.
+     *
+     * @return Optional containg the article. If there is no article
+     * with this id the optional is empty.
+     */
+    @Override
+    public Optional<Article> getArticle(final String id) {
+        return this.getArticles().
+                findAny().filter(article -> id.equals(article.getId()));
     }
 
     @Override

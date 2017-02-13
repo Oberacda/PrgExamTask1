@@ -126,6 +126,18 @@ public class Article implements Entity {
     public void addCitation(final Article citedArticle) {
         this.literatureIndex.addCitation(citedArticle);
     }
+
+    /**
+     * Checks if the article is complete.
+     * <p>
+     *     A article is complete if it has one or more authors.
+     * </p>
+     * @return true - article is complete.
+     */
+    public boolean isComplete() {
+        return !(this.authorList.isEmpty());
+    }
+
     //=================Override Methods=================
 
     @Override
