@@ -1,25 +1,145 @@
 package edu.kit.informatik.management.literature;
 
-import java.util.ArrayList;
-import java.util.SortedSet;
+import edu.kit.informatik.management.literature.interfaces.Entity;
+import edu.kit.informatik.management.literature.util.PatternHolder;
+
+import java.util.Optional;
+import java.util.TreeSet;
+import java.util.stream.Stream;
 
 /**
+ * Modelling a venue.
+ * <p>
+ * This abstract class defines a venue which is able of
+ * publishing articles and of having keywords.
+ * </p>
+ *
  * @author David Oberacker
+ * @version 1.0.1
  */
-public abstract class Venue {
+public abstract class Venue implements Entity {
+
+    //=================Fields==========================
+
     private final String title;
 
-    private ArrayList<String> keywords;
+    private TreeSet<String> keywords;
 
-    public Venue(final String title) {
-        this.title = title;
-        this.keywords = new ArrayList<>();
+    //=================Constructor======================
+
+    /**
+     * Creates a new Venue.
+     * <p>
+     * A new venue has no articles published by it.
+     * </p>
+     *
+     * @param title
+     *         the title of the venue (unique id).
+     *
+     * @throws IllegalArgumentException
+     *         If the title doesn't match
+     *         the requirements this error is thrown.
+     */
+    public Venue(final String title) throws IllegalArgumentException {
+        if (title != null && PatternHolder.NAMEPATTERN.matcher(title).matches()) {
+            this.title = title;
+        } else {
+            throw new IllegalArgumentException("The title of a venue"
+                    + " can only be a sequence of the chars [a-zA-Z]");
+        }
+
+        this.keywords = new TreeSet<>();
     }
 
+    //=================Getter===========================
+
+    /**
+     * Returns the title of the venue.
+     *
+     * @return title of the venue.
+     */
     public String getTitle() {
         return this.title;
     }
 
-    public abstract SortedSet<Article> getArticles() ;
+    /**
+     * Returns the TreeSet containing all keywords of the venue.
+     *
+     * @return Tree set of keywords.
+     */
+    protected TreeSet<String> getKeywordsTree() {
+        return this.keywords;
+    }
 
+    //==================abstract Methods=================
+
+    /**
+     * Returns a stream of all articles published by the venue.
+     * <p>
+     * This stream can contain no elements if nothing was published.
+     * </p>
+     *
+     * @return Sorted stream of articles.
+     */
+    public abstract Stream<Article> getArticles();
+
+
+    /**
+     * Retuns a article form a conference form this series.
+     *
+     * @param id
+     *         the id of the desired article.
+     *
+     * @return article from the conference with this id.
+     */
+    public abstract Optional<Article> getArticle(String id);
+
+    /**
+     * Publishes a article by the venue its called on.
+     * <p>
+     * While publishing a {@linkplain Article#Article(String, String,
+     * int, java.util.SortedSet) incomplete} article is created.
+     * </p>
+     *
+     * @param id
+     *         the unique of the new article
+     * @param year
+     *         the year the article is published
+     * @param title
+     *         the title of the article.
+     *
+     * @throws IllegalArgumentException
+     *         this exception is thrown
+     *         if there already is a article with this id.
+     *
+     */
+    public abstract void addArticle(String id, int year, String title)
+            throws IllegalArgumentException;
+
+
+    //=================Override Methods=================
+
+    @Override
+    public Stream<String> getKeywords() {
+        return this.getKeywordsTree().stream();
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Venue venue = (Venue) o;
+
+        return getTitle().equals(venue.getTitle());
+    }
+
+    @Override
+    public int hashCode() {
+        return getTitle().hashCode();
+    }
 }
