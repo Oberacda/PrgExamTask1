@@ -115,19 +115,23 @@ public class LiteratureManagement {
         return this.getAllArticles().anyMatch(article -> id.equals(article.getId()));
     }
 
-    public Stream<Author> getAuthors(Collection<String> authorNames) {
-        return this.authorsList.stream().filter(author -> {
-            for (String s:authorNames) {
-                Scanner sc = new Scanner(s);
-                sc.useDelimiter(" ");
-                String firstName = sc.next(PatternHolder.NAMEPATTERN);
-                String lastName = sc.next(PatternHolder.NAMEPATTERN);
-                Author listAuthor  = new Author(firstName, lastName);
-                if (listAuthor.equals(author)) {
-                    return true;
-                }
+    public Stream<Author> getAuthors(Collection<String> authorNames)
+            throws NoSuchElementException {
+
+        ArrayList<Author> authors = new ArrayList<>();
+        for (String s : authorNames) {
+            Scanner sc = new Scanner(s);
+            sc.useDelimiter(" ");
+            String firstName = sc.next(PatternHolder.NAMEPATTERN);
+            String lastName = sc.next(PatternHolder.NAMEPATTERN);
+            Author listAuthor  = new Author(firstName, lastName);
+            if (this.authorsList.contains(listAuthor)) {
+                authors.add(listAuthor);
+            } else {
+                throw new NoSuchElementException(String.format("author"
+                        + " \"%s\" not found", listAuthor.toString()));
             }
-            return false;
-        });
+        }
+        return this.authorsList.stream().filter(authors::contains);
     }
 }

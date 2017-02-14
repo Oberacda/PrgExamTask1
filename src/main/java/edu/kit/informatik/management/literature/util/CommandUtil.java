@@ -4,9 +4,7 @@ import edu.kit.informatik.management.literature.*;
 import edu.kit.informatik.management.literature.exceptions.BadSyntaxException;
 import edu.kit.informatik.management.literature.interfaces.Entity;
 
-import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * @author David Oberacker
@@ -48,5 +46,20 @@ public final class CommandUtil {
         } else {
             return getVenueFromPrefix(lm, userInput);
         }
+    }
+
+    public static double calculateJaccard(final Collection<String> list1,
+                                          final Collection<String> list2) {
+        if (list1.size() == 0 && list2.size() == 0) {
+            return 1;
+        }
+        TreeSet<String> unification = new TreeSet<>();
+        unification.addAll(list1);
+        unification.addAll(list2);
+
+        TreeSet<String> intersection = new TreeSet<>();
+        list1.stream().filter(list2::contains).forEach(intersection::add);
+
+        return (double) intersection.size() / (double) unification.size();
     }
 }
