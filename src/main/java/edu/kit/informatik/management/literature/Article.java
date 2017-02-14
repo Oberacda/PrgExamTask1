@@ -122,16 +122,27 @@ public class Article implements Entity {
      * @param citedArticle
      *         Another article which was published
      *         before this article.
+     *
+     * @throws IllegalArgumentException
+     *         if the cited articles publication year isn`t absolute
+     *         before this articles publication year this exception is thrown.
      */
-    public void addCitation(final Article citedArticle) {
-        this.literatureIndex.addCitation(citedArticle);
+    public void addCitation(final Article citedArticle)
+            throws IllegalArgumentException {
+        if (citedArticle.getYear() < this.getYear()) {
+            this.literatureIndex.addCitation(citedArticle);
+        } else {
+            throw new IllegalArgumentException("The cited article wasn`t"
+                    + " released before this article!");
+        }
     }
 
     /**
      * Checks if the article is complete.
      * <p>
-     *     A article is complete if it has one or more authors.
+     * A article is complete if it has one or more authors.
      * </p>
+     *
      * @return true - article is complete.
      */
     public boolean isComplete() {

@@ -92,7 +92,7 @@ public class LiteratureIndex {
      */
     public void addCitation(final Article citedArticle) {
         if (citedArticle.isComplete()
-                && ! (this.litratureIndex.contains(citedArticle))) {
+                && !(this.litratureIndex.contains(citedArticle))) {
             this.litratureIndex.add(citedArticle);
         }
     }
