@@ -11,13 +11,13 @@ package edu.kit.informatik.management.literature.exceptions;
  * @author David Oberacker
  * @version 1.0.1
  */
-public class ElementAlreadyPresent extends Exception {
+public class ElementAlreadyPresentException extends Exception {
     /**
      * Constructs a new exception with {@code null} as its detail message.
      * The cause is not initialized, and may subsequently be initialized by a
      * call to {@link #initCause}.
      */
-    public ElementAlreadyPresent() {
+    public ElementAlreadyPresentException() {
         super();
     }
 
@@ -29,7 +29,7 @@ public class ElementAlreadyPresent extends Exception {
      * @param   message   the detail message. The detail message is saved for
      *          later retrieval by the {@link #getMessage()} method.
      */
-    public ElementAlreadyPresent(final String message) {
+    public ElementAlreadyPresentException(final String message) {
         super(message);
     }
 
@@ -46,7 +46,7 @@ public class ElementAlreadyPresent extends Exception {
      *         permitted, and indicates that the cause is nonexistent or
      *         unknown.)
      */
-    public ElementAlreadyPresent(final String message, final Throwable cause) {
+    public ElementAlreadyPresentException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
@@ -63,7 +63,7 @@ public class ElementAlreadyPresent extends Exception {
      *         permitted, and indicates that the cause is nonexistent or
      *         unknown.)
      */
-    public ElementAlreadyPresent(final Throwable cause) {
+    public ElementAlreadyPresentException(final Throwable cause) {
         super(cause);
     }
 
@@ -80,9 +80,9 @@ public class ElementAlreadyPresent extends Exception {
      * @param writableStackTrace whether or not the stack trace should
      *                           be writable
      */
-    protected ElementAlreadyPresent(final String message, final Throwable cause,
-                                    final boolean enableSuppression,
-                                    final boolean writableStackTrace) {
+    protected ElementAlreadyPresentException(final String message, final Throwable cause,
+                                             final boolean enableSuppression,
+                                             final boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }
