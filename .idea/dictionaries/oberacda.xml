@@ -1,7 +1,30 @@
 <component name="ProjectDictionaryState">
   <dictionary name="oberacda">
     <words>
+      <w>addarticle</w>
+      <w>addauthor</w>
+      <w>addconference</w>
+      <w>addconferenceseries</w>
+      <w>addjournal</w>
+      <w>addkeyword</w>
+      <w>coauthorsof</w>
+      <w>commandpattern</w>
+      <w>createa</w>
+      <w>directhindex</w>
+      <w>directprintconference</w>
+      <w>directprintjournal</w>
+      <w>findkeywords</w>
+      <w>foreigncitations</w>
+      <w>hindex</w>
+      <w>inproceedings</w>
+      <w>integerspattern</w>
+      <w>jaccard</w>
+      <w>pubicationsby</w>
+      <w>succesful</w>
       <w>sytanx</w>
+      <w>titel</w>
+      <w>wasn</w>
+      <w>writtenby</w>
     </words>
   </dictionary>
 </component>

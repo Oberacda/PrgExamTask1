@@ -1,6 +1,6 @@
 package edu.kit.informatik.management.literature.system.command.addCommand;
 
-import edu.kit.informatik.Terminal;
+import edu.kit.informatik.terminal.Terminal;
 import edu.kit.informatik.management.literature.LiteratureManagement;
 import edu.kit.informatik.management.literature.exceptions.BadSyntaxException;
 import edu.kit.informatik.management.literature.interfaces.Entity;
@@ -9,6 +9,7 @@ import edu.kit.informatik.management.literature.util.CommandUtil;
 import edu.kit.informatik.management.literature.util.PatternHolder;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -74,15 +75,15 @@ public class AddKeywords extends Command {
         String entityId = sc.next(PatternHolder.TOENTITY);
 
         sc.useDelimiter(";");
-        ArrayList<String> paramList = new ArrayList<>();
+        HashSet<String> paramSet = new HashSet<>();
 
         while (sc.hasNext(PatternHolder.KEYWORDPATTERN)) {
-            paramList.add(sc.next(PatternHolder.KEYWORDPATTERN));
+            paramSet.add(sc.next(PatternHolder.KEYWORDPATTERN));
         }
 
         try {
             Entity e = CommandUtil.getEntityFormPrefix(lm, entityId);
-            for (String keyword:paramList) {
+            for (String keyword:paramSet) {
                 e.addKeyword(keyword);
             }
             Terminal.printLine("OK");

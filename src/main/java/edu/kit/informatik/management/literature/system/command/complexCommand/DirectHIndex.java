@@ -1,9 +1,8 @@
 package edu.kit.informatik.management.literature.system.command.complexCommand;
 
-import edu.kit.informatik.Terminal;
+import edu.kit.informatik.terminal.Terminal;
 import edu.kit.informatik.management.literature.LiteratureManagement;
 import edu.kit.informatik.management.literature.system.command.Command;
-import edu.kit.informatik.management.literature.util.CommandUtil;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -17,7 +16,7 @@ public class DirectHIndex extends Command {
             = Pattern.compile("direct h-index ");
 
     private static final Pattern INTEGERSPATTERN
-            = Pattern.compile("[0-9]+([;]{1}[0-9]+)*");
+            = Pattern.compile("[0-9]+([;][0-9]+)*");
 
 
     private static final Pattern COMMANDPATTERN

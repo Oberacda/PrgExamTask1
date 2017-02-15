@@ -1,6 +1,6 @@
 package edu.kit.informatik.test.management.literature.system.command.addCommand;
 
-import edu.kit.informatik.Terminal;
+import edu.kit.informatik.terminal.Terminal;
 import edu.kit.informatik.management.literature.system.LiteratureManagementSystem;
 import org.junit.After;
 import org.junit.Before;

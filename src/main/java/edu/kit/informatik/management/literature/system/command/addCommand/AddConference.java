@@ -1,6 +1,6 @@
 package edu.kit.informatik.management.literature.system.command.addCommand;
 
-import edu.kit.informatik.Terminal;
+import edu.kit.informatik.terminal.Terminal;
 import edu.kit.informatik.management.literature.LiteratureManagement;
 import edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException;
 import edu.kit.informatik.management.literature.system.command.Command;
@@ -82,10 +82,9 @@ public class AddConference extends Command {
                     , parameterList.get(2)
                     , Integer.parseInt(parameterList.get(1)));
             Terminal.printLine("OK");
-            return true;
         } catch (ElementAlreadyPresentException | NoSuchElementException exc) {
             Terminal.printError(exc.getMessage());
-            return true;
         }
+        return true;
     }
 }

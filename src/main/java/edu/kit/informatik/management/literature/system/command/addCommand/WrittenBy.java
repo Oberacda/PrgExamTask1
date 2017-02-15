@@ -1,6 +1,6 @@
 package edu.kit.informatik.management.literature.system.command.addCommand;
 
-import edu.kit.informatik.Terminal;
+import edu.kit.informatik.terminal.Terminal;
 import edu.kit.informatik.management.literature.Article;
 import edu.kit.informatik.management.literature.Author;
 import edu.kit.informatik.management.literature.LiteratureManagement;
