@@ -1,30 +1,32 @@
-package edu.kit.informatik.management.literature.system.command.addCommand;
+package edu.kit.informatik.management.literature.system.command.complexCommand;
 
 import edu.kit.informatik.Terminal;
+import edu.kit.informatik.management.literature.Article;
 import edu.kit.informatik.management.literature.LiteratureManagement;
-import edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException;
 import edu.kit.informatik.management.literature.system.command.Command;
+import edu.kit.informatik.management.literature.util.CommandUtil;
 import edu.kit.informatik.management.literature.util.PatternHolder;
 
-import java.util.ArrayList;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * @author David Oberacker
  */
-public class AddConference extends Command {
-    private static final Pattern ADDCONFERENCE
-            = Pattern.compile("add conference ");
+public class Similarity extends Command {
+    private static final Pattern SIMILARITY
+            = Pattern.compile("similarity ");
+
 
     private static final Pattern COMMANDPATTERN
-            = Pattern.compile(ADDCONFERENCE.pattern()
-            + PatternHolder.TITLEPATTERN
+            = Pattern.compile(SIMILARITY.pattern()
+            + PatternHolder.IDPATTERN
             + ","
-            + PatternHolder.YEARPATTERN
-            + ","
-            + PatternHolder.LOCATIONPATTERN);
+            + PatternHolder.IDPATTERN);
 
     /**
      * Checks if the input string {@code userInput} matches the
@@ -66,26 +68,31 @@ public class AddConference extends Command {
             return false;
         }
         Scanner sc = new Scanner(userCommand);
-        sc.skip(ADDCONFERENCE);
-        ArrayList<String> parameterList = new ArrayList<>();
-        if (sc.hasNext(PatternHolder.TITLEPATTERN)) {
-            parameterList.add(sc.next(PatternHolder.TITLEPATTERN));
-        }
-        if (sc.hasNext(PatternHolder.YEARPATTERN)) {
-            parameterList.add(sc.next(PatternHolder.YEARPATTERN));
-        }
-        if (sc.hasNext(PatternHolder.LOCATIONPATTERN)) {
-            parameterList.add(sc.next(PatternHolder.LOCATIONPATTERN));
-        }
+        sc.skip(SIMILARITY);
+
+        sc.useDelimiter(",");
+
+        String articleId1 = sc.next(PatternHolder.IDPATTERN);
+        String articleId2 = sc.next(PatternHolder.IDPATTERN);
+
+        Optional<Article> article1 = lm.getArticle(articleId1);
+        Optional<Article> article2 = lm.getArticle(articleId2);
+
         try {
-            lm.addConferenceToSeries(parameterList.get(0)
-                    , parameterList.get(2)
-                    , Integer.parseInt(parameterList.get(1)));
-            Terminal.printLine("OK");
-            return true;
-        } catch (ElementAlreadyPresentException | NoSuchElementException exc) {
+            if (!article1.isPresent()) {
+                throw new NoSuchElementException(String.format("article \"%s\" not found!", articleId1));
+            }
+            if (!article2.isPresent()) {
+                throw new NoSuchElementException(String.format("article \"%s\" not found!", articleId2));
+            }
+            Set<String> keySet1 = article1.get().getKeywords().collect(Collectors.toSet());
+            Set<String> keySet2 = article2.get().getKeywords().collect(Collectors.toSet());
+
+            Terminal.printLine(LiteratureManagement.calculateJaccard(keySet1, keySet2));
+
+        } catch (NoSuchElementException | IllegalArgumentException exc) {
             Terminal.printError(exc.getMessage());
-            return true;
         }
+        return true;
     }
 }

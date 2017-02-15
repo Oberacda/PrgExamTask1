@@ -1,5 +1,5 @@
 /**
- * Package containing diffrent utility classes for the
+ * Package containing different utility classes for the
  * literature management system.
  *
  * @author David Oberacker

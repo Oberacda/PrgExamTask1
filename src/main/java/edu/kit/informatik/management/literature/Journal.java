@@ -10,15 +10,15 @@ import java.util.stream.Stream;
 /**
  * @author David Oberacker
  */
-public class Journal extends Venue {
+public class Journal extends Publishers {
 
-    //=================Fields==========================
+    //=================fields==========================
 
     private TreeMap<String, Article> articleList;
 
     private final String publisher;
 
-    //=================Constructor======================
+    //=================constructor======================
 
     /**
      * Creates a empty journal.
@@ -41,7 +41,7 @@ public class Journal extends Venue {
         this.articleList = new TreeMap<>();
     }
 
-    //=================Getter===========================
+    //=================getter===========================
 
     /**
      * Returns the publisher of the journal.
@@ -53,7 +53,7 @@ public class Journal extends Venue {
     }
 
 
-    //=================Override Methods=================
+    //=================override methods=================
 
     /**
      * Adds a keyword to the entity.

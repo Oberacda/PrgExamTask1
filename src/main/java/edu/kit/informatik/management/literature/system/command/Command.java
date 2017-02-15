@@ -50,6 +50,8 @@ public abstract class Command {
      *         Literature management that should be worked on.
      * @param userCommand
      *         String entered by the terminal user.
+     *
+     * @return true - execution was succesful.
      */
-    public abstract void execute(LiteratureManagement lm, String userCommand);
+    public abstract boolean execute(LiteratureManagement lm, String userCommand);
 }

@@ -1,30 +1,28 @@
-package edu.kit.informatik.management.literature.system.command.addCommand;
+package edu.kit.informatik.management.literature.system.command.complexCommand;
 
 import edu.kit.informatik.Terminal;
+import edu.kit.informatik.management.literature.Author;
 import edu.kit.informatik.management.literature.LiteratureManagement;
-import edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException;
 import edu.kit.informatik.management.literature.system.command.Command;
 import edu.kit.informatik.management.literature.util.PatternHolder;
 
-import java.util.ArrayList;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Scanner;
+import java.util.TreeSet;
 import java.util.regex.Pattern;
 
 /**
  * @author David Oberacker
  */
-public class AddConference extends Command {
-    private static final Pattern ADDCONFERENCE
-            = Pattern.compile("add conference ");
+public class ForeignCitations extends Command {
+    private static final Pattern FOREIGNCITATIONS
+            = Pattern.compile("foreign citations ");
+
 
     private static final Pattern COMMANDPATTERN
-            = Pattern.compile(ADDCONFERENCE.pattern()
-            + PatternHolder.TITLEPATTERN
-            + ","
-            + PatternHolder.YEARPATTERN
-            + ","
-            + PatternHolder.LOCATIONPATTERN);
+            = Pattern.compile(FOREIGNCITATIONS.pattern()
+            + PatternHolder.AUTHORPATTERN);
 
     /**
      * Checks if the input string {@code userInput} matches the
@@ -66,26 +64,33 @@ public class AddConference extends Command {
             return false;
         }
         Scanner sc = new Scanner(userCommand);
-        sc.skip(ADDCONFERENCE);
-        ArrayList<String> parameterList = new ArrayList<>();
-        if (sc.hasNext(PatternHolder.TITLEPATTERN)) {
-            parameterList.add(sc.next(PatternHolder.TITLEPATTERN));
-        }
-        if (sc.hasNext(PatternHolder.YEARPATTERN)) {
-            parameterList.add(sc.next(PatternHolder.YEARPATTERN));
-        }
-        if (sc.hasNext(PatternHolder.LOCATIONPATTERN)) {
-            parameterList.add(sc.next(PatternHolder.LOCATIONPATTERN));
-        }
+        sc.skip(FOREIGNCITATIONS);
+
+        sc.useDelimiter(" ");
+        String firstName = sc.next(PatternHolder.NAMEPATTERN);
+        String lastName = sc.next(PatternHolder.NAMEPATTERN);
+
         try {
-            lm.addConferenceToSeries(parameterList.get(0)
-                    , parameterList.get(2)
-                    , Integer.parseInt(parameterList.get(1)));
-            Terminal.printLine("OK");
-            return true;
-        } catch (ElementAlreadyPresentException | NoSuchElementException exc) {
+            Optional<Author> authorOptional = lm.getAuthor(firstName, lastName);
+            if (!authorOptional.isPresent()) {
+                throw new NoSuchElementException(String.format("author \"%s\" wasn't found!",
+                        authorOptional.toString()));
+            }
+            Author author = authorOptional.get();
+
+            TreeSet<Author> coAuthors = new TreeSet<>();
+
+            lm.getAllArticles().forEach(article -> article.getAuthors()
+                    .filter(author::equals).forEach(coAuthors::add));
+            lm.getAllArticles().filter(article -> article.getAuthors()
+                    .anyMatch(author::equals)).forEach(article ->
+                    lm.getAllArticles().filter(article1 ->
+                            article1.getAuthors().noneMatch(coAuthors::contains))
+                            .filter(article1 -> article1.cites(article))
+                            .forEach(article1 -> Terminal.printLine(article1.getId())));
+        } catch (NoSuchElementException | IllegalArgumentException exc) {
             Terminal.printError(exc.getMessage());
-            return true;
         }
+        return true;
     }
 }

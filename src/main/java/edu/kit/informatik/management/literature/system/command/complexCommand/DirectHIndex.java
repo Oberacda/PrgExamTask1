@@ -1,30 +1,28 @@
-package edu.kit.informatik.management.literature.system.command.addCommand;
+package edu.kit.informatik.management.literature.system.command.complexCommand;
 
 import edu.kit.informatik.Terminal;
 import edu.kit.informatik.management.literature.LiteratureManagement;
-import edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException;
 import edu.kit.informatik.management.literature.system.command.Command;
-import edu.kit.informatik.management.literature.util.PatternHolder;
+import edu.kit.informatik.management.literature.util.CommandUtil;
 
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
  * @author David Oberacker
  */
-public class AddConference extends Command {
-    private static final Pattern ADDCONFERENCE
-            = Pattern.compile("add conference ");
+public class DirectHIndex extends Command {
+    private static final Pattern DIRECTHINDEX
+            = Pattern.compile("direct h-index ");
+
+    private static final Pattern INTEGERSPATTERN
+            = Pattern.compile("[0-9]+([;]{1}[0-9]+)*");
+
 
     private static final Pattern COMMANDPATTERN
-            = Pattern.compile(ADDCONFERENCE.pattern()
-            + PatternHolder.TITLEPATTERN
-            + ","
-            + PatternHolder.YEARPATTERN
-            + ","
-            + PatternHolder.LOCATIONPATTERN);
+            = Pattern.compile(DIRECTHINDEX.pattern()
+            + INTEGERSPATTERN);
 
     /**
      * Checks if the input string {@code userInput} matches the
@@ -66,26 +64,16 @@ public class AddConference extends Command {
             return false;
         }
         Scanner sc = new Scanner(userCommand);
-        sc.skip(ADDCONFERENCE);
-        ArrayList<String> parameterList = new ArrayList<>();
-        if (sc.hasNext(PatternHolder.TITLEPATTERN)) {
-            parameterList.add(sc.next(PatternHolder.TITLEPATTERN));
+        sc.skip(DIRECTHINDEX);
+
+        sc.useDelimiter(";");
+        ArrayList<Integer> paramList1 = new ArrayList<>();
+
+        while (sc.hasNextInt()) {
+            paramList1.add(sc.nextInt());
         }
-        if (sc.hasNext(PatternHolder.YEARPATTERN)) {
-            parameterList.add(sc.next(PatternHolder.YEARPATTERN));
-        }
-        if (sc.hasNext(PatternHolder.LOCATIONPATTERN)) {
-            parameterList.add(sc.next(PatternHolder.LOCATIONPATTERN));
-        }
-        try {
-            lm.addConferenceToSeries(parameterList.get(0)
-                    , parameterList.get(2)
-                    , Integer.parseInt(parameterList.get(1)));
-            Terminal.printLine("OK");
-            return true;
-        } catch (ElementAlreadyPresentException | NoSuchElementException exc) {
-            Terminal.printError(exc.getMessage());
-            return true;
-        }
+
+        Terminal.printLine(LiteratureManagement.calculateHIndex(paramList1));
+        return true;
     }
 }

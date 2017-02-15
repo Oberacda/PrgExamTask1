@@ -2,6 +2,7 @@ package edu.kit.informatik.management.literature;
 
 import java.util.Iterator;
 import java.util.TreeSet;
+import java.util.stream.Stream;
 
 /**
  * Manages the literature index of a publication.
@@ -15,11 +16,11 @@ import java.util.TreeSet;
  */
 public class LiteratureIndex {
 
-    //=================Fields==========================
+    //=================fields==========================
 
     private TreeSet<Article> litratureIndex;
 
-    //=================Constructor======================
+    //=================constructor======================
 
     /**
      * Creates a new empty literature index.
@@ -82,7 +83,7 @@ public class LiteratureIndex {
         });
     }
 
-    //=================Methods==========================
+    //=================methods==========================
 
     /**
      * Adds a citation to the list.
@@ -95,5 +96,14 @@ public class LiteratureIndex {
                 && !(this.litratureIndex.contains(citedArticle))) {
             this.litratureIndex.add(citedArticle);
         }
+    }
+
+    public boolean cites(final Article citedArticle) {
+        return this.litratureIndex.stream()
+                .anyMatch(article -> article.equals(citedArticle));
+    }
+
+    public Stream<Article> getCitedArticles() {
+        return this.litratureIndex.stream();
     }
 }

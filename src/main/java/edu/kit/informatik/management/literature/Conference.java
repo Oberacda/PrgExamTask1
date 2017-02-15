@@ -1,6 +1,7 @@
 package edu.kit.informatik.management.literature;
 
 import edu.kit.informatik.management.literature.interfaces.Entity;
+import edu.kit.informatik.management.literature.interfaces.Venue;
 import edu.kit.informatik.management.literature.util.PatternHolder;
 
 import java.util.*;
@@ -17,9 +18,9 @@ import java.util.stream.Stream;
  * @version 1.0.1
  */
 
-public class Conference implements Entity {
+public class Conference implements Entity, Venue {
 
-    //=================Fields==========================
+    //=================fields==========================
 
     private final int year;
 
@@ -29,7 +30,7 @@ public class Conference implements Entity {
 
     private TreeSet<String> keywordsList;
 
-    //=================Constructor======================
+    //=================constructor======================
 
     /**
      * Creates a new empty conference.
@@ -59,7 +60,7 @@ public class Conference implements Entity {
         this.keywordsList = new TreeSet<>(keywords);
     }
 
-    //=================Getter===========================
+    //=================getter===========================
 
     /**
      * Returns the year of the conference.
@@ -90,19 +91,10 @@ public class Conference implements Entity {
      *
      * @return the article with the specified id published by
      * this conference.
-     *
-     * @throws NoSuchElementException
-     *         If there is no article published
-     *         by this conference with this id this ecxeption is thrown.
      */
-    public Article getArticle(final String id)
-            throws NoSuchElementException {
-        if (this.conferencePublications.containsKey(id)) {
-            return this.conferencePublications.get(id);
-        } else {
-            throw new NoSuchElementException("there is no article"
-                    + " with this id!");
-        }
+    public Optional<Article> getArticle(final String id) {
+        return this.conferencePublications.values().stream()
+        .filter(article -> article.getId().equals(id)).findFirst();
     }
 
     /**
@@ -114,7 +106,7 @@ public class Conference implements Entity {
         return this.conferencePublications.values().stream();
     }
 
-    //=================Methods==========================
+    //=================methods==========================
 
     /**
      * Publishes a article by the conference its called on.
@@ -143,7 +135,7 @@ public class Conference implements Entity {
         }
     }
 
-    //=================Override Methods=================
+    //=================override methods=================
 
     @Override
     public void addKeyword(final String keyword) throws IllegalArgumentException {

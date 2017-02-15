@@ -14,9 +14,6 @@ import java.util.regex.Pattern;
  * @author David Oberacker
  */
 public class AddJournal extends Command {
-
-    private static final int PARAMETER_COUNT = 2;
-
     private static final Pattern ADDJOURNAL
             = Pattern.compile("add journal ");
 
@@ -60,10 +57,10 @@ public class AddJournal extends Command {
      *         Literature management that should be worked on.
      */
     @Override
-    public void execute(final LiteratureManagement lm,
+    public boolean execute(final LiteratureManagement lm,
                         final String userCommand) {
         if (!(this.matchesPattern(userCommand))) {
-            return;
+            return false;
         }
         Scanner sc = new Scanner(userCommand);
         sc.skip(ADDJOURNAL);
@@ -73,12 +70,11 @@ public class AddJournal extends Command {
             parameterList.add(sc.next(PatternHolder.TITLEPATTERN));
         }
         try {
-            if (parameterList.size() == PARAMETER_COUNT) {
-                lm.addJournal(parameterList.get(0), parameterList.get(1));
-                Terminal.printLine("OK");
-            }
+            lm.addJournal(parameterList.get(0), parameterList.get(1));
+            Terminal.printLine("OK");
         } catch (ElementAlreadyPresentException exc) {
             Terminal.printError(exc.getMessage());
         }
+        return true;
     }
 }

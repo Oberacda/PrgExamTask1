@@ -7,11 +7,41 @@ import edu.kit.informatik.management.literature.interfaces.Entity;
 import java.util.*;
 
 /**
+ * Class containing different uitilitys fo the
+ * {@link edu.kit.informatik.management.literature.system.LiteratureManagementSystem}.
+ *
  * @author David Oberacker
+ * @version 1.0.1
  */
 public final class CommandUtil {
-    public static Venue getVenueFromPrefix(final LiteratureManagement lm,
-                                                          final String userInput)
+
+    /**
+     * Returns the the publisher specified in a command prefix.
+     * <p>
+     *     e.g :
+     *     <table>
+     *         <tr>
+     *         <td>
+     *             {@code ... to series TA -> Conferenceseries with the title TA}
+     *         </td>
+     *     </tr>
+     *     <tr>
+     *          <td>
+     *              {@code ... to journal TA -> Journal with the title TA}
+     *         </td>
+     *     </tr>
+     *     </table>
+     * </p>
+     * @param lm LiteratureManagement where the publishers  are stored.
+     * @param userInput the prefix entered by the user.
+     * @return if present the publisher specified by the prefix.
+     * @throws NoSuchElementException if there is no publisher with the
+     * specified title this eception is thrown.
+     * @throws BadSyntaxException if there is a syntax error in the prefix
+     * this exception is thrown.
+     */
+    public static Publishers getPublisherFromPrefix(final LiteratureManagement lm,
+                                                    final String userInput)
             throws NoSuchElementException, BadSyntaxException {
         if (PatternHolder.TOSERIESPATTERN.matcher(userInput).matches()) {
             Scanner sc = new Scanner(userInput);
@@ -33,6 +63,37 @@ public final class CommandUtil {
             throw new BadSyntaxException("Input doesnt match requred Patterns!");
         }
     }
+
+    /**
+     * Returns the the enitity specified in a command prefix.
+     * <p>
+     *     e.g :
+     *     <table>
+     *         <tr>
+     *         <td>
+     *             {@code ... to series TA -> Conferenceseries with the title TA}
+     *         </td>
+     *     </tr>
+     *     <tr>
+     *          <td>
+     *              {@code ... to journal TA -> Journal with the title TA}
+     *         </td>
+     *     </tr>
+     *     <tr>
+     *          <td>
+     *              {@code ... to conference TA,1997 -> Conference in the year 1997 }
+     *         </td>
+     *     </tr>
+     *     </table>
+     * </p>
+     * @param lm LiteratureManagement where the publishers  are stored.
+     * @param userInput the prefix entered by the user.
+     * @return if present the entity specified by the prefix.
+     * @throws NoSuchElementException if there is no publisher with the
+     * specified title this eception is thrown.
+     * @throws BadSyntaxException if there is a syntax error in the prefix
+     * this exception is thrown.
+     */
     public static Entity getEntityFormPrefix(final LiteratureManagement lm, final String userInput)
             throws NoSuchElementException, BadSyntaxException {
         if (PatternHolder.TOPUBPATTERN.matcher(userInput).matches()) {
@@ -43,23 +104,19 @@ public final class CommandUtil {
                 return article.get();
             else
                 throw new NoSuchElementException("There is no article with this id!");
-        } else {
-            return getVenueFromPrefix(lm, userInput);
+        } else if (PatternHolder.TOPUBPATTERN.matcher(userInput).matches()) {
+            Scanner sc = new Scanner(userInput);
+            sc.skip(PatternHolder.TOSERIESPREFIX);
+            sc.useDelimiter(",");
+            String seriesName = sc.next(PatternHolder.TITLEPATTERN);
+            int year = Integer.parseInt(sc.next(PatternHolder.YEARPATTERN));
+            Optional<Conference> conference = lm.getConferenceFromSeries(seriesName, year);
+            if (conference.isPresent())
+                return conference.get();
+            else
+                throw new NoSuchElementException("There is no conference in this year!");
+        } else  {
+            return getPublisherFromPrefix(lm, userInput);
         }
-    }
-
-    public static double calculateJaccard(final Collection<String> list1,
-                                          final Collection<String> list2) {
-        if (list1.size() == 0 && list2.size() == 0) {
-            return 1;
-        }
-        TreeSet<String> unification = new TreeSet<>();
-        unification.addAll(list1);
-        unification.addAll(list2);
-
-        TreeSet<String> intersection = new TreeSet<>();
-        list1.stream().filter(list2::contains).forEach(intersection::add);
-
-        return (double) intersection.size() / (double) unification.size();
     }
 }

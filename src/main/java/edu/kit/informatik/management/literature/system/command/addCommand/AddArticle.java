@@ -2,7 +2,7 @@ package edu.kit.informatik.management.literature.system.command.addCommand;
 
 import edu.kit.informatik.Terminal;
 import edu.kit.informatik.management.literature.LiteratureManagement;
-import edu.kit.informatik.management.literature.Venue;
+import edu.kit.informatik.management.literature.Publishers;
 import edu.kit.informatik.management.literature.exceptions.BadSyntaxException;
 import edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException;
 import edu.kit.informatik.management.literature.system.command.Command;
@@ -24,7 +24,7 @@ public class AddArticle extends Command {
 
     private static final Pattern COMMANDPATTERN
             = Pattern.compile(ADDARTICLE.pattern()
-            + PatternHolder.TOVENUEPATTERN
+            + PatternHolder.TOPUBLISHERPATTERN
             + ":"
             + PatternHolder.IDPATTERN
             + ","
@@ -66,28 +66,29 @@ public class AddArticle extends Command {
      *         Literature management that should be worked on.
      */
     @Override
-    public void execute(final LiteratureManagement lm,
+    public boolean execute(final LiteratureManagement lm,
                         final String userCommand) {
         if (!(this.matchesPattern(userCommand))) {
-            return;
+            return false;
         }
         Scanner sc = new Scanner(userCommand);
         sc.skip(ADDARTICLE);
         sc.useDelimiter(":");
 
-        String venueTitle = sc.next(PatternHolder.TOVENUEPATTERN);
+        String venueTitle = sc.next(PatternHolder.TOPUBLISHERPATTERN);
         String articleId = sc.next(PatternHolder.TITLEPATTERN);
         int articleYear = Integer.parseInt(sc.next(PatternHolder.YEARPATTERN));
         String articleTitle = sc.next(PatternHolder.ARTICLETITLEPATTERN);
         try {
-            Venue venue = CommandUtil.getVenueFromPrefix(lm, venueTitle);
+            Publishers publishers = CommandUtil.getPublisherFromPrefix(lm, venueTitle);
             if (lm.hasArticle(articleId)) {
                 throw new ElementAlreadyPresentException("There already is a article with this id!");
             }
-            venue.addArticle(articleId, articleYear, articleTitle);
+            publishers.addArticle(articleId, articleYear, articleTitle);
             Terminal.printLine("OK");
         } catch (ElementAlreadyPresentException | NoSuchElementException | BadSyntaxException exc) {
             Terminal.printError(exc.getMessage());
         }
+        return true;
     }
 }
