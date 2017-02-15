@@ -58,10 +58,10 @@ public class Cites extends Command {
      *         Literature management that should be worked on.
      */
     @Override
-    public void execute(final LiteratureManagement lm,
+    public boolean execute(final LiteratureManagement lm,
                         final String userCommand) {
         if (!(this.matchesPattern(userCommand))) {
-            return;
+            return false;
         }
         Scanner sc = new Scanner(userCommand);
         sc.skip(CITES);
@@ -81,5 +81,6 @@ public class Cites extends Command {
         } catch (NoSuchElementException | IllegalArgumentException exc) {
             Terminal.printError(exc.getMessage());
         }
+        return true;
     }
 }

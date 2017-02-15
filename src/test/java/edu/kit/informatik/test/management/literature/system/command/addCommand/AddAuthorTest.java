@@ -1,4 +1,4 @@
-package edu.kit.informatik.test.management.literature.system.commands;
+package edu.kit.informatik.test.management.literature.system.command.addCommand;
 
 import edu.kit.informatik.management.literature.LiteratureManagement;
 import edu.kit.informatik.management.literature.system.command.addCommand.AddAuthor;

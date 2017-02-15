@@ -3,7 +3,13 @@ package edu.kit.informatik.management.literature.interfaces;
 import java.util.stream.Stream;
 
 /**
+ * A entity is a class that is able to have keywords.
+ * <p>
+ *     A class that is implementing this interface can
+ *     manage keywords.
+ * </p>
  * @author David Oberacker
+ * @version 1.0.1
  */
 public interface Entity {
 

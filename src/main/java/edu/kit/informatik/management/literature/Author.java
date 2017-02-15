@@ -18,12 +18,12 @@ import java.util.regex.Matcher;
  */
 public class Author implements Comparable<Author> {
 
-    //=================Fields==========================
+    //=================fields==========================
 
     private final String firstName;
     private final String lastName;
 
-    //=================Constructor======================
+    //=================constructor======================
 
     /**
      * Creates a new author with a first and last name.
@@ -57,7 +57,7 @@ public class Author implements Comparable<Author> {
         }
     }
 
-    //=================Getter===========================
+    //=================getter===========================
 
     /**
      * Returns the first name of the author.
@@ -83,7 +83,7 @@ public class Author implements Comparable<Author> {
         return this.lastName;
     }
 
-    //=================Override Methods=================
+    //=================override methods=================
 
 
     /**
