@@ -1,6 +1,6 @@
 package edu.kit.informatik.management.literature.system.command.literatureIndex;
 
-import edu.kit.informatik.Terminal;
+import edu.kit.informatik.terminal.Terminal;
 import edu.kit.informatik.management.literature.*;
 import edu.kit.informatik.management.literature.system.command.Command;
 import edu.kit.informatik.management.literature.util.LiteratureIndexStyles;
@@ -100,7 +100,7 @@ public class DirectPrintJournal extends Command {
         String journalTitle = sc.next(PatternHolder.TITLEPATTERN);
         int year = Integer.parseInt(sc.next(PatternHolder.YEARPATTERN));
 
-        Article a = new Article("1", articleTitel, year, new TreeSet<String>());
+        Article a = new Article("1", articleTitel, year, new TreeSet<>());
         Journal j = new Journal(journalTitle, "empty");
         for (String s:authorList) {
             Scanner scanner = new Scanner(s);
@@ -109,7 +109,7 @@ public class DirectPrintJournal extends Command {
         }
         try {
             Terminal.printLine(LiteratureIndexStyles.printInStyle(LiteratureIndexStyles
-                    .getStyle(style), a, (Publishers) j));
+                    .getStyle(style), a, j));
         } catch (NoSuchElementException exc) {
             Terminal.printError(exc.getMessage());
         }

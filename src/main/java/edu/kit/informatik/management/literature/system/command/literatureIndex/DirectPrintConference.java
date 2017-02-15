@@ -1,6 +1,6 @@
 package edu.kit.informatik.management.literature.system.command.literatureIndex;
 
-import edu.kit.informatik.Terminal;
+import edu.kit.informatik.terminal.Terminal;
 import edu.kit.informatik.management.literature.*;
 import edu.kit.informatik.management.literature.system.command.Command;
 import edu.kit.informatik.management.literature.util.LiteratureIndexStyles;
@@ -100,7 +100,7 @@ public class DirectPrintConference extends Command {
         String location = sc.next(PatternHolder.LOCATIONPATTERN);
         int year = Integer.parseInt(sc.next(PatternHolder.YEARPATTERN));
 
-        Article a = new Article("1", articleTitel, year, new TreeSet<String>());
+        Article a = new Article("1", articleTitel, year, new TreeSet<>());
         ConferenceSeries c = new ConferenceSeries(conferenceTitle);
         c.addConference(year, location);
         for (String s:authorList) {
@@ -110,7 +110,7 @@ public class DirectPrintConference extends Command {
         }
         try {
             Terminal.printLine(LiteratureIndexStyles.printInStyle(LiteratureIndexStyles
-                    .getStyle(style), a, (Publishers) c));
+                    .getStyle(style), a, c));
         } catch (NoSuchElementException exc) {
             Terminal.printError(exc.getMessage());
         }

@@ -27,9 +27,9 @@ public class LiteratureIndex {
      * <p>
      * A empty literature index has no articles in it.
      * </p>
-     * <p>
      * The literature index is sorted with the schema:
      * <table>
+     * <caption>examples:</caption>
      * <thead>
      * <tr>
      * <td>| ID</td> <td>| 1st Author</td> <td>| 2nd Author</td> <td>| 3rd Author</td>
@@ -52,9 +52,7 @@ public class LiteratureIndex {
      * <td>| 5</td> <td>| B</td> <td>| D</td> <td>| -</td>
      * </tr>
      * </tbody>
-     * <p>
      * </table>
-     * </p>
      */
     public LiteratureIndex() {
         this.litratureIndex = new TreeSet<>((o1, o2) -> {
@@ -93,7 +91,7 @@ public class LiteratureIndex {
      */
     public void addCitation(final Article citedArticle) {
         if (citedArticle.isComplete()
-                && !(this.litratureIndex.contains(citedArticle))) {
+                && ! (this.litratureIndex.contains(citedArticle))) {
             this.litratureIndex.add(citedArticle);
         }
     }

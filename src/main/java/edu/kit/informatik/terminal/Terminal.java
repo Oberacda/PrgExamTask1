@@ -1,4 +1,4 @@
-package edu.kit.informatik;
+package edu.kit.informatik.terminal;
 
 import static org.junit.Assert.*;
 
@@ -16,11 +16,11 @@ import static org.hamcrest.Matchers.*;
 /**
  * A modified Terminal class which can also be used for testing. When not in
  * {@linkplain #enableTestingMode() testing mode}, this class behaves like
- * {@linkplain https://sdqweb.ipd.kit.edu/lehre/WS1617-Programmieren/Terminal.java
+ * {@literal https://sdqweb.ipd.kit.edu/lehre/WS1617-Programmieren/Terminal.java
  * the SDQ’s Terminal class}. In {@linkplain #enableTestingMode() testing mode},
  * it returns predefined answers for a call to {@link #readLine()} and checks
  * the outputs made with {@link #printLine} to match certain criteria, expressed
- * in {@linkplain http://hamcrest.org/JavaHamcrest/ Hamcrest matchers}.
+ * in {@literal http://hamcrest.org/JavaHamcrest/ Hamcrest matchers}.
  *
  * <p>
  * The idea is to first specify an input and a matcher that checks the output
@@ -29,19 +29,21 @@ import static org.hamcrest.Matchers.*;
  * Until the next call to {@link #readLine()} all outputs will be stored. When
  * {@link #readLine()} is called, the printed lines are checked against the
  * defined matchers.
- *
+ * </p>
  * <p>
  * After the end of the tested program you have to call {@link #flush()} to
  * check the latest output lines by hand.
+ * </p>
  * 
  * <p>
  * There is no method to provide input for the {@link #readFile(String)} method.
  * This is on purpose, as implementations are allowed to read files by other
  * means. There should always be a real (temporary) file to read when testing.
  * See for example
- * {@linkplain http://git.joshuagleitze.de/submissiontest/blob/master/src/main/java/test/Input.java
+ * {@literal http://git.joshuagleitze.de/submissiontest/blob/master/src/main/java/test/Input.java
  * this Input helper class} for a handy way to create test input files.
- * 
+ * </p>
+ *
  * @author Moritz Halm
  * @author Joshua Gleitze
  * @author ITI, VeriAlg Group
@@ -323,7 +325,7 @@ public class Terminal {
 
 	/**
 	 * Disables testing mode. This means that the class will behave like
-	 * {@linkplain https://sdqweb.ipd.kit.edu/lehre/WS1617-Programmieren/Terminal.java
+	 * {@literal https://sdqweb.ipd.kit.edu/lehre/WS1617-Programmieren/Terminal.java
 	 * the SDQ’s Terminal class}.
 	 * 
 	 * @see {@link #enableTestingMode()}

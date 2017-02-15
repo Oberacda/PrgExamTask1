@@ -1,6 +1,6 @@
 package edu.kit.informatik.management.literature.system.command.getCommand;
 
-import edu.kit.informatik.Terminal;
+import edu.kit.informatik.terminal.Terminal;
 import edu.kit.informatik.management.literature.*;
 import edu.kit.informatik.management.literature.system.command.Command;
 import edu.kit.informatik.management.literature.util.PatternHolder;
