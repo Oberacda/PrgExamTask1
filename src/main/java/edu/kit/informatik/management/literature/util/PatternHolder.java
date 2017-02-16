@@ -14,8 +14,8 @@ public final class PatternHolder {
     /**
      * Regex Pattern for names.
      * <p>
-     *     Only the chars a-z and A-Z (excluding whitespaces)
-     *     with the minimum length of 1.
+     * Only the chars a-z and A-Z (excluding whitespaces)
+     * with the minimum length of 1.
      * </p>
      */
     public static final Pattern NAMEPATTERN = Pattern.compile("[a-zA-Z]+");
@@ -23,8 +23,8 @@ public final class PatternHolder {
     /**
      * Regex Pattern for keywords.
      * <p>
-     *     Only the chars a-z (excluding whitespaces)
-     *     with the minimum length of 1.
+     * Only the chars a-z (excluding whitespaces)
+     * with the minimum length of 1.
      * </p>
      */
     public static final Pattern KEYWORDPATTERN = Pattern.compile("[a-z]+");
@@ -32,8 +32,8 @@ public final class PatternHolder {
     /**
      * Regex Pattern for article id's.
      * <p>
-     *     Only the chars a-z and 0-9 (excluding whitespaces)
-     *     with the minimum length of 1.
+     * Only the chars a-z and 0-9 (excluding whitespaces)
+     * with the minimum length of 1.
      * </p>
      */
     public static final Pattern IDPATTERN = Pattern.compile("[a-z0-9]+");
@@ -41,8 +41,8 @@ public final class PatternHolder {
     /**
      * Regex Pattern for venue titles.
      * <p>
-     *     Only the chars a-z, A-Z and 0-9 (excluding whitespaces)
-     *     with the minimum length of 1.
+     * Only the chars a-z, A-Z and 0-9 (excluding whitespaces)
+     * with the minimum length of 1.
      * </p>
      */
     public static final Pattern TITLEPATTERN = Pattern.compile("[a-zA-Z0-9]+");
@@ -51,8 +51,8 @@ public final class PatternHolder {
     /**
      * Regex Pattern for years.
      * <p>
-     *     Only integers with {@code 1000 <= x <= 9999}
-     *     , are accepted.
+     * Only integers with {@code 1000 <= x <= 9999}
+     * , are accepted.
      * </p>
      */
     public static final Pattern YEARPATTERN = Pattern.compile("([1-9][0-9][0-9][0-9])");
@@ -60,8 +60,8 @@ public final class PatternHolder {
     /**
      * Regex Pattern for locations.
      * <p>
-     *     Only the chars a-z and A-Z (including one whitespace between to words)
-     *     with the minimum length of 1 are accepted.
+     * Only the chars a-z and A-Z (including one whitespace between to words)
+     * with the minimum length of 1 are accepted.
      * </p>
      */
     public static final Pattern LOCATIONPATTERN = Pattern.compile("([a-zA-Z]+)([\\u0020]{1}[a-zA-Z]+)*");
@@ -69,8 +69,8 @@ public final class PatternHolder {
     /**
      * Regex Pattern for article titles.
      * <p>
-     *     Only the chars a-z and A-Z (including one whitespace between to words)
-     *     with the minimum length of 1 are accepted.
+     * Only the chars a-z and A-Z (including one whitespace between to words)
+     * with the minimum length of 1 are accepted.
      * </p>
      */
     public static final Pattern ARTICLETITLEPATTERN = Pattern.compile("([\\w]+)([\\u0020]{1}[\\w]+)*");
@@ -128,16 +128,16 @@ public final class PatternHolder {
     /**
      * Regex Pattern for to conference prefix.
      */
-    public static final Pattern TOCONFERENCEPREFIX = Pattern.compile("to pub ");
+    public static final Pattern TOCONFERENCEPREFIX = Pattern.compile("to conference ");
 
     /**
      * Regex Pattern for to conference.
      */
     public static final Pattern TOCONFERENCEPATTERN = Pattern.compile(
             TOCONFERENCEPREFIX.pattern()
-            + TITLEPATTERN.pattern()
-            + ","
-            + YEARPATTERN);
+                    + TITLEPATTERN.pattern()
+                    + ","
+                    + YEARPATTERN);
 
     /**
      * Regex Pattern for to entity.
@@ -149,7 +149,7 @@ public final class PatternHolder {
     /**
      * Regex Pattern for a list of keywords.
      * <p>
-     *     Regex Pattern for a list of keywords with the delimiter {@literal ";"}.
+     * Regex Pattern for a list of keywords with the delimiter {@literal ";"}.
      * </p>
      */
     public static final Pattern KEYWORDSPATTERN = Pattern.compile(String.format("%s([;]{1}[%s]{1})*"

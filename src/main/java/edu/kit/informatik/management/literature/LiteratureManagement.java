@@ -61,7 +61,7 @@ public class LiteratureManagement {
     public void addJournal(final String name, final String publisher)
             throws ElementAlreadyPresentException {
         Journal newJournal = new Journal(name, publisher);
-        if (! (this.journalsList.contains(newJournal))) {
+        if (!(this.journalsList.contains(newJournal))) {
             this.journalsList.add(newJournal);
         } else {
             throw new ElementAlreadyPresentException("This journal is already present!");
@@ -95,12 +95,12 @@ public class LiteratureManagement {
         Optional<ConferenceSeries> conferenceSeriesOptional
                 = this.getConferenceSeries(conferenceSeriesTitle);
 
-        if (! (conferenceSeriesOptional.isPresent())) {
+        if (!(conferenceSeriesOptional.isPresent())) {
             throw new NoSuchElementException("There is no conference series with this title!");
         }
 
         ConferenceSeries conferenceSeries = conferenceSeriesOptional.get();
-        if (! (conferenceSeries.getConference(conferenceYear).isPresent())) {
+        if (!(conferenceSeries.getConference(conferenceYear).isPresent())) {
             conferenceSeries.addConference(conferenceYear, conferenceLocation);
         } else {
             throw new ElementAlreadyPresentException(String.format("There already is a conference"
@@ -121,11 +121,12 @@ public class LiteratureManagement {
     public void addConferenceSeries(final String title)
             throws ElementAlreadyPresentException {
         ConferenceSeries newConferenceSeries = new ConferenceSeries(title);
-        if (! (this.conferenceSeriesList
+        if (!(this.conferenceSeriesList
                 .contains(newConferenceSeries))) {
             this.conferenceSeriesList.add(newConferenceSeries);
         } else {
-            throw new ElementAlreadyPresentException("This conference series is already present!");
+            throw new ElementAlreadyPresentException(String.format("series \"%s\" is"
+                    + " already present!", newConferenceSeries.getTitle()));
         }
     }
 
@@ -146,7 +147,8 @@ public class LiteratureManagement {
         Author newAuthor = new Author(firstName, lastName);
         if (this.authorsList.stream().anyMatch(author
                 -> (newAuthor.equals(author)))) {
-            throw new ElementAlreadyPresentException("There already a author with this name!");
+            throw new ElementAlreadyPresentException(String.format("author \"%s\""
+                    + " is already present!", newAuthor.toString()));
         } else {
             this.authorsList.add(newAuthor);
         }

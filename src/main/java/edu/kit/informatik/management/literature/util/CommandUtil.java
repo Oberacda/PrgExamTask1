@@ -4,7 +4,9 @@ import edu.kit.informatik.management.literature.*;
 import edu.kit.informatik.management.literature.exceptions.BadSyntaxException;
 import edu.kit.informatik.management.literature.interfaces.Entity;
 
-import java.util.*;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.Scanner;
 
 /**
  * Class containing different uitilitys fo the
@@ -17,7 +19,7 @@ public final class CommandUtil {
 
     /**
      * Returns the the publisher specified in a command prefix.
-     * <p>
+     *
      * <table>
      * <caption>examples:</caption>
      * <tr>
@@ -118,9 +120,9 @@ public final class CommandUtil {
             } else {
                 throw new NoSuchElementException("There is no article with this id!");
             }
-        } else if (PatternHolder.TOPUBPATTERN.matcher(userInput).matches()) {
+        } else if (PatternHolder.TOCONFERENCEPATTERN.matcher(userInput).matches()) {
             Scanner sc = new Scanner(userInput);
-            sc.skip(PatternHolder.TOSERIESPREFIX);
+            sc.skip(PatternHolder.TOCONFERENCEPREFIX);
             sc.useDelimiter(",");
             String seriesName = sc.next(PatternHolder.TITLEPATTERN);
             int year = Integer.parseInt(sc.next(PatternHolder.YEARPATTERN));

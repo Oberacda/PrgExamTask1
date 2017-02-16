@@ -4,7 +4,6 @@ import edu.kit.informatik.management.literature.interfaces.Entity;
 import edu.kit.informatik.management.literature.interfaces.Venue;
 import edu.kit.informatik.management.literature.util.PatternHolder;
 
-import java.util.Optional;
 import java.util.TreeSet;
 import java.util.stream.Stream;
 
@@ -42,11 +41,11 @@ public abstract class Publishers implements Entity, Venue {
      *         the requirements this error is thrown.
      */
     public Publishers(final String title) throws IllegalArgumentException {
-        if (title != null && PatternHolder.NAMEPATTERN.matcher(title).matches()) {
+        if (title != null && PatternHolder.TITLEPATTERN.matcher(title).matches()) {
             this.title = title;
         } else {
-            throw new IllegalArgumentException("The title of a venue"
-                    + " can only be a sequence of the chars [a-zA-Z]");
+            throw new IllegalArgumentException(String.format("only chars \"%s\""
+                    + " are allowed as title!", PatternHolder.TITLEPATTERN));
         }
 
         this.keywords = new TreeSet<>();
@@ -91,7 +90,6 @@ public abstract class Publishers implements Entity, Venue {
      * @throws IllegalArgumentException
      *         this exception is thrown
      *         if there already is a article with this id.
-     *
      */
     public abstract void addArticle(String id, int year, String title)
             throws IllegalArgumentException;

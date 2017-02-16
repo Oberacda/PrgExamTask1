@@ -1,12 +1,14 @@
 package edu.kit.informatik.management.literature.system.command.literatureIndex;
 
-import edu.kit.informatik.terminal.Terminal;
-import edu.kit.informatik.management.literature.*;
+import edu.kit.informatik.management.literature.system.LiteratureManagementSystem;
 import edu.kit.informatik.management.literature.system.command.Command;
-import edu.kit.informatik.management.literature.util.LiteratureIndexStyles;
 import edu.kit.informatik.management.literature.util.PatternHolder;
+import edu.kit.informatik.terminal.Terminal;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
@@ -16,63 +18,20 @@ public class DirectPrintConference extends Command {
     private static final Pattern DIRECTPRINTCONFERENCE
             = Pattern.compile("direct print conference ");
 
-
-    private static final Pattern COMMANDPATTERN
-            = Pattern.compile(DIRECTPRINTCONFERENCE.pattern()
-            + Pattern.compile("[a-z]+")
-            + ":"
-            + PatternHolder.AUTHORPATTERN.pattern()
-            + ",["
-            + PatternHolder.AUTHORPATTERN.pattern()
-            + "]*,["
-            + PatternHolder.AUTHORPATTERN.pattern()
-            + "]*,"
-            + PatternHolder.ARTICLETITLEPATTERN.pattern()
-            + ","
-            + PatternHolder.TITLEPATTERN.pattern()
-            + ","
-            + PatternHolder.LOCATIONPATTERN.pattern()
-            + ","
-            + PatternHolder.YEARPATTERN.pattern());
-
-
-    /**
-     * Checks if the input string {@code userInput} matches the
-     * Pattern of the command.
-     * <p>
-     * Is called by the
-     * {@linkplain Command#execute(LiteratureManagement, String)}
-     * method to check if command is valid. No need to call
-     * it directly.
-     * </p>
-     *
-     * @param userInput
-     *         Input string by the terminal application user.
-     *
-     * @return true - the input is a command of this Class.
-     */
-    @Override
-    protected boolean matchesPattern(final String userInput) {
-        return COMMANDPATTERN.matcher(userInput).matches();
-    }
+    private static final Pattern COMMANDPATTERN = Pattern.compile(DIRECTPRINTCONFERENCE.pattern()
+            + "\\S(.)+\\S");
 
     /**
      * Executes the Command on the {@code LiteratureManagement} with the parameters
      * given in the {@code userCommand} parameter.
-     * <p>
-     * This method calls the method
-     * {@linkplain Command#matchesPattern(String)}
-     * only if it has returned true, the command
-     * will be executed.
-     * </p>
      *
-     * @param lm
-     *         Literature management that should be worked on.
+     * @param lms
+     *         Literature management system that should be worked on.
      */
     @Override
-    public boolean execute(final LiteratureManagement lm,
-                        final String userCommand) {
-        if (!(this.matchesPattern(userCommand))) {
+    public boolean execute(final LiteratureManagementSystem lms,
+                           final String userCommand) {
+        if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
             return false;
         }
         Scanner sc = new Scanner(userCommand);
@@ -80,37 +39,41 @@ public class DirectPrintConference extends Command {
 
         sc.useDelimiter(":");
 
-        String style = sc.next("[a-z]+");
+        String style;
+        String articleTitel;
+        String conferenceTitle;
+        String location;
+        int year;
+        Set<String> authorList = new HashSet<>();
 
-        sc.skip(":");
-        sc.useDelimiter(",");
-        ArrayList<String> authorList = new ArrayList<>();
-        while (sc.hasNext(PatternHolder.AUTHORPATTERN)) {
-            authorList.add(sc.next(PatternHolder.AUTHORPATTERN));
-        }
-        int cnt = authorList.size();
+        try {
+            style = sc.next("[a-z]+");
 
-        while (cnt < 3) {
-            sc.skip(",");
-            cnt++;
-        }
+            sc.skip(":");
+            sc.useDelimiter(",");
 
-        String articleTitel = sc.next(PatternHolder.ARTICLETITLEPATTERN);
-        String conferenceTitle = sc.next(PatternHolder.TITLEPATTERN);
-        String location = sc.next(PatternHolder.LOCATIONPATTERN);
-        int year = Integer.parseInt(sc.next(PatternHolder.YEARPATTERN));
+            while (sc.hasNext(PatternHolder.AUTHORPATTERN)) {
+                authorList.add(sc.next(PatternHolder.AUTHORPATTERN));
+            }
+            int cnt = authorList.size();
 
-        Article a = new Article("1", articleTitel, year, new TreeSet<>());
-        ConferenceSeries c = new ConferenceSeries(conferenceTitle);
-        c.addConference(year, location);
-        for (String s:authorList) {
-            Scanner scanner = new Scanner(s);
-            scanner.useDelimiter(" ");
-            a.addAuthor(new Author(scanner.next(), scanner.next()));
+            while (cnt < 3) {
+                sc.skip(",");
+                cnt++;
+            }
+
+            articleTitel = sc.next(PatternHolder.ARTICLETITLEPATTERN);
+            conferenceTitle = sc.next(PatternHolder.TITLEPATTERN);
+            location = sc.next(PatternHolder.LOCATIONPATTERN);
+            year = Integer.parseInt(sc.next(PatternHolder.YEARPATTERN));
+
+        } catch (NoSuchElementException nse) {
+            Terminal.printError("missing command token :" + nse.getMessage());
+            return true;
         }
         try {
-            Terminal.printLine(LiteratureIndexStyles.printInStyle(LiteratureIndexStyles
-                    .getStyle(style), a, c));
+            Terminal.printLine(lms.directPrintConference(conferenceTitle,
+                    location, year, articleTitel, authorList, style));
         } catch (NoSuchElementException exc) {
             Terminal.printError(exc.getMessage());
         }

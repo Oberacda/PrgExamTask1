@@ -4,7 +4,10 @@ import edu.kit.informatik.management.literature.interfaces.Entity;
 import edu.kit.informatik.management.literature.interfaces.Venue;
 import edu.kit.informatik.management.literature.util.PatternHolder;
 
-import java.util.*;
+import java.util.Optional;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.stream.Stream;
 
 /**
@@ -94,7 +97,7 @@ public class Conference implements Entity, Venue {
      */
     public Optional<Article> getArticle(final String id) {
         return this.conferencePublications.values().stream()
-        .filter(article -> article.getId().equals(id)).findFirst();
+                .filter(article -> article.getId().equals(id)).findFirst();
     }
 
     /**
