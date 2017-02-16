@@ -1,62 +1,62 @@
 package edu.kit.informatik.management.literature;
 
 import edu.kit.informatik.management.literature.interfaces.Entity;
+import edu.kit.informatik.management.literature.interfaces.Venue;
 import edu.kit.informatik.management.literature.util.PatternHolder;
 
-import java.util.Optional;
 import java.util.TreeSet;
 import java.util.stream.Stream;
 
 /**
- * Modelling a venue.
+ * Modelling a publisher.
  * <p>
- * This abstract class defines a venue which is able of
+ * This abstract class defines a publisher which is able of
  * publishing articles and of having keywords.
  * </p>
  *
  * @author David Oberacker
  * @version 1.0.1
  */
-public abstract class Venue implements Entity {
+public abstract class Publishers implements Entity, Venue {
 
-    //=================Fields==========================
+    //=================fields==========================
 
     private final String title;
 
     private TreeSet<String> keywords;
 
-    //=================Constructor======================
+    //=================constructor======================
 
     /**
-     * Creates a new Venue.
+     * Creates a new Publishers.
      * <p>
-     * A new venue has no articles published by it.
+     * A new publisher has no articles published by it.
      * </p>
      *
      * @param title
-     *         the title of the venue (unique id).
+     *         the title of the publisher (unique id).
      *
      * @throws IllegalArgumentException
      *         If the title doesn't match
      *         the requirements this error is thrown.
      */
-    public Venue(final String title) throws IllegalArgumentException {
-        if (title != null && PatternHolder.NAMEPATTERN.matcher(title).matches()) {
+    public Publishers(final String title) throws IllegalArgumentException {
+        if (title != null && PatternHolder.TITLEPATTERN.matcher(title).matches()) {
             this.title = title;
         } else {
-            throw new IllegalArgumentException("The title of a venue"
-                    + " can only be a sequence of the chars [a-zA-Z]");
+            throw new IllegalArgumentException(String.format("only chars \"%s\""
+                    + " are allowed as title!", PatternHolder.TITLEPATTERN));
         }
 
         this.keywords = new TreeSet<>();
     }
 
-    //=================Getter===========================
+    //=================getter===========================
 
     /**
-     * Returns the title of the venue.
+     * Returns the title of the publisher.
      *
-     * @return title of the venue.
+     * @return title of the publisher.
      */
     public String getTitle() {
         return this.title;
@@ -71,31 +71,10 @@ public abstract class Venue implements Entity {
         return this.keywords;
     }
 
-    //==================abstract Methods=================
+    //=================abstract methods=================
 
     /**
-     * Returns a stream of all articles published by the venue.
-     * <p>
-     * This stream can contain no elements if nothing was published.
-     * </p>
-     *
-     * @return Sorted stream of articles.
-     */
-    public abstract Stream<Article> getArticles();
-
-
-    /**
-     * Retuns a article form a conference form this series.
-     *
-     * @param id
-     *         the id of the desired article.
-     *
-     * @return article from the conference with this id.
-     */
-    public abstract Optional<Article> getArticle(String id);
-
-    /**
-     * Publishes a article by the venue its called on.
+     * Publishes a article by the publisher its called on.
      * <p>
      * While publishing a {@linkplain Article#Article(String, String,
      * int, java.util.SortedSet) incomplete} article is created.
@@ -111,13 +90,11 @@ public abstract class Venue implements Entity {
      * @throws IllegalArgumentException
      *         this exception is thrown
      *         if there already is a article with this id.
-     *
      */
     public abstract void addArticle(String id, int year, String title)
             throws IllegalArgumentException;
 
-
-    //=================Override Methods=================
+    //=================override methods=================
 
     @Override
     public Stream<String> getKeywords() {
@@ -133,9 +110,9 @@ public abstract class Venue implements Entity {
             return false;
         }
 
-        Venue venue = (Venue) o;
+        Publishers publishers = (Publishers) o;
 
-        return getTitle().equals(venue.getTitle());
+        return getTitle().equals(publishers.getTitle());
     }
 
     @Override

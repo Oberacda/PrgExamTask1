@@ -2,7 +2,6 @@ package edu.kit.informatik.management.literature;
 
 import edu.kit.informatik.management.literature.util.PatternHolder;
 
-import java.util.HashMap;
 import java.util.Optional;
 import java.util.TreeMap;
 import java.util.stream.Stream;
@@ -10,15 +9,15 @@ import java.util.stream.Stream;
 /**
  * @author David Oberacker
  */
-public class Journal extends Venue {
+public class Journal extends Publishers {
 
-    //=================Fields==========================
+    //=================fields==========================
 
     private TreeMap<String, Article> articleList;
 
     private final String publisher;
 
-    //=================Constructor======================
+    //=================constructor======================
 
     /**
      * Creates a empty journal.
@@ -41,7 +40,7 @@ public class Journal extends Venue {
         this.articleList = new TreeMap<>();
     }
 
-    //=================Getter===========================
+    //=================getter===========================
 
     /**
      * Returns the publisher of the journal.
@@ -53,7 +52,7 @@ public class Journal extends Venue {
     }
 
 
-    //=================Override Methods=================
+    //=================override methods=================
 
     /**
      * Adds a keyword to the entity.
@@ -139,8 +138,7 @@ public class Journal extends Venue {
 
     /**
      * Returns a hash code value for the object. This method is
-     * supported for the benefit of hash tables such as those provided by
-     * {@link HashMap}.
+     * supported for the benefit of hash tables such as those provided by.
      * <p>
      * The general contract of {@code hashCode} is:
      * <ul>
@@ -226,7 +224,6 @@ public class Journal extends Venue {
      * argument; {@code false} otherwise.
      *
      * @see #hashCode()
-     * @see HashMap
      */
     @Override
     public boolean equals(final Object obj) {

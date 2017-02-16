@@ -3,7 +3,9 @@ package edu.kit.informatik.management.literature;
 import edu.kit.informatik.management.literature.interfaces.Entity;
 import edu.kit.informatik.management.literature.util.PatternHolder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.stream.Stream;
 
 /**
@@ -11,7 +13,7 @@ import java.util.stream.Stream;
  */
 public class Article implements Entity {
 
-    //=================Fields==========================
+    //=================fields==========================
 
     private final String id;
     private final String title;
@@ -20,7 +22,7 @@ public class Article implements Entity {
     private LiteratureIndex literatureIndex;
     private TreeSet<String> keywords;
 
-    //=================Constructor======================
+    //=================constructor======================
 
     /**
      * Creates a new incomplete article.
@@ -54,7 +56,7 @@ public class Article implements Entity {
         this.keywords = new TreeSet<>(keywords);
     }
 
-    //=================Getter===========================
+    //=================getter===========================
 
     /**
      * Returns the year the article was published.
@@ -96,7 +98,7 @@ public class Article implements Entity {
         return this.authorList.stream();
     }
 
-    //=================Methods==========================
+    //=================methods==========================
 
     /**
      * Adds a author to the article.
@@ -122,23 +124,43 @@ public class Article implements Entity {
      * @param citedArticle
      *         Another article which was published
      *         before this article.
+     *
+     * @throws IllegalArgumentException
+     *         if the cited articles publication year isn`t absolute
+     *         before this articles publication year this exception is thrown.
      */
-    public void addCitation(final Article citedArticle) {
-        this.literatureIndex.addCitation(citedArticle);
+    public void addCitation(final Article citedArticle)
+            throws IllegalArgumentException {
+        if (citedArticle.getYear() < this.getYear()) {
+            this.literatureIndex.addEntry(citedArticle);
+        } else {
+            throw new IllegalArgumentException("The cited article wasn`t"
+                    + " released before this article!");
+        }
     }
 
     /**
      * Checks if the article is complete.
      * <p>
-     *     A article is complete if it has one or more authors.
+     * A article is complete if it has one or more authors.
      * </p>
+     *
      * @return true - article is complete.
      */
     public boolean isComplete() {
         return !(this.authorList.isEmpty());
     }
 
-    //=================Override Methods=================
+    /**
+     * Checks if this article cites another one.
+     * @param article the article that should be checked if cited.
+     * @return true - this article cites the other article.
+     */
+    public boolean cites(final Article article) {
+        return this.literatureIndex.hasEntry(article);
+    }
+
+    //=================override methods=================
 
     @Override
     public void addKeyword(final String keyword) throws IllegalArgumentException {

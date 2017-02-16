@@ -18,13 +18,13 @@ import java.util.stream.Stream;
  * @author David Oberacker
  * @version 1.0.1
  */
-public class ConferenceSeries extends Venue {
+public class ConferenceSeries extends Publishers {
 
-    //=================Fields==========================
+    //=================fields==========================
 
     private TreeMap<Integer, Conference> conferenceList;
 
-    //=================Constructor======================
+    //=================constructor======================
 
     /**
      * Creates a new empty conference series.
@@ -46,7 +46,7 @@ public class ConferenceSeries extends Venue {
         this.conferenceList = new TreeMap<>(Comparator.naturalOrder());
     }
 
-    //=================Getter===========================
+    //=================getter===========================
 
     /**
      * Gets a specific conference from the series.
@@ -61,7 +61,6 @@ public class ConferenceSeries extends Venue {
      *
      * @return Optional containing the conference. If there is
      * no conference in this year the optional is empty.
-     *
      */
     public Optional<Conference> getConference(final int year) {
         return this.conferenceList.values().stream()
@@ -70,7 +69,7 @@ public class ConferenceSeries extends Venue {
     }
 
 
-    //=================Methods==========================
+    //=================methods==========================
 
     /**
      * Adds a conference to the series.
@@ -100,7 +99,7 @@ public class ConferenceSeries extends Venue {
         }
     }
 
-    //=================Override Methods=================
+    //=================override methods=================
 
     @Override
     public void addKeyword(final String keyword)
