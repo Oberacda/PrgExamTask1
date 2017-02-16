@@ -29,4 +29,23 @@ public class PatternHolderTest {
     public void namePatternTest3() throws Exception {
         assertFalse(PatternHolder.NAMEPATTERN.matcher(" ").matches());
     }
+
+    @Test
+    public void yearPatternTest1() throws Exception {
+        assertTrue(PatternHolder.YEARPATTERN.matcher("1000").matches());
+        assertTrue(PatternHolder.YEARPATTERN.matcher("9999").matches());
+        assertTrue(PatternHolder.YEARPATTERN.matcher("1509").matches());
+        assertTrue(PatternHolder.YEARPATTERN.matcher("1997").matches());
+        assertTrue(PatternHolder.YEARPATTERN.matcher("2014").matches());
+    }
+
+    @Test
+    public void yearPatternTest2() throws Exception {
+        assertFalse(PatternHolder.YEARPATTERN.matcher("999").matches());
+        assertFalse(PatternHolder.YEARPATTERN.matcher("10000").matches());
+        assertFalse(PatternHolder.YEARPATTERN.matcher("0").matches());
+        assertFalse(PatternHolder.YEARPATTERN.matcher("").matches());
+        assertFalse(PatternHolder.YEARPATTERN.matcher("99").matches());
+    }
+
 }
