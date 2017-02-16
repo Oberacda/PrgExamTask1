@@ -130,7 +130,7 @@ public class Article implements Entity {
     public void addCitation(final Article citedArticle)
             throws IllegalArgumentException {
         if (citedArticle.getYear() < this.getYear()) {
-            this.literatureIndex.addCitation(citedArticle);
+            this.literatureIndex.addEntry(citedArticle);
         } else {
             throw new IllegalArgumentException("The cited article wasn`t"
                     + " released before this article!");
@@ -150,7 +150,7 @@ public class Article implements Entity {
     }
 
     public boolean cites(final Article article) {
-        return this.literatureIndex.cites(article);
+        return this.literatureIndex.hasEntry(article);
     }
 
     //=================override methods=================
