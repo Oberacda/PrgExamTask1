@@ -1,6 +1,5 @@
 package edu.kit.informatik.management.literature;
 
-import edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException;
 import edu.kit.informatik.management.literature.util.LiteratureIndexStyles;
 
 import java.util.*;
@@ -75,7 +74,7 @@ public class LiteratureIndex {
             }
 
             if (iterO2.hasNext()) {
-                return - 1;
+                return -1;
             }
             if (o1.getTitle().compareTo(o2.getTitle()) != 0) {
                 return o1.getTitle().compareTo(o2.getTitle());
@@ -97,10 +96,9 @@ public class LiteratureIndex {
      * @param newArticle
      *         the article that was added.
      */
-    public void addEntry(final Article newArticle)
-            throws ElementAlreadyPresentException {
+    public void addEntry(final Article newArticle) {
         if (newArticle.isComplete()
-                && ! (this.litratureIndex.contains(newArticle))) {
+                && !(this.litratureIndex.contains(newArticle))) {
             this.litratureIndex.add(newArticle);
         }
     }
@@ -118,14 +116,16 @@ public class LiteratureIndex {
         return this.litratureIndex.stream();
     }
 
-    public Stream<String> printIndexInStyle(final String style, final LiteratureManagement lm) throws NoSuchElementException {
+    public Stream<String> printIndexInStyle(final String style,
+                                            final LiteratureManagement lm)
+            throws NoSuchElementException {
 
         LiteratureIndexStyles indexStyles = LiteratureIndexStyles.getStyle(style);
 
         int order = 1;
         List<String> result = new ArrayList<>();
 
-        for (Article article:this.litratureIndex) {
+        for (Article article : this.litratureIndex) {
             Publishers publishers = lm.getPublisher(article);
             result.add(indexStyles.printInStyle(order, article, publishers));
             order++;

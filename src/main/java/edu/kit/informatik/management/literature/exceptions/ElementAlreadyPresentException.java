@@ -4,8 +4,8 @@ package edu.kit.informatik.management.literature.exceptions;
  * Exception that should be thrown if you try to use a not unique element
  * in a context where only unique elements are allowed.
  * <p>
- *     Typically this exception is thrown when there is element
- *     which can be mistaken for another element.
+ * Typically this exception is thrown when there is element
+ * which can be mistaken for another element.
  * </p>
  *
  * @author David Oberacker
@@ -26,8 +26,9 @@ public class ElementAlreadyPresentException extends Exception {
      * cause is not initialized, and may subsequently be initialized by
      * a call to {@link #initCause}.
      *
-     * @param   message   the detail message. The detail message is saved for
-     *          later retrieval by the {@link #getMessage()} method.
+     * @param message
+     *         the detail message. The detail message is saved for
+     *         later retrieval by the {@link #getMessage()} method.
      */
     public ElementAlreadyPresentException(final String message) {
         super(message);
@@ -39,9 +40,11 @@ public class ElementAlreadyPresentException extends Exception {
      * {@code cause} is <i>not</i> automatically incorporated in
      * this exception's detail message.
      *
-     * @param  message the detail message (which is saved for later retrieval
+     * @param message
+     *         the detail message (which is saved for later retrieval
      *         by the {@link #getMessage()} method).
-     * @param  cause the cause (which is saved for later retrieval by the
+     * @param cause
+     *         the cause (which is saved for later retrieval by the
      *         {@link #getCause()} method).  (A <tt>null</tt> value is
      *         permitted, and indicates that the cause is nonexistent or
      *         unknown.)
@@ -58,7 +61,8 @@ public class ElementAlreadyPresentException extends Exception {
      * wrappers for other throwables (for example, {@link
      * java.security.PrivilegedActionException}).
      *
-     * @param  cause the cause (which is saved for later retrieval by the
+     * @param cause
+     *         the cause (which is saved for later retrieval by the
      *         {@link #getCause()} method).  (A <tt>null</tt> value is
      *         permitted, and indicates that the cause is nonexistent or
      *         unknown.)
@@ -72,13 +76,17 @@ public class ElementAlreadyPresentException extends Exception {
      * cause, suppression enabled or disabled, and writable stack
      * trace enabled or disabled.
      *
-     * @param  message the detail message.
-     * @param cause the cause.  (A {@code null} value is permitted,
-     * and indicates that the cause is nonexistent or unknown.)
-     * @param enableSuppression whether or not suppression is enabled
-     *                          or disabled
-     * @param writableStackTrace whether or not the stack trace should
-     *                           be writable
+     * @param message
+     *         the detail message.
+     * @param cause
+     *         the cause.  (A {@code null} value is permitted,
+     *         and indicates that the cause is nonexistent or unknown.)
+     * @param enableSuppression
+     *         whether or not suppression is enabled
+     *         or disabled
+     * @param writableStackTrace
+     *         whether or not the stack trace should
+     *         be writable
      */
     protected ElementAlreadyPresentException(final String message, final Throwable cause,
                                              final boolean enableSuppression,

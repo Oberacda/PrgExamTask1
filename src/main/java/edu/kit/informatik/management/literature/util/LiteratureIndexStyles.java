@@ -84,7 +84,6 @@ public enum LiteratureIndexStyles {
      * Constant for the Chicago representation of a LiteratureIndex.
      */
     CHICAGO {
-
         /**
          * Returns the Chicago Representation of the Article.
          *

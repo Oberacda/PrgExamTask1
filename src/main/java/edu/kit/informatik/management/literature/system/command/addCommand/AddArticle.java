@@ -1,13 +1,11 @@
 package edu.kit.informatik.management.literature.system.command.addCommand;
 
-import edu.kit.informatik.terminal.Terminal;
-import edu.kit.informatik.management.literature.LiteratureManagement;
-import edu.kit.informatik.management.literature.Publishers;
 import edu.kit.informatik.management.literature.exceptions.BadSyntaxException;
 import edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException;
+import edu.kit.informatik.management.literature.system.LiteratureManagementSystem;
 import edu.kit.informatik.management.literature.system.command.Command;
-import edu.kit.informatik.management.literature.util.CommandUtil;
 import edu.kit.informatik.management.literature.util.PatternHolder;
+import edu.kit.informatik.terminal.Terminal;
 
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -21,73 +19,43 @@ public class AddArticle extends Command {
     private static final Pattern ADDARTICLE
             = Pattern.compile("add article ");
 
-
-    private static final Pattern COMMANDPATTERN
-            = Pattern.compile(ADDARTICLE.pattern()
-            + PatternHolder.TOPUBLISHERPATTERN
-            + ":"
-            + PatternHolder.IDPATTERN
-            + ","
-            + PatternHolder.YEARPATTERN
-            + ","
-            + PatternHolder.ARTICLETITLEPATTERN);
-
-    /**
-     * Checks if the input string {@code userInput} matches the
-     * Pattern of the command.
-     * <p>
-     * Is called by the
-     * {@linkplain Command#execute(LiteratureManagement, String)}
-     * method to check if command is valid. No need to call
-     * it directly.
-     * </p>
-     *
-     * @param userInput
-     *         Input string by the terminal application user.
-     *
-     * @return true - the input is a command of this Class.
-     */
-    @Override
-    protected boolean matchesPattern(final String userInput) {
-        return COMMANDPATTERN.matcher(userInput).matches();
-    }
+    private static final Pattern COMMANDPATTERN = Pattern.compile(ADDARTICLE.pattern()
+            + "\\S((.)+\\S)*");
 
     /**
      * Executes the Command on the {@code LiteratureManagement} with the parameters
      * given in the {@code userCommand} parameter.
-     * <p>
-     * This method calls the method
-     * {@linkplain Command#matchesPattern(String)}
-     * only if it has returned true, the command
-     * will be executed.
-     * </p>
      *
-     * @param lm
-     *         Literature management that should be worked on.
+     * @param lms
+     *         Literature management system that should be worked on.
      */
     @Override
-    public boolean execute(final LiteratureManagement lm,
-                        final String userCommand) {
-        if (!(this.matchesPattern(userCommand))) {
+    public boolean execute(final LiteratureManagementSystem lms,
+                           final String userCommand) {
+        if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
             return false;
         }
         Scanner sc = new Scanner(userCommand);
         sc.skip(ADDARTICLE);
         sc.useDelimiter(":");
 
-        String venueTitle = sc.next(PatternHolder.TOPUBLISHERPATTERN);
-        String articleId = sc.next(PatternHolder.TITLEPATTERN);
-        int articleYear = Integer.parseInt(sc.next(PatternHolder.YEARPATTERN));
-        String articleTitle = sc.next(PatternHolder.ARTICLETITLEPATTERN);
         try {
-            Publishers publishers = CommandUtil.getPublisherFromPrefix(lm, venueTitle);
-            if (lm.hasArticle(articleId)) {
-                throw new ElementAlreadyPresentException("There already is a article with this id!");
-            }
-            publishers.addArticle(articleId, articleYear, articleTitle);
-            Terminal.printLine("OK");
-        } catch (ElementAlreadyPresentException | NoSuchElementException | BadSyntaxException exc) {
+            String publisherTitle = sc.next(PatternHolder.TOPUBLISHERPATTERN);
+            sc.skip(":");
+            sc.useDelimiter(",");
+            String articleId = sc.next(PatternHolder.TITLEPATTERN);
+            int articleYear = Integer.parseInt(sc.next(PatternHolder.YEARPATTERN));
+            String articleTitle = sc.next(PatternHolder.ARTICLETITLEPATTERN);
+            lms.addArticle(articleId, articleYear, articleTitle, publisherTitle);
+            Terminal.printLine("Ok");
+        } catch (ElementAlreadyPresentException
+                | IllegalArgumentException
+                | BadSyntaxException exc) {
             Terminal.printError(exc.getMessage());
+        } catch (NoSuchElementException nse) {
+            Terminal.printError(String.format("invalid command token : \"%s%s:%s,%s,%s",
+                    ADDARTICLE, PatternHolder.TOPUBPATTERN, PatternHolder.IDPATTERN,
+                    PatternHolder.YEARPATTERN, PatternHolder.ARTICLETITLEPATTERN));
         }
         return true;
     }

@@ -61,7 +61,6 @@ public class ConferenceSeries extends Publishers {
      *
      * @return Optional containing the conference. If there is
      * no conference in this year the optional is empty.
-     *
      */
     public Optional<Conference> getConference(final int year) {
         return this.conferenceList.values().stream()

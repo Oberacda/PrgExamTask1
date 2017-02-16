@@ -2,6 +2,8 @@ package edu.kit.informatik.test.management.literature;
 
 import edu.kit.informatik.management.literature.Article;
 import edu.kit.informatik.management.literature.Author;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.TreeSet;
@@ -12,6 +14,46 @@ import static org.junit.Assert.*;
  * @author David Oberacker
  */
 public class LiteratureIndexTest {
+    @Before
+    public void setUp() throws Exception {
+
+    }
+
+    @After
+    public void tearDown() throws Exception {
+
+    }
+
+    @Test
+    public void addEntry() throws Exception {
+
+    }
+
+    @Test
+    public void addAllEntrys() throws Exception {
+
+    }
+
+    @Test
+    public void hasEntry() throws Exception {
+
+    }
+
+    @Test
+    public void getArticles() throws Exception {
+
+    }
+
+    @Test
+    public void printIndexInStyle() throws Exception {
+
+    }
+
+    @Test
+    public void directPrintIndexInStyle() throws Exception {
+
+    }
+
     @Test
     public void addCitation() throws Exception {
         Article a1 = new Article("id1", "Test", 1997, new TreeSet<>());

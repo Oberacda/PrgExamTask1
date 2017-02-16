@@ -3,7 +3,9 @@ package edu.kit.informatik.management.literature;
 import edu.kit.informatik.management.literature.interfaces.Entity;
 import edu.kit.informatik.management.literature.util.PatternHolder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.stream.Stream;
 
 /**
@@ -149,6 +151,11 @@ public class Article implements Entity {
         return !(this.authorList.isEmpty());
     }
 
+    /**
+     * Checks if this article cites another one.
+     * @param article the article that should be checked if cited.
+     * @return true - this article cites the other article.
+     */
     public boolean cites(final Article article) {
         return this.literatureIndex.hasEntry(article);
     }
