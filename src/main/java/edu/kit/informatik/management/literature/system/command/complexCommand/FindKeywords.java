@@ -1,7 +1,7 @@
 package edu.kit.informatik.management.literature.system.command.complexCommand;
 
-import edu.kit.informatik.management.literature.system.LiteratureManagementSystem;
 import edu.kit.informatik.management.literature.system.command.Command;
+import edu.kit.informatik.management.literature.system.command.controller.ComplexController;
 import edu.kit.informatik.management.literature.util.PatternHolder;
 import edu.kit.informatik.terminal.Terminal;
 
@@ -13,24 +13,26 @@ import java.util.regex.Pattern;
 /**
  * @author David Oberacker
  */
-public class FindKeywords extends Command {
+public class FindKeywords implements Command {
     private static final Pattern FINDKEYWORDS
             = Pattern.compile("find keywords ");
 
     private static final Pattern COMMANDPATTERN = Pattern.compile(FINDKEYWORDS.pattern()
             + "\\S(.)+\\S");
 
+    private ComplexController lms;
+
+    public FindKeywords(final ComplexController lms) {
+        this.lms = lms;
+    }
 
     /**
      * Executes the Command on the {@code LiteratureManagement} with the parameters
      * given in the {@code userCommand} parameter.
      *
-     * @param lms
-     *         Literature management that should be worked on.
      */
     @Override
-    public boolean execute(final LiteratureManagementSystem lms,
-                           final String userCommand) {
+    public boolean execute(final String userCommand) {
         if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
             return false;
         }

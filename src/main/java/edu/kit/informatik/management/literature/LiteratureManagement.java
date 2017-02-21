@@ -19,13 +19,15 @@ import java.util.stream.Stream;
  */
 public class LiteratureManagement {
 
+    private static final int JACCARD_FLOATINGPOINTS = 3;
+
     //=================fields==========================
 
-    private ArrayList<ConferenceSeries> conferenceSeriesList;
+    private final ArrayList<ConferenceSeries> conferenceSeriesList;
 
-    private ArrayList<Journal> journalsList;
+    private final ArrayList<Journal> journalsList;
 
-    private ArrayList<Author> authorsList;
+    private final ArrayList<Author> authorsList;
 
     //=================constructor======================
 
@@ -33,7 +35,7 @@ public class LiteratureManagement {
      * Creates a new LiteratureManagement.
      * <p>
      * A new LiteratureManagement has empty fields, this means
-     * every get operation will return emty streams/optionals.
+     * every get operation will return empty streams/optionals.
      * </p>
      */
     public LiteratureManagement() {
@@ -212,21 +214,22 @@ public class LiteratureManagement {
     /**
      * Returns a stream of all published articles.
      * <p>
-     * For this methode there is no difference between
+     * For this method there is no difference between
      * articles published by conferences or journals.
      * </p>
      *
      * @return stream of articles.
      */
-    public Stream<Article> getAllArticles() {
-        HashSet<Article> articleHashSet = new HashSet<>();
-        HashSet<Publishers> publisherss = new HashSet<>();
-        publisherss.addAll(this.conferenceSeriesList);
-        publisherss.addAll(this.journalsList);
-        for (Publishers p : publisherss) {
-            articleHashSet.addAll(p.getArticles().collect(Collectors.toSet()));
+    public Stream<Publication> getAllPublications() {
+        HashSet<Publication> publicationHashSet = new HashSet<>();
+        HashSet<Publishers> publishers = new HashSet<>();
+        publishers.addAll(this.conferenceSeriesList);
+        publishers.addAll(this.journalsList);
+        for (Publishers p : publishers) {
+            publicationHashSet.addAll(p.getPublications()
+                    .collect(Collectors.toSet()));
         }
-        return articleHashSet.stream();
+        return publicationHashSet.stream();
     }
 
     /**
@@ -237,28 +240,40 @@ public class LiteratureManagement {
      *
      * @return if present {@link Article}.
      */
-    public Optional<Article> getArticle(final String id) {
-        return this.getAllArticles().filter(article ->
-                id.equals(article.getId())).findFirst();
+    public Optional<Publication> getPublication(final String id) {
+        return this.getAllPublications().filter(publication ->
+                id.equals(publication.getId())).findFirst();
     }
 
     /**
-     * Returns the publisher of a article.
+     * Returns the publisher of a publication.
      *
-     * @param article
-     *         instanceof {@link Article}.
+     * @param publication
+     *         instanceof {@link Publication}.
      *
-     * @return publisher of the article.
+     * @return publisher of the Publication.
+     *
+     * @throws IllegalArgumentException
+     *         if the publication isnt found in
+     *         the system this exception is thrown
      */
-    public Publishers getPublisher(final Article article) {
+    public Publishers getPublisher(final Publication publication)
+            throws NoSuchElementException {
         Stream<Publishers> publisherStream = Stream.concat(this.journalsList.stream()
                 , this.conferenceSeriesList.stream());
-        return publisherStream.filter(publisher ->
-                publisher.getArticle(article.getId()).isPresent()).findFirst().get();
+        Optional<Publishers> publishers = publisherStream.filter(publisher ->
+                publisher.getPublication(publication.getId()).isPresent()).findFirst();
+
+        if (publishers.isPresent()) {
+            return publishers.get();
+        } else {
+            throw new IllegalArgumentException(String.format("article  \"%s\" not found!",
+                    publication.getId()));
+        }
     }
 
     /**
-     * Returns a optional containg a author if he is known to the system.
+     * Returns a optional containing a author if he is known to the system.
      *
      * @param firstName
      *         the first name of the author (See {@link PatternHolder#NAMEPATTERN}).
@@ -277,7 +292,7 @@ public class LiteratureManagement {
      * Returns a stream of the instance of author
      * if he is known by the system.
      * <p>
-     * This methode works similar to {@link LiteratureManagement#getAuthor(String, String)}.
+     * This method works similar to {@link LiteratureManagement#getAuthor(String, String)}.
      * </p>
      *
      * @param authorNames
@@ -286,7 +301,7 @@ public class LiteratureManagement {
      * @return Stream of authors.
      *
      * @throws NoSuchElementException
-     *         if one of the authors in the collection doesm`t exist, this
+     *         if one of the authors in the collection doesn't exist, this
      *         exception is thrown.
      */
     public Stream<Author> getAuthors(Collection<String> authorNames)
@@ -319,8 +334,10 @@ public class LiteratureManagement {
      *
      * @return true - the article was published temporally before.
      */
-    public boolean hasArticle(final String id) {
-        return this.getAllArticles().anyMatch(article -> id.equals(article.getId()));
+    public boolean hasPublication(final String id) {
+        return this.getAllPublications()
+                .anyMatch(publication ->
+                        id.equals(publication.getId()));
     }
 
     //=================static methods====================
@@ -351,11 +368,11 @@ public class LiteratureManagement {
         list1.stream().filter(list2::contains).forEach(intersection::add);
 
         Double result = (double) intersection.size() / (double) unification.size();
-        return String.format("%f", result).substring(0, 5);
+        return String.format("%f", result).substring(0, JACCARD_FLOATINGPOINTS + 2).replace(",", ".");
     }
 
     /**
-     * Calculates the h index for a number of cited publicatons.
+     * Calculates the h index for a number of cited publications.
      * <p>
      * See <a href="https://en.wikipedia.org/wiki/H-index">h-Index</a>
      * </p>

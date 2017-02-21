@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 /**
  * Wrapper class for regex patterns used by the
- * litrature management system.
+ * literature management system.
  *
  * @author David Oberacker
  * @version 1.0.0
@@ -45,7 +45,7 @@ public final class PatternHolder {
      * with the minimum length of 1.
      * </p>
      */
-    public static final Pattern TITLEPATTERN = Pattern.compile("[a-zA-Z0-9]+");
+    public static final Pattern TITLEPATTERN = Pattern.compile("([^,;]+)([\\u0020][^,;])*");
 
 
     /**
@@ -64,7 +64,7 @@ public final class PatternHolder {
      * with the minimum length of 1 are accepted.
      * </p>
      */
-    public static final Pattern LOCATIONPATTERN = Pattern.compile("([a-zA-Z]+)([\\u0020]{1}[a-zA-Z]+)*");
+    public static final Pattern LOCATIONPATTERN = Pattern.compile("([a-zA-Z]+)([\\u0020][a-zA-Z]+)*");
 
     /**
      * Regex Pattern for article titles.
@@ -73,7 +73,7 @@ public final class PatternHolder {
      * with the minimum length of 1 are accepted.
      * </p>
      */
-    public static final Pattern ARTICLETITLEPATTERN = Pattern.compile("([\\w]+)([\\u0020]{1}[\\w]+)*");
+    public static final Pattern ARTICLETITLEPATTERN = Pattern.compile("([\\w]+)([\\u0020][\\w]+)*");
 
     /**
      * Regex Pattern for the to series prefix.

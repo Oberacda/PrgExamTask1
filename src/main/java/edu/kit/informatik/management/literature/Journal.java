@@ -7,13 +7,20 @@ import java.util.TreeMap;
 import java.util.stream.Stream;
 
 /**
+ * A journal is a publisher for articles.
+ * <p>
+ *     A journal can publish articles. It can publish
+ *     multiple articles in a year and has no subordinate
+ *     classes like a conference series.
+ * </p>
  * @author David Oberacker
+ * @version 1.0.1
  */
 public class Journal extends Publishers {
 
     //=================fields==========================
 
-    private TreeMap<String, Article> articleList;
+    private final TreeMap<String, Publication> publicationMap;
 
     private final String publisher;
 
@@ -37,7 +44,7 @@ public class Journal extends Publishers {
     public Journal(final String title, final String publisher) throws IllegalArgumentException {
         super(title);
         this.publisher = publisher;
-        this.articleList = new TreeMap<>();
+        this.publicationMap = new TreeMap<>();
     }
 
     //=================getter===========================
@@ -75,8 +82,8 @@ public class Journal extends Publishers {
         if (PatternHolder.KEYWORDPATTERN.matcher(keyword).matches()) {
             this.getKeywordsTree().add(keyword);
 
-            for (Article a : this.articleList.values()) {
-                a.addKeyword(keyword);
+            for (Publication publication : this.publicationMap.values()) {
+                publication.addKeyword(keyword);
             }
         } else {
             throw new IllegalArgumentException(String.format("keyword does not match"
@@ -106,34 +113,34 @@ public class Journal extends Publishers {
     @Override
     public void addArticle(final String id, final int year, final String title)
             throws IllegalArgumentException {
-        if (this.articleList.containsKey(id)) {
-            throw new IllegalArgumentException("There already is a article with "
-                    + "this id in this journal!");
+        if (this.publicationMap.containsKey(id)) {
+            throw new IllegalArgumentException(String.format("article \"%s\" "
+                    + "already present in the journal \"%s\"!", id, this.getTitle()));
         } else {
-            this.articleList.put(id, new Article(id, title,
+            this.publicationMap.put(id, new Article(id, title,
                     year, this.getKeywordsTree().descendingSet()));
         }
     }
 
     /**
-     * Returns a article form this journal.
+     * Returns a publication form this journal.
      *
      * @param id
      *         the id of the desired article.
      *
-     * @return Optional containing the desired article.
-     * Optional may be empty if there is no article with this id.
+     * @return Optional containing the desired publication.
+     * Optional may be empty if there is no publication with this id.
      */
     @Override
-    public Optional<Article> getArticle(final String id) {
-        return this.getArticles()
-                .filter(article -> id.equals(article.getId()))
+    public Optional<Publication> getPublication(final String id) {
+        return this.getPublications()
+                .filter(publication -> id.equals(publication.getId()))
                 .findAny();
     }
 
     @Override
-    public Stream<Article> getArticles() {
-        return this.articleList.values().stream();
+    public Stream<Publication> getPublications() {
+        return this.publicationMap.values().stream();
     }
 
     /**

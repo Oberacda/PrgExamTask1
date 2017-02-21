@@ -1,7 +1,7 @@
 package edu.kit.informatik.management.literature.system.command.complexCommand;
 
-import edu.kit.informatik.management.literature.system.LiteratureManagementSystem;
 import edu.kit.informatik.management.literature.system.command.Command;
+import edu.kit.informatik.management.literature.system.command.controller.ComplexController;
 import edu.kit.informatik.management.literature.util.PatternHolder;
 import edu.kit.informatik.terminal.Terminal;
 
@@ -12,23 +12,26 @@ import java.util.regex.Pattern;
 /**
  * @author David Oberacker
  */
-public class ForeignCitations extends Command {
+public class ForeignCitations implements Command {
     private static final Pattern FOREIGNCITATIONS
             = Pattern.compile("foreign citations ");
 
     private static final Pattern COMMANDPATTERN = Pattern.compile(FOREIGNCITATIONS.pattern()
             + "\\S(.)+\\S");
 
+    private ComplexController lms;
+
+    public ForeignCitations(final ComplexController lms) {
+        this.lms = lms;
+    }
+
     /**
      * Executes the Command on the {@code LiteratureManagement} with the parameters
      * given in the {@code userCommand} parameter.
      *
-     * @param lms
-     *         Literature management system that should be worked on.
      */
     @Override
-    public boolean execute(final LiteratureManagementSystem lms,
-                           final String userCommand) {
+    public boolean execute(final String userCommand) {
         if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
             return false;
         }
@@ -48,7 +51,7 @@ public class ForeignCitations extends Command {
             return true;
         }
         try {
-            lms.foreiginCitations(firstName, lastName).forEach(Terminal::printLine);
+            lms.foreignCitations(firstName, lastName).forEach(Terminal::printLine);
         } catch (NoSuchElementException | IllegalArgumentException exc) {
             Terminal.printError(exc.getMessage());
         }

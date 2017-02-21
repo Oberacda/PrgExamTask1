@@ -1,6 +1,7 @@
 package edu.kit.informatik.management.literature.util;
 
 import edu.kit.informatik.management.literature.*;
+import edu.kit.informatik.management.literature.Publication;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -9,6 +10,12 @@ import java.util.stream.Stream;
 /**
  * Enum to manage the different styles to
  * represent a LiteratureIndex.
+ * <p>
+ *     All enum constants should declare a anonymous class
+ *     implementing the
+ *     {@linkplain LiteratureIndexStyles#printInStyle(int, Publication, Publishers)}
+ *     method.
+ * </p>
  *
  * @author David Oberacker
  * @version 1.0.0
@@ -24,8 +31,8 @@ public enum LiteratureIndexStyles {
          *
          * @param order
          *         the position of the article in the literatureIndex.
-         * @param article
-         *         the article that should be represented.
+         * @param publication
+         *         the publication that should be represented.
          * @param publisher
          *         the publisher of the article.
          *
@@ -37,19 +44,17 @@ public enum LiteratureIndexStyles {
          */
         @Override
         public String printInStyle(final int order,
-                                   final Article article,
+                                   final Publication publication,
                                    final Publishers publisher)
                 throws IllegalArgumentException {
-            Stream<Author> authorStream = article.getAuthors();
+            Stream<Author> authorStream = publication.getAuthors();
 
             ArrayList<String> authorsList = new ArrayList<>();
             String authors = "";
 
-            authorStream.forEach(author -> {
-                authorsList.add(String.format("%1s. %s", author
-                                .getFirstName().substring(0, 1).toUpperCase()
-                        , author.getLastName()));
-            });
+            authorStream.forEach(author -> authorsList.add(String.format("%1s. %s", author
+                            .getFirstName().substring(0, 1).toUpperCase()
+                    , author.getLastName())));
 
             switch (authorsList.size()) {
                 case 1:
@@ -64,17 +69,17 @@ public enum LiteratureIndexStyles {
 
             if (publisher.getClass() == ConferenceSeries.class) {
                 ConferenceSeries cs = (ConferenceSeries) publisher;
-                Conference conf = cs.getConference(article.getYear()).get();
+                Conference conf = cs.getConference(publication.getYear()).get();
 
                 return String.format("[%d] %s, \"%s,\" in Proceedings of %s, %s, %4d.",
-                        order, authors, article.getTitle(), cs.getTitle(),
+                        order, authors, publication.getTitle(), cs.getTitle(),
                         conf.getLocation(), conf.getYear());
             } else if (publisher.getClass() == Journal.class) {
                 Journal j = (Journal) publisher;
 
                 return String.format("[%d] %s, \"%s,\" %s, %4d.",
-                        order, authors, article.getTitle(), j.getTitle(),
-                        article.getYear());
+                        order, authors, publication.getTitle(), j.getTitle(),
+                        publication.getYear());
             }
             throw new IllegalArgumentException("unexpected publishers found!");
         }
@@ -89,8 +94,8 @@ public enum LiteratureIndexStyles {
          *
          * @param order the index of the article in the index.
          *
-         * @param article
-         *         the article that should be represented.
+         * @param publication
+         *         the publication that should be represented.
          * @param publisher
          *         the publisher of the article.
          *
@@ -102,32 +107,30 @@ public enum LiteratureIndexStyles {
          */
         @Override
         public String printInStyle(final int order,
-                                   final Article article,
+                                   final Publication publication,
                                    final Publishers publisher)
                 throws IllegalArgumentException {
-            Stream<Author> authorStream = article.getAuthors();
+            Stream<Author> authorStream = publication.getAuthors();
 
             ArrayList<String> authorsList = new ArrayList<>();
 
             String firstAuthorLastName = authorStream.findFirst()
                     .get().getLastName();
 
-            authorStream = article.getAuthors();
+            authorStream = publication.getAuthors();
 
             String authors = "";
 
-            authorStream.forEach(author -> {
-                authorsList.add(String.format("%s, %s"
-                        , author.getLastName(), author
-                                .getFirstName()));
-            });
+            authorStream.forEach(author -> authorsList.add(String.format("%s, %s"
+                    , author.getLastName(), author
+                            .getFirstName())));
 
             switch (authorsList.size()) {
                 case 1:
                     authors = authors.concat(authorsList.get(0));
                     break;
                 case 2:
-                    authors = String.format("%s and %s", authorsList.get(0), authorsList.get(1));
+                    authors = String.format("%s, and %s", authorsList.get(0), authorsList.get(1));
                     break;
                 default: {
                     for (int i = 0; i < authorsList.size() - 2; i++) {
@@ -139,17 +142,17 @@ public enum LiteratureIndexStyles {
 
             if (publisher.getClass() == ConferenceSeries.class) {
                 ConferenceSeries cs = (ConferenceSeries) publisher;
-                Conference conf = cs.getConference(article.getYear()).get();
+                Conference conf = cs.getConference(publication.getYear()).get();
 
                 return String.format("(%s, %4d) %s. \"%s.\" Paper presented at %s, %4d, %s.",
-                        firstAuthorLastName, article.getYear(), authors, article.getTitle(),
-                        cs.getTitle(), article.getYear(), conf.getLocation());
+                        firstAuthorLastName, publication.getYear(), authors, publication.getTitle(),
+                        cs.getTitle(), publication.getYear(), conf.getLocation());
             } else if (publisher.getClass() == Journal.class) {
                 Journal j = (Journal) publisher;
 
-                return String.format("(%s, %4d) %s. \"%s.\" %s, (%4d).",
-                        firstAuthorLastName, article.getYear(), authors, article.getTitle(),
-                        j.getTitle(), article.getYear());
+                return String.format("(%s, %4d) %s. \"%s.\" %s (%4d).",
+                        firstAuthorLastName, publication.getYear(), authors, publication.getTitle(),
+                        j.getTitle(), publication.getYear());
             }
             throw new IllegalArgumentException("unexpected publishers found!");
         }
@@ -157,23 +160,23 @@ public enum LiteratureIndexStyles {
 
     /**
      * Returns a string  representing the given
-     * {@link Article} in
+     * {@link Publication} in
      * the specified style.
      *
      * @param order
      *         the index of the article in the index.
-     * @param article
-     *         the article.
+     * @param publication
+     *         the publication that should be represented..
      * @param publishers
      *         the publisher of the article.
      *
      * @return a string.
      *
      * @throws IllegalArgumentException
-     *         if the specified publisher wasn't
+     *         if the specified publisher has no known representation style
      *         found this exception is thrown.
      */
-    public abstract String printInStyle(final int order, final Article article, final Publishers publishers)
+    public abstract String printInStyle(final int order, final Publication publication, final Publishers publishers)
             throws IllegalArgumentException;
 
     /**
@@ -182,20 +185,20 @@ public enum LiteratureIndexStyles {
      * @param style
      *         the string representation of the style.
      *
-     * @return the enum.
+     * @return the enum constant represented by the string.
      *
-     * @throws NoSuchElementException
+     * @throws IllegalArgumentException
      *         if the string doesn`t represent
      *         a enum constant this exception is thrown.
      */
     public static LiteratureIndexStyles getStyle(final String style)
-            throws NoSuchElementException {
+            throws IllegalArgumentException {
         if (IEEE.toString().equals(style.toUpperCase())) {
             return IEEE;
         } else if (CHICAGO.toString().equals(style.toUpperCase())) {
             return CHICAGO;
         } else {
-            throw new NoSuchElementException(String.format("the style \"%s\" wasn`t found!", style));
+            throw new IllegalArgumentException(String.format("the style \"%s\" wasn`t found!", style));
         }
     }
 }

@@ -1,36 +1,36 @@
 package edu.kit.informatik.management.literature.system.command.literatureIndex;
 
-import edu.kit.informatik.management.literature.system.LiteratureManagementSystem;
 import edu.kit.informatik.management.literature.system.command.Command;
+import edu.kit.informatik.management.literature.system.command.controller.LiteratureIndexController;
 import edu.kit.informatik.management.literature.util.PatternHolder;
 import edu.kit.informatik.terminal.Terminal;
 
-import java.util.HashSet;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
  * @author David Oberacker
  */
-public class DirectPrintConference extends Command {
+public class DirectPrintConference implements Command {
     private static final Pattern DIRECTPRINTCONFERENCE
             = Pattern.compile("direct print conference ");
 
     private static final Pattern COMMANDPATTERN = Pattern.compile(DIRECTPRINTCONFERENCE.pattern()
             + "\\S(.)+\\S");
 
+    private LiteratureIndexController lms;
+
+    public DirectPrintConference(final LiteratureIndexController lms) {
+        this.lms = lms;
+    }
+
     /**
      * Executes the Command on the {@code LiteratureManagement} with the parameters
      * given in the {@code userCommand} parameter.
      *
-     * @param lms
-     *         Literature management system that should be worked on.
      */
     @Override
-    public boolean execute(final LiteratureManagementSystem lms,
-                           final String userCommand) {
+    public boolean execute(final String userCommand) {
         if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
             return false;
         }
@@ -44,7 +44,7 @@ public class DirectPrintConference extends Command {
         String conferenceTitle;
         String location;
         int year;
-        Set<String> authorList = new HashSet<>();
+        Set<String> authorSet = new LinkedHashSet<>();
 
         try {
             style = sc.next("[a-z]+");
@@ -53,16 +53,16 @@ public class DirectPrintConference extends Command {
             sc.useDelimiter(",");
 
             while (sc.hasNext(PatternHolder.AUTHORPATTERN)) {
-                authorList.add(sc.next(PatternHolder.AUTHORPATTERN));
+                authorSet.add(sc.next(PatternHolder.AUTHORPATTERN));
             }
-            int cnt = authorList.size();
+            int cnt = authorSet.size();
 
             while (cnt < 3) {
                 sc.skip(",");
                 cnt++;
             }
 
-            articleTitel = sc.next(PatternHolder.ARTICLETITLEPATTERN);
+            articleTitel = sc.next();
             conferenceTitle = sc.next(PatternHolder.TITLEPATTERN);
             location = sc.next(PatternHolder.LOCATIONPATTERN);
             year = Integer.parseInt(sc.next(PatternHolder.YEARPATTERN));
@@ -72,8 +72,9 @@ public class DirectPrintConference extends Command {
             return true;
         }
         try {
+
             Terminal.printLine(lms.directPrintConference(conferenceTitle,
-                    location, year, articleTitel, authorList, style));
+                    location, year, articleTitel, authorSet, style));
         } catch (NoSuchElementException exc) {
             Terminal.printError(exc.getMessage());
         }
