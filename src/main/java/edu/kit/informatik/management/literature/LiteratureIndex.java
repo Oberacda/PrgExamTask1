@@ -6,9 +6,16 @@ import java.util.*;
 import java.util.stream.Stream;
 
 /**
- * Manages the literature index of a publication.
+ * Manages a index of publications.
  * <p>
- * This class manages a collection of articles.
+ * This class manages a collection of publications. They are
+ * always sorted.
+ * </p>
+ * <p>
+ * The content of a literature index can be printed out in different styles.
+ * </p>
+ * <p>
+ * See: {@link LiteratureIndexStyles}.
  * </p>
  *
  * @author David Oberacker
@@ -18,7 +25,7 @@ public class LiteratureIndex {
 
     //=================fields==========================
 
-    private TreeSet<Article> litratureIndex;
+    private final TreeSet<Publication> literatureIndex;
 
     //=================constructor======================
 
@@ -55,7 +62,7 @@ public class LiteratureIndex {
      * </table>
      */
     public LiteratureIndex() {
-        this.litratureIndex = new TreeSet<>((o1, o2) -> {
+        this.literatureIndex = new TreeSet<>((o1, o2) -> {
 
             Iterator<Author> iterO1 = o1.getAuthors().iterator();
             Iterator<Author> iterO2 = o2.getAuthors().iterator();
@@ -91,56 +98,130 @@ public class LiteratureIndex {
     //=================methods==========================
 
     /**
-     * Adds a article to the list.
+     * Adds a publication to the index.
+     * <p>
+     * Your only allowed to add
+     * {@linkplain Publication#isComplete() complete}
+     * publications.
+     * </p>
      *
-     * @param newArticle
-     *         the article that was added.
+     * @param newPublication
+     *         the publication that was added.
+     *
+     * @throws IllegalArgumentException
+     *         if the publication is
+     *         incomplete this exception is thrown!
      */
-    public void addEntry(final Article newArticle) {
-        if (newArticle.isComplete()
-                && !(this.litratureIndex.contains(newArticle))) {
-            this.litratureIndex.add(newArticle);
+    public void addEntry(final Publication newPublication)
+            throws IllegalArgumentException {
+        if (newPublication.isComplete()) {
+            this.literatureIndex.add(newPublication);
+        } else {
+            throw new IllegalArgumentException(String.format("article \"%s\" has"
+                    + " no authors and therefore can't be added!", newPublication.getId()));
         }
     }
 
-    public void addAllEntrys(Collection<Article> articleSet) {
-        this.litratureIndex.addAll(articleSet);
+    /**
+     * Adds all publications to the index.
+     * <p>
+     * Your only allowed to add
+     * {@linkplain Publication#isComplete() complete}
+     * publications.
+     * </p>
+     *
+     * @param publicationSet
+     *         the publications that should be added.
+     *
+     * @throws IllegalArgumentException
+     *         if one of the publications is
+     *         incomplete this exception is thrown!
+     */
+    public void addAllEntrys(Collection<Publication> publicationSet)
+            throws IllegalArgumentException {
+        if (publicationSet.stream().allMatch(Publication::isComplete)) {
+            this.literatureIndex.addAll(publicationSet);
+        } else {
+            throw new IllegalArgumentException("one of the articles has"
+                    + " no authors and therefore none can be added!");
+        }
     }
 
-    public boolean hasEntry(final Article serachedArticle) {
-        return this.litratureIndex.stream()
-                .anyMatch(serachedArticle::equals);
+    /**
+     * Checks if this index contains the desired article.
+     *
+     * @param serachedPublication
+     *         the serached article.
+     *
+     * @return true - the article is in the index.
+     */
+    public boolean hasEntry(final Publication serachedPublication) {
+        return this.literatureIndex.stream()
+                .anyMatch(serachedPublication::equals);
     }
 
-    public Stream<Article> getArticles() {
-        return this.litratureIndex.stream();
+    /**
+     * Returns all publications in the index.
+     *
+     * @return stream of articles.
+     */
+    public Stream<Publication> getPublications() {
+        return this.literatureIndex.stream();
     }
 
+    /**
+     * Returns a stream of string representations of all
+     * publications in the index.
+     * <p>
+     * The style of the index is represented by the style parameter.
+     * </p>
+     *
+     * @param style
+     *         {@linkplain LiteratureIndexStyles}
+     * @param lm
+     *         the {@linkplain LiteratureManagement} the publications are part of.
+     *
+     * @return representation of all indexed articles in the specified style.
+     *
+     * @throws IllegalArgumentException
+     *         if either the style isnt a valid enum constant or
+     *         one of the articles wasn't found this exception is thrown!
+     */
     public Stream<String> printIndexInStyle(final String style,
                                             final LiteratureManagement lm)
-            throws NoSuchElementException {
+            throws IllegalArgumentException {
 
         LiteratureIndexStyles indexStyles = LiteratureIndexStyles.getStyle(style);
 
         int order = 1;
         List<String> result = new ArrayList<>();
 
-        for (Article article : this.litratureIndex) {
-            Publishers publishers = lm.getPublisher(article);
-            result.add(indexStyles.printInStyle(order, article, publishers));
+        for (Publication publication : this.literatureIndex) {
+            Publishers publishers = lm.getPublisher(publication);
+            result.add(indexStyles.printInStyle(order, publication, publishers));
             order++;
         }
         return result.stream();
     }
 
+    /**
+     * Directly prints out a string representation
+     * of a article with the specified style.
+     *
+     * @param style {@linkplain LiteratureIndexStyles}
+     * @param article the instance of a article that
+     *                should be printed out.
+     * @param publishers the publisher of the article.
+     * @return a string representation of the article in the specified style.
+     * @throws IllegalArgumentException if either the style isnt a valid enum constant or
+     *         one of the publisher type is unknown this exception is thrown!
+     */
     public static String directPrintIndexInStyle(final String style,
                                                  final Article article,
                                                  final Publishers publishers)
-            throws NoSuchElementException {
+            throws IllegalArgumentException {
         LiteratureIndexStyles indexStyles = LiteratureIndexStyles.getStyle(style);
 
         return indexStyles.printInStyle(1, article, publishers);
     }
-
-
 }

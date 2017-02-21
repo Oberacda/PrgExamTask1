@@ -1,7 +1,7 @@
 package edu.kit.informatik.management.literature.system.command.addCommand;
 
-import edu.kit.informatik.management.literature.system.LiteratureManagementSystem;
 import edu.kit.informatik.management.literature.system.command.Command;
+import edu.kit.informatik.management.literature.system.command.controller.AddController;
 import edu.kit.informatik.management.literature.util.PatternHolder;
 import edu.kit.informatik.terminal.Terminal;
 
@@ -13,23 +13,27 @@ import java.util.regex.Pattern;
 /**
  * @author David Oberacker
  */
-public class WrittenBy extends Command {
+public class WrittenBy implements Command {
     private static final Pattern WRITTENBY
             = Pattern.compile("written by ");
 
     private static final Pattern COMMANDPATTERN = Pattern.compile(WRITTENBY.pattern()
             + "\\S((.)+\\S)*");
 
+    private AddController lms;
+
+    public WrittenBy(final AddController lms) {
+        this.lms = lms;
+    }
+
+
     /**
      * Executes the Command on the {@code LiteratureManagement} with the parameters
      * given in the {@code userCommand} parameter.
      *
-     * @param lms
-     *         Literature management system that should be worked on.
      */
     @Override
-    public boolean execute(final LiteratureManagementSystem lms,
-                           final String userCommand) {
+    public boolean execute(final String userCommand) {
         if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
             return false;
         }
@@ -43,8 +47,10 @@ public class WrittenBy extends Command {
 
         try {
             articleId = sc.next(PatternHolder.IDPATTERN);
+            sc.skip(",");
+            sc.useDelimiter(";");
             while (sc.hasNext(PatternHolder.AUTHORPATTERN)) {
-                paramList.add(sc.next(PatternHolder.AUTHORPATTERN));
+                paramList.add(sc.next(PatternHolder.AUTHORPATTERN));;
             }
         } catch (NoSuchElementException nse) {
             Terminal.printError("missing command token :" + nse.getMessage());

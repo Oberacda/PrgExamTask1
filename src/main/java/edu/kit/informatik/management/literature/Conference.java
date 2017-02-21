@@ -16,6 +16,11 @@ import java.util.stream.Stream;
  * A conference is always part of a
  * {@link ConferenceSeries conference series}.
  * </p>
+ * <p>
+ *     A conference has his Series assigned as
+ *     publisher. So it can't publish articles directly,
+ *     only by its series.
+ * </p>
  *
  * @author David Oberacker
  * @version 1.0.1
@@ -29,9 +34,9 @@ public class Conference implements Entity, Venue {
 
     private final String location;
 
-    private TreeMap<String, Article> conferencePublications;
+    private final TreeMap<String, Publication> conferencePublications;
 
-    private TreeSet<String> keywordsList;
+    private final TreeSet<String> keywordsList;
 
     //=================constructor======================
 
@@ -53,7 +58,7 @@ public class Conference implements Entity, Venue {
      * @param location
      *         the location of the conference.
      * @param keywords
-     *         the keywords of the coference series
+     *         the keywords of the conference series
      *         that are inherited to the conference.
      */
     public Conference(final int year, final String location, final SortedSet<String> keywords) {
@@ -95,7 +100,7 @@ public class Conference implements Entity, Venue {
      * @return the article with the specified id published by
      * this conference.
      */
-    public Optional<Article> getArticle(final String id) {
+    public Optional<Publication> getPublication(final String id) {
         return this.conferencePublications.values().stream()
                 .filter(article -> article.getId().equals(id)).findFirst();
     }
@@ -105,7 +110,7 @@ public class Conference implements Entity, Venue {
      *
      * @return Stream of articles. If there is nothing published this stream is empty.
      */
-    public Stream<Article> getArticles() {
+    public Stream<Publication> getPublications() {
         return this.conferencePublications.values().stream();
     }
 
@@ -130,7 +135,7 @@ public class Conference implements Entity, Venue {
     public void addArticle(final String id, final String title)
             throws IllegalArgumentException {
         if (this.conferencePublications.containsKey(id)) {
-            throw new IllegalArgumentException("there already is a article with this id!");
+            throw new IllegalArgumentException(String.format("article \"%s\" is already present!", id));
         } else {
             this.conferencePublications.put(id, new Article(id, title,
                     this.getYear(),
@@ -145,12 +150,12 @@ public class Conference implements Entity, Venue {
         if (PatternHolder.KEYWORDPATTERN.matcher(keyword).matches()) {
             this.keywordsList.add(keyword);
 
-            for (Article a : this.conferencePublications.values()) {
-                a.addKeyword(keyword);
+            for (Publication publication : this.conferencePublications.values()) {
+                publication.addKeyword(keyword);
             }
         } else {
             throw new IllegalArgumentException(String.format("keyword does not match"
-                            + " requirements : %s !",
+                            + " requirements: <%s> !",
                     PatternHolder.KEYWORDPATTERN.pattern()));
         }
     }

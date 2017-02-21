@@ -1,7 +1,7 @@
 package edu.kit.informatik.management.literature.system.command.complexCommand;
 
-import edu.kit.informatik.management.literature.system.LiteratureManagementSystem;
 import edu.kit.informatik.management.literature.system.command.Command;
+import edu.kit.informatik.management.literature.system.command.controller.ComplexController;
 import edu.kit.informatik.management.literature.util.PatternHolder;
 import edu.kit.informatik.terminal.Terminal;
 
@@ -12,24 +12,27 @@ import java.util.regex.Pattern;
 /**
  * @author David Oberacker
  */
-public class Similarity extends Command {
+public class Similarity implements Command {
     private static final Pattern SIMILARITY
             = Pattern.compile("similarity ");
 
     private static final Pattern COMMANDPATTERN = Pattern.compile(SIMILARITY.pattern()
             + "\\S(.)+\\S");
 
+    private ComplexController lms;
+
+    public Similarity(final ComplexController lms) {
+        this.lms = lms;
+    }
+
     /**
      * Executes the Command on the {@code LiteratureManagement} with the parameters
      * given in the {@code userCommand} parameter.
      *
-     * @param lms
-     *         Literature management system that should be worked on.
      */
     @Override
-    public boolean execute(final LiteratureManagementSystem lms,
-                           final String userCommand) {
-        if (!(SIMILARITY.matcher(userCommand).matches())) {
+    public boolean execute(final String userCommand) {
+        if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
             return false;
         }
         Scanner sc = new Scanner(userCommand);
@@ -44,12 +47,16 @@ public class Similarity extends Command {
             articleId1 = sc.next(PatternHolder.IDPATTERN);
             articleId2 = sc.next(PatternHolder.IDPATTERN);
         } catch (NoSuchElementException nse) {
-            Terminal.printError("missing command token :" + nse.getMessage());
+            Terminal.printError("missing command token: \""
+                    + SIMILARITY
+                    + PatternHolder.IDPATTERN
+                    + "," + PatternHolder.IDPATTERN
+                    + "\"");
             return true;
         }
 
         try {
-            Terminal.printLine(lms.simiarity(articleId1, articleId2));
+            Terminal.printLine(lms.similarity(articleId1, articleId2));
         } catch (NoSuchElementException exc) {
             Terminal.printError(exc.getMessage());
         }

@@ -1,7 +1,8 @@
 package edu.kit.informatik.management.literature.system.command.literatureIndex;
 
-import edu.kit.informatik.management.literature.system.LiteratureManagementSystem;
 import edu.kit.informatik.management.literature.system.command.Command;
+import edu.kit.informatik.management.literature.system.command.controller.ComplexController;
+import edu.kit.informatik.management.literature.system.command.controller.LiteratureIndexController;
 import edu.kit.informatik.management.literature.util.PatternHolder;
 import edu.kit.informatik.terminal.Terminal;
 
@@ -14,12 +15,18 @@ import java.util.regex.Pattern;
 /**
  * @author David Oberacker
  */
-public class Biblography extends Command {
-    private static final Pattern BILIOGRAPHY
+public class Bibliography implements Command {
+    private static final Pattern BIBLIOGRAPHY
             = Pattern.compile("print bibliography ");
 
-    private static final Pattern COMMANDPATTERN = Pattern.compile(BILIOGRAPHY.pattern()
+    private static final Pattern COMMANDPATTERN = Pattern.compile(BIBLIOGRAPHY.pattern()
             + "\\S(.)+\\S");
+
+    private LiteratureIndexController lms;
+
+    public Bibliography(final LiteratureIndexController lms) {
+        this.lms = lms;
+    }
 
     /**
      * Executes the Command on the {@code CampusManagement} with the parameters
@@ -27,22 +34,19 @@ public class Biblography extends Command {
      *
      * @param userCommand
      *         String entered by the terminal user.
-     * @param lms
-     *         Literature management system that should be worked on.
-     *
      * @return true - execution was succesful.
      */
     @Override
-    public boolean execute(final LiteratureManagementSystem lms, final String userCommand) {
+    public boolean execute(final String userCommand) {
         if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
             return false;
         }
         Scanner sc = new Scanner(userCommand);
-        sc.skip(BILIOGRAPHY);
+        sc.skip(BIBLIOGRAPHY);
 
         String style;
         Set<String> articleList = new HashSet<>();
-
+        sc.useDelimiter(":");
         try {
             style = sc.next("[a-z]+");
 
@@ -58,7 +62,7 @@ public class Biblography extends Command {
             return true;
         }
         try {
-            lms.printBibliography(style, articleList);
+            lms.printBibliography(style, articleList).forEach(Terminal::printLine);
         } catch (NoSuchElementException exc) {
             Terminal.printError(exc.getMessage());
         }

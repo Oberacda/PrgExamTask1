@@ -1,7 +1,7 @@
 package edu.kit.informatik.management.literature.system.command.complexCommand;
 
-import edu.kit.informatik.management.literature.system.LiteratureManagementSystem;
 import edu.kit.informatik.management.literature.system.command.Command;
+import edu.kit.informatik.management.literature.system.command.controller.ComplexController;
 import edu.kit.informatik.management.literature.util.PatternHolder;
 import edu.kit.informatik.terminal.Terminal;
 
@@ -13,43 +13,52 @@ import java.util.regex.Pattern;
 /**
  * @author David Oberacker
  */
-public class Jaccard extends Command {
+public class Jaccard implements Command {
     private static final Pattern JACCARD
             = Pattern.compile("jaccard ");
 
     private static final Pattern COMMANDPATTERN = Pattern.compile(JACCARD.pattern()
             + "\\S(.)+\\S");
 
+    private ComplexController lms;
+
+    public Jaccard(final ComplexController lms) {
+        this.lms = lms;
+    }
+
     /**
      * Executes the Command on the {@code LiteratureManagement} with the parameters
      * given in the {@code userCommand} parameter.
      *
-     * @param lms
-     *         Literature management that should be worked on.
      */
     @Override
-    public boolean execute(final LiteratureManagementSystem lms,
-                           final String userCommand) {
+    public boolean execute(final String userCommand) {
         if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
             return false;
         }
         Scanner sc = new Scanner(userCommand);
         sc.skip(JACCARD);
 
-        sc.useDelimiter(";");
+        sc.useDelimiter("\u0020");
+
+        String list1 = sc.next();
+
+        String list2 = sc.next();
+
+        Scanner listScanner1 = new Scanner(list1);
+        listScanner1.useDelimiter(";");
         Set<String> paramList1 = new HashSet<>();
 
-        while (sc.hasNext(PatternHolder.KEYWORDPATTERN)) {
-            paramList1.add(sc.next(PatternHolder.KEYWORDPATTERN));
+        while (listScanner1.hasNext(PatternHolder.KEYWORDPATTERN)) {
+            paramList1.add(listScanner1.next(PatternHolder.KEYWORDPATTERN));
         }
 
-        sc.skip(" ");
-
-        sc.useDelimiter(";");
+        Scanner listScanner2 = new Scanner(list2);
+        listScanner2.useDelimiter(";");
         Set<String> paramList2 = new HashSet<>();
 
-        while (sc.hasNext(PatternHolder.KEYWORDPATTERN)) {
-            paramList2.add(sc.next(PatternHolder.KEYWORDPATTERN));
+        while (listScanner2.hasNext(PatternHolder.KEYWORDPATTERN)) {
+            paramList2.add(listScanner2.next(PatternHolder.KEYWORDPATTERN));
         }
 
         Terminal.printLine(lms.jaccardIndex(paramList1, paramList2));

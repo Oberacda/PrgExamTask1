@@ -10,9 +10,13 @@ import java.util.stream.Stream;
  * Represents a Conference Series which consists of one or
  * more {@link Conference Conferences}.
  * <p>
- * A conference series is a venue that can publish articles
- * related to a conference. There can only be one conference
+ * A conference series is a publisher that can publish articles
+ * related to its conferences. There can only be one conference
  * a year per series.
+ * </p>
+ * <p>
+ *     All conferences in the series have to publish their
+ *     articles with the series.
  * </p>
  *
  * @author David Oberacker
@@ -22,7 +26,7 @@ public class ConferenceSeries extends Publishers {
 
     //=================fields==========================
 
-    private TreeMap<Integer, Conference> conferenceList;
+    private final TreeMap<Integer, Conference> conferenceList;
 
     //=================constructor======================
 
@@ -35,7 +39,7 @@ public class ConferenceSeries extends Publishers {
      *
      * @param title
      *         The title of the conference
-     *         (has to be a Sequnce of chars only consisting of a-z and A-Z).
+     *         (has to be a Sequence of chars only consisting of a-z and A-Z).
      *
      * @throws IllegalArgumentException
      *         if the title is containing illegal chars
@@ -90,8 +94,8 @@ public class ConferenceSeries extends Publishers {
     public void addConference(final int year, final String location)
             throws IllegalArgumentException {
         if (this.conferenceList.containsKey(year)) {
-            throw new IllegalArgumentException(String.format("There is already"
-                    + " a conference in the year %4d", year));
+            throw new IllegalArgumentException(String.format("there already is"
+                    + " a conference in %4d", year));
         } else {
             this.conferenceList.put(year, new Conference(year,
                     location,
@@ -111,7 +115,7 @@ public class ConferenceSeries extends Publishers {
             }
         } else {
             throw new IllegalArgumentException(String.format("keyword does not match"
-                            + " requirements : %s !",
+                            + " requirements: <%s> !",
                     PatternHolder.KEYWORDPATTERN.pattern()));
         }
     }
@@ -142,33 +146,34 @@ public class ConferenceSeries extends Publishers {
         if (this.conferenceList.containsKey(year)) {
             this.conferenceList.get(year).addArticle(id, title);
         } else {
-            throw new NoSuchElementException("There is no conference in this"
-                    + " series in the specified year!");
+            throw new NoSuchElementException(String.format("no known conference of " +
+                    "series \"%s\" in %4d!", this.getTitle(), year));
         }
     }
 
     /**
-     * Retuns a article form a conference form this series.
+     * Returns a article form a conference form this series.
      *
      * @param id
      *         the id of the desired article.
      *
-     * @return Optional containg the article. If there is no article
+     * @return Optional containing the article. If there is no article
      * with this id the optional is empty.
      */
     @Override
-    public Optional<Article> getArticle(final String id) {
-        return this.getArticles().
+    public Optional<Publication> getPublication(final String id) {
+        return this.getPublications().
                 findAny().filter(article -> id.equals(article.getId()));
     }
 
     @Override
-    public Stream<Article> getArticles() {
-        TreeSet<Article> articles = new TreeSet<>(Comparator.comparing(Article::getId));
-        for (Conference c : this.conferenceList.values()) {
-            articles.addAll(c.getArticles().collect(Collectors.toSet()));
+    public Stream<Publication> getPublications() {
+        TreeSet<Publication> publications = new TreeSet<>(Comparator.comparing(Publication::getId));
+        for (Conference conference : this.conferenceList.values()) {
+            publications.addAll(conference.getPublications()
+                    .collect(Collectors.toSet()));
         }
-        return articles.stream();
+        return publications.stream();
     }
 
     /**

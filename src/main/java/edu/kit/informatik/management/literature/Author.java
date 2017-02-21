@@ -34,7 +34,7 @@ public class Author implements Comparable<Author> {
      * <b>No Parameter should be null!</b>
      *
      * @param firstName
-     *         lirst name of the author.
+     *         list name of the author.
      * @param lastName
      *         last name of the author.
      *

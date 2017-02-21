@@ -1,6 +1,6 @@
 package edu.kit.informatik.management.literature.interfaces;
 
-import edu.kit.informatik.management.literature.Article;
+import edu.kit.informatik.management.literature.Publication;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -10,7 +10,11 @@ import java.util.stream.Stream;
  * <p>
  * A venue makes sure that a class can return
  * the articles published by it or its managed
- * subclasses (not meant in the java inhertance model).
+ * subclasses (not meant in the java inheritance model,
+ * more like the
+ * {@link edu.kit.informatik.management.literature.Conference}
+ * and the
+ * {@link edu.kit.informatik.management.literature.ConferenceSeries}).
  * </p>
  *
  * @author David Oberacker
@@ -19,24 +23,24 @@ import java.util.stream.Stream;
 public interface Venue {
 
     /**
-     * Returns a stream of all articles published by the publisher.
+     * Returns a stream of all publications published by the publisher.
      * <p>
      * This stream can contain no elements if nothing was published.
      * </p>
      *
-     * @return Sorted stream of articles.
+     * @return Sorted stream of publications.
      */
-    Stream<Article> getArticles();
+    Stream<Publication> getPublications();
 
 
     /**
-     * Retuns a article form a conference form this series.
+     * Returns a article form a conference form this series.
      *
      * @param id
      *         the id of the desired article.
      *
      * @return article from the conference with this id.
      */
-    Optional<Article> getArticle(String id);
+    Optional<Publication> getPublication(String id);
 
 }

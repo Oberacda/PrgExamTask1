@@ -8,6 +8,10 @@ import java.util.stream.Stream;
  * A class that is implementing this interface can
  * manage keywords.
  * </p>
+ * <p>
+ *     See:
+ *     {@link edu.kit.informatik.management.literature.util.PatternHolder#KEYWORDPATTERN}!
+ * </p>
  *
  * @author David Oberacker
  * @version 1.0.1

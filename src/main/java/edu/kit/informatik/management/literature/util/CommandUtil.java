@@ -1,15 +1,15 @@
 package edu.kit.informatik.management.literature.util;
 
 import edu.kit.informatik.management.literature.*;
-import edu.kit.informatik.management.literature.exceptions.BadSyntaxException;
 import edu.kit.informatik.management.literature.interfaces.Entity;
+import edu.kit.informatik.management.literature.Publication;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Scanner;
 
 /**
- * Class containing different uitilitys fo the
+ * Class containing different utility's fo the
  * {@link edu.kit.informatik.management.literature.system.LiteratureManagementSystem}.
  *
  * @author David Oberacker
@@ -24,7 +24,7 @@ public final class CommandUtil {
      * <caption>examples:</caption>
      * <tr>
      * <td>
-     * {@code ... to series TA -> Conferenceseries with the title TA}
+     * {@code ... to series TA -> Conference Series with the title TA}
      * </td>
      * </tr>
      * <tr>
@@ -43,14 +43,14 @@ public final class CommandUtil {
      *
      * @throws NoSuchElementException
      *         if there is no publisher with the
-     *         specified title this eception is thrown.
-     * @throws BadSyntaxException
+     *         specified title this exception is thrown.
+     * @throws IllegalArgumentException
      *         if there is a syntax error in the prefix
      *         this exception is thrown.
      */
     public static Publishers getPublisherFromPrefix(final LiteratureManagement lm,
                                                     final String userInput)
-            throws NoSuchElementException, BadSyntaxException {
+            throws NoSuchElementException, IllegalArgumentException {
         if (PatternHolder.TOSERIESPATTERN.matcher(userInput).matches()) {
             Scanner sc = new Scanner(userInput);
             sc.skip(PatternHolder.TOSERIESPREFIX);
@@ -70,17 +70,17 @@ public final class CommandUtil {
                 throw new NoSuchElementException("There is no journal with this name!");
             }
         } else {
-            throw new BadSyntaxException("Input doesnt match requred Patterns!");
+            throw new IllegalArgumentException("unsupported command pattern!");
         }
     }
 
     /**
-     * Returns the the enitity specified in a command prefix.
+     * Returns the the entity specified in a command prefix.
      * <table>
      * <caption>examples:</caption>
      * <tr>
      * <td>
-     * {@code ... to series TA -> Conferenceseries with the title TA}
+     * {@code ... to series TA -> Conference Series with the title TA}
      * </td>
      * </tr>
      * <tr>
@@ -104,28 +104,34 @@ public final class CommandUtil {
      *
      * @throws NoSuchElementException
      *         if there is no publisher with the
-     *         specified title this eception is thrown.
-     * @throws BadSyntaxException
+     *         specified title this exception is thrown.
+     * @throws IllegalArgumentException
      *         if there is a syntax error in the prefix
      *         this exception is thrown.
      */
     public static Entity getEntityFormPrefix(final LiteratureManagement lm, final String userInput)
-            throws NoSuchElementException, BadSyntaxException {
+            throws NoSuchElementException, IllegalArgumentException {
         if (PatternHolder.TOPUBPATTERN.matcher(userInput).matches()) {
+
             Scanner sc = new Scanner(userInput);
             sc.skip(PatternHolder.TOPUBPREFIX);
-            Optional<Article> article = lm.getArticle(sc.next());
-            if (article.isPresent()) {
-                return article.get();
+
+            Optional<Publication> publication = lm.getPublication(sc.next());
+
+            if (publication.isPresent()) {
+                return publication.get();
             } else {
-                throw new NoSuchElementException("There is no article with this id!");
+                throw new NoSuchElementException("there is no publication with this id!");
             }
         } else if (PatternHolder.TOCONFERENCEPATTERN.matcher(userInput).matches()) {
+
             Scanner sc = new Scanner(userInput);
             sc.skip(PatternHolder.TOCONFERENCEPREFIX);
             sc.useDelimiter(",");
+
             String seriesName = sc.next(PatternHolder.TITLEPATTERN);
             int year = Integer.parseInt(sc.next(PatternHolder.YEARPATTERN));
+
             Optional<Conference> conference = lm.getConferenceFromSeries(seriesName, year);
             if (conference.isPresent()) {
                 return conference.get();
