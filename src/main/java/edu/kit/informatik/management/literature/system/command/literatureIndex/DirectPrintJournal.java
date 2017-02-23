@@ -20,6 +20,10 @@ public class DirectPrintJournal implements Command {
 
     private LiteratureIndexController lms;
 
+    /**
+     * Default constructor for literatureIndexController commands.
+     * @param lms the literatureIndexController of the command.
+     */
     public DirectPrintJournal(final LiteratureIndexController lms) {
         this.lms = lms;
     }

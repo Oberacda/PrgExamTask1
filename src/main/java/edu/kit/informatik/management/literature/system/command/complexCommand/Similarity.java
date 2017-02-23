@@ -21,6 +21,10 @@ public class Similarity implements Command {
 
     private ComplexController lms;
 
+    /**
+     * Default constructor for complexController commands.
+     * @param lms the complexController of the command.
+     */
     public Similarity(final ComplexController lms) {
         this.lms = lms;
     }

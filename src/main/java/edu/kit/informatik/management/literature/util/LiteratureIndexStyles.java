@@ -4,7 +4,6 @@ import edu.kit.informatik.management.literature.*;
 import edu.kit.informatik.management.literature.Publication;
 
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
 /**

@@ -22,6 +22,10 @@ public class Jaccard implements Command {
 
     private ComplexController lms;
 
+    /**
+     * Default constructor for complexController commands.
+     * @param lms the complexController of the command.
+     */
     public Jaccard(final ComplexController lms) {
         this.lms = lms;
     }

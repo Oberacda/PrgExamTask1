@@ -22,6 +22,10 @@ public class WrittenBy implements Command {
 
     private AddController lms;
 
+    /**
+     * Default constructor for addController commands.
+     * @param lms the addController of the command.
+     */
     public WrittenBy(final AddController lms) {
         this.lms = lms;
     }
@@ -50,7 +54,7 @@ public class WrittenBy implements Command {
             sc.skip(",");
             sc.useDelimiter(";");
             while (sc.hasNext(PatternHolder.AUTHORPATTERN)) {
-                paramList.add(sc.next(PatternHolder.AUTHORPATTERN));;
+                paramList.add(sc.next(PatternHolder.AUTHORPATTERN));
             }
         } catch (NoSuchElementException nse) {
             Terminal.printError("missing command token :" + nse.getMessage());

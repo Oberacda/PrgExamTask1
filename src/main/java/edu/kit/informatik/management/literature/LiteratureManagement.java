@@ -258,7 +258,7 @@ public class LiteratureManagement {
      *         the system this exception is thrown
      */
     public Publishers getPublisher(final Publication publication)
-            throws NoSuchElementException {
+            throws IllegalArgumentException {
         Stream<Publishers> publisherStream = Stream.concat(this.journalsList.stream()
                 , this.conferenceSeriesList.stream());
         Optional<Publishers> publishers = publisherStream.filter(publisher ->

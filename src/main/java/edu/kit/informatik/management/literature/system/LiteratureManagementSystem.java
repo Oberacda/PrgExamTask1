@@ -1,21 +1,18 @@
 package edu.kit.informatik.management.literature.system;
 
 import edu.kit.informatik.management.literature.*;
-import edu.kit.informatik.management.literature.exceptions.BadSyntaxException;
-import edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException;
-import edu.kit.informatik.management.literature.interfaces.Entity;
-import edu.kit.informatik.management.literature.system.command.Command;
 import edu.kit.informatik.management.literature.system.command.CommandLoader;
 import edu.kit.informatik.management.literature.system.command.controller.Controller;
-import edu.kit.informatik.management.literature.util.CommandUtil;
 import edu.kit.informatik.terminal.Terminal;
 
 import java.util.*;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
+ * The main class of the terminal based literature management system.
+ * <p>
+ *     This class starts an manages the terminal based literature management.
+ * </p>
  * @author David Oberacker
  */
 public final class LiteratureManagementSystem {

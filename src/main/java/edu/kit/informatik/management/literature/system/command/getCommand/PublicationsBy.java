@@ -23,6 +23,10 @@ public class PublicationsBy implements Command {
 
     private GetController lms;
 
+    /**
+     * Default constructor for getController commands.
+     * @param lms the gerController of the command.
+     */
     public PublicationsBy(final GetController lms) {
         this.lms = lms;
     }

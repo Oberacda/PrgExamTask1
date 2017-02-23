@@ -22,6 +22,10 @@ public class FindKeywords implements Command {
 
     private ComplexController lms;
 
+    /**
+     * Default constructor for complexController commands.
+     * @param lms the complexController of the command.
+     */
     public FindKeywords(final ComplexController lms) {
         this.lms = lms;
     }

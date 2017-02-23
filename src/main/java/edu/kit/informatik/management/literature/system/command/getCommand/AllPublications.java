@@ -16,6 +16,10 @@ public class AllPublications implements Command {
 
     private GetController lms;
 
+    /**
+     * Default constructor for getController commands.
+     * @param lms the gerController of the command.
+     */
     public AllPublications(final GetController lms) {
         this.lms = lms;
     }

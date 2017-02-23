@@ -4,10 +4,8 @@ import edu.kit.informatik.management.literature.Author;
 import edu.kit.informatik.management.literature.LiteratureManagement;
 import edu.kit.informatik.management.literature.Publication;
 import edu.kit.informatik.management.literature.Publishers;
-import edu.kit.informatik.management.literature.exceptions.BadSyntaxException;
 import edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException;
 import edu.kit.informatik.management.literature.interfaces.Entity;
-import edu.kit.informatik.management.literature.system.command.Command;
 import edu.kit.informatik.management.literature.system.command.addCommand.*;
 import edu.kit.informatik.management.literature.util.CommandUtil;
 
@@ -15,31 +13,30 @@ import java.util.*;
 import java.util.stream.Stream;
 
 /**
+ * Controller for add commands in
+ * the literature management system.
  * @author David Oberacker
+ * @version 1.0.1
  */
-public class AddController implements Controller {
+public class AddController extends Controller {
 
-    private HashSet<Command> addCommands;
-
-    private LiteratureManagement literatureManagement;
-
+    /**
+     * Creates a new addController.
+     *
+     * @param literatureManagement the literature management
+     *                             the commands should work on.
+     */
     public AddController(final LiteratureManagement literatureManagement) {
-        this.literatureManagement = literatureManagement;
-        this.addCommands = new HashSet<>();
+        super(literatureManagement);
 
-        this.addCommands.add(new AddArticle(this));
-        this.addCommands.add(new AddAuthor(this));
-        this.addCommands.add(new AddConference(this));
-        this.addCommands.add(new AddConferenceSeries(this));
-        this.addCommands.add(new AddJournal(this));
-        this.addCommands.add(new AddKeywords(this));
-        this.addCommands.add(new Cites(this));
-        this.addCommands.add(new WrittenBy(this));
-    }
-
-    @Override
-    public boolean execute(final String userCommand) {
-        return addCommands.stream().anyMatch(command -> command.execute(userCommand));
+        super.addCommand(new AddArticle(this));
+        super.addCommand(new AddAuthor(this));
+        super.addCommand(new AddConference(this));
+        super.addCommand(new AddConferenceSeries(this));
+        super.addCommand(new AddJournal(this));
+        super.addCommand(new AddKeywords(this));
+        super.addCommand(new Cites(this));
+        super.addCommand(new WrittenBy(this));
     }
 
     /**
@@ -67,7 +64,7 @@ public class AddController implements Controller {
             throws NoSuchElementException,
             IllegalArgumentException {
         Publishers publishers = CommandUtil
-                .getPublisherFromPrefix(this.literatureManagement, publisherTitle);
+                .getPublisherFromPrefix(getLiteratureManagement(), publisherTitle);
         publishers.addArticle(publicationId, publicationYear, publicationTitle);
     }
 
@@ -86,7 +83,7 @@ public class AddController implements Controller {
     public void addAuthor(final String firstName,
                           final String lastName)
             throws ElementAlreadyPresentException {
-        this.literatureManagement.addAuthor(firstName, lastName);
+        getLiteratureManagement().addAuthor(firstName, lastName);
     }
 
     /**
@@ -109,7 +106,7 @@ public class AddController implements Controller {
                               final String conferenceLocation)
             throws ElementAlreadyPresentException,
             NoSuchElementException {
-        this.literatureManagement.addConferenceToSeries(conferenceSeriesTitle,
+        getLiteratureManagement().addConferenceToSeries(conferenceSeriesTitle,
                 conferenceLocation, conferenceYear);
     }
 
@@ -125,7 +122,7 @@ public class AddController implements Controller {
      */
     public void addConferenceSeries(final String conferenceSeriesTitel)
             throws ElementAlreadyPresentException {
-        this.literatureManagement.addConferenceSeries(conferenceSeriesTitel);
+        getLiteratureManagement().addConferenceSeries(conferenceSeriesTitel);
     }
 
     /**
@@ -143,7 +140,7 @@ public class AddController implements Controller {
     public void addJournal(final String journalTitel,
                            final String journalPublisher)
             throws ElementAlreadyPresentException {
-        this.literatureManagement.addJournal(journalTitel, journalPublisher);
+        getLiteratureManagement().addJournal(journalTitel, journalPublisher);
     }
 
     /**
@@ -163,8 +160,8 @@ public class AddController implements Controller {
      */
     public void addKeywords(final String entityId,
                             final Set<String> keywords)
-            throws BadSyntaxException, NoSuchElementException {
-        Entity e = CommandUtil.getEntityFormPrefix(this.literatureManagement, entityId);
+            throws IllegalArgumentException, NoSuchElementException {
+        Entity e = CommandUtil.getEntityFormPrefix(getLiteratureManagement(), entityId);
         for (String keyword : keywords) {
             e.addKeyword(keyword);
         }
@@ -189,10 +186,10 @@ public class AddController implements Controller {
                       final String citedPublicationId)
             throws IllegalArgumentException, NoSuchElementException {
 
-        Optional<Publication> publicationOptional = this.literatureManagement
+        Optional<Publication> publicationOptional = getLiteratureManagement()
                 .getPublication(publicationId);
 
-        Optional<Publication> citedPublicationOptional = this.literatureManagement
+        Optional<Publication> citedPublicationOptional = getLiteratureManagement()
                 .getPublication(citedPublicationId);
 
         Publication publication;
@@ -225,7 +222,7 @@ public class AddController implements Controller {
     public void writtenBy(final String publicationId,
                           final List<String> authorsList)
             throws NoSuchElementException {
-        Optional<Publication> publicationOptional = this.literatureManagement
+        Optional<Publication> publicationOptional = getLiteratureManagement()
                 .getPublication(publicationId);
 
         Publication publication;
@@ -235,7 +232,7 @@ public class AddController implements Controller {
             throw new NoSuchElementException(String.format("publication with"
                     + " id \"%s\" not found!", publicationId));
         }
-        Stream<Author> authorStream = this.literatureManagement
+        Stream<Author> authorStream = getLiteratureManagement()
                 .getAuthors(authorsList);
         authorStream.forEach(publication::addAuthor);
     }

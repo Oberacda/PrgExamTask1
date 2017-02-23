@@ -146,8 +146,8 @@ public class ConferenceSeries extends Publishers {
         if (this.conferenceList.containsKey(year)) {
             this.conferenceList.get(year).addArticle(id, title);
         } else {
-            throw new NoSuchElementException(String.format("no known conference of " +
-                    "series \"%s\" in %4d!", this.getTitle(), year));
+            throw new NoSuchElementException(String.format("no known conference of "
+                    + "series \"%s\" in %4d!", this.getTitle(), year));
         }
     }
 

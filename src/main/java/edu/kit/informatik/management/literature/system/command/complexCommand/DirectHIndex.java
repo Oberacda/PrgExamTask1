@@ -20,6 +20,10 @@ public class DirectHIndex implements Command {
 
     private ComplexController lms;
 
+    /**
+     * Default constructor for complexController commands.
+     * @param lms the complexController of the command.
+     */
     public DirectHIndex(final ComplexController lms) {
         this.lms = lms;
     }

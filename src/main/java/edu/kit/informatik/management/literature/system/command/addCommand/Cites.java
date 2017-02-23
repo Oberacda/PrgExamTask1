@@ -21,6 +21,10 @@ public class Cites implements Command {
 
     private AddController lms;
 
+    /**
+     * Default constructor for addController commands.
+     * @param lms the addController of the command.
+     */
     public Cites(final AddController lms) {
         this.lms = lms;
     }

@@ -1,7 +1,6 @@
 package edu.kit.informatik.management.literature.system.command.literatureIndex;
 
 import edu.kit.informatik.management.literature.system.command.Command;
-import edu.kit.informatik.management.literature.system.command.controller.ComplexController;
 import edu.kit.informatik.management.literature.system.command.controller.LiteratureIndexController;
 import edu.kit.informatik.management.literature.util.PatternHolder;
 import edu.kit.informatik.terminal.Terminal;
@@ -24,6 +23,10 @@ public class Bibliography implements Command {
 
     private LiteratureIndexController lms;
 
+    /**
+     * Default constructor for literatureIndexController commands.
+     * @param lms the literatureIndexController of the command.
+     */
     public Bibliography(final LiteratureIndexController lms) {
         this.lms = lms;
     }

@@ -1,7 +1,7 @@
 package edu.kit.informatik.management.literature.system.command;
 
 /**
- * Generic super class for all command of the terminal based
+ * Interface for all command of the terminal based
  * literature management system.
  * <p>
  * All Commands available in the
@@ -9,6 +9,11 @@ package edu.kit.informatik.management.literature.system.command;
  * Application}
  * should be a subclass of this command. All subclasses should implement
  * {@linkplain Command#execute(String)} methods.
+ * </p>
+ * <p>
+ *     Classes that implement the interface are only used as parsing
+ *     classes. The data logic should be implemented in the
+ *     {@link edu.kit.informatik.management.literature.system.command.controller.Controller}.
  * </p>
  *
  * @author David Oberacker
@@ -18,7 +23,7 @@ package edu.kit.informatik.management.literature.system.command;
 public interface Command {
 
     /**
-     * Executes the Command on the {@code CampusManagement} with the parameters
+     * Executes the Command on the {@code Literature Management} with the parameters
      * given in the {@code userCommand} parameter.
      *
      * @param userCommand

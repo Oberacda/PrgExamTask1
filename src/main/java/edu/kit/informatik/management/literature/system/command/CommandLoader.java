@@ -1,24 +1,15 @@
 package edu.kit.informatik.management.literature.system.command;
 
-import edu.kit.informatik.management.literature.LiteratureIndex;
 import edu.kit.informatik.management.literature.LiteratureManagement;
-import edu.kit.informatik.management.literature.system.command.addCommand.*;
-import edu.kit.informatik.management.literature.system.command.complexCommand.*;
 import edu.kit.informatik.management.literature.system.command.controller.*;
-import edu.kit.informatik.management.literature.system.command.getCommand.AllPublications;
-import edu.kit.informatik.management.literature.system.command.getCommand.InProceedings;
-import edu.kit.informatik.management.literature.system.command.getCommand.ListInvalidPublications;
-import edu.kit.informatik.management.literature.system.command.getCommand.PublicationsBy;
-import edu.kit.informatik.management.literature.system.command.literatureIndex.Bibliography;
-import edu.kit.informatik.management.literature.system.command.literatureIndex.DirectPrintConference;
-import edu.kit.informatik.management.literature.system.command.literatureIndex.DirectPrintJournal;
+
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
  * Class to create instances of all
- * executable command classes.
+ * executable command controller classes.
  *
  * @author David Oberacker
  * @version 1.0.1
@@ -26,8 +17,10 @@ import java.util.Collection;
 public final class CommandLoader {
 
     /**
-     * Createa a instance of all command classes
+     * Createa a instance of all command controller classes
      * and adds them to a collection.
+     *
+     * @param lm the literature management the controllers should work on.
      *
      * @return Collection of Instances.
      */
