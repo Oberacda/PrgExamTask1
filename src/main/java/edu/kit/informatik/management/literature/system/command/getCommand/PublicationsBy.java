@@ -2,7 +2,6 @@ package edu.kit.informatik.management.literature.system.command.getCommand;
 
 import edu.kit.informatik.management.literature.system.command.Command;
 import edu.kit.informatik.management.literature.system.command.controller.GetController;
-import edu.kit.informatik.management.literature.util.PatternHolder;
 import edu.kit.informatik.terminal.Terminal;
 
 import java.util.HashSet;
@@ -48,8 +47,8 @@ public class PublicationsBy implements Command {
         Set<String> paramSet = new HashSet<>();
 
         sc.useDelimiter(";");
-        while (sc.hasNext(PatternHolder.AUTHORPATTERN)) {
-            paramSet.add(sc.next(PatternHolder.AUTHORPATTERN));
+        while (sc.hasNext(edu.kit.informatik.management.literature.system.command.PatternHolder.AUTHORPATTERN)) {
+            paramSet.add(sc.next(edu.kit.informatik.management.literature.system.command.PatternHolder.AUTHORPATTERN));
         }
         try {
             lms.publicationsBy(paramSet).forEach(Terminal::printLine);

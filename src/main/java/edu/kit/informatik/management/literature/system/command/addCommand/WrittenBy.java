@@ -53,8 +53,8 @@ public class WrittenBy implements Command {
             articleId = sc.next(PatternHolder.IDPATTERN);
             sc.skip(",");
             sc.useDelimiter(";");
-            while (sc.hasNext(PatternHolder.AUTHORPATTERN)) {
-                paramList.add(sc.next(PatternHolder.AUTHORPATTERN));
+            while (sc.hasNext(edu.kit.informatik.management.literature.system.command.PatternHolder.AUTHORPATTERN)) {
+                paramList.add(sc.next(edu.kit.informatik.management.literature.system.command.PatternHolder.AUTHORPATTERN));
             }
         } catch (NoSuchElementException nse) {
             Terminal.printError("missing command token :" + nse.getMessage());

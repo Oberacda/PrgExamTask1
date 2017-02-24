@@ -48,7 +48,7 @@ public class AddArticle implements Command {
         int publicationYear;
         String publicationTitle;
         try {
-            publisherTitle = sc.next(PatternHolder.TOPUBLISHERPATTERN);
+            publisherTitle = sc.next(edu.kit.informatik.management.literature.system.command.PatternHolder.TOPUBLISHERPATTERN);
             sc.skip(":");
             sc.useDelimiter(",");
             publicationId = sc.next(PatternHolder.TITLEPATTERN);
@@ -57,7 +57,7 @@ public class AddArticle implements Command {
 
         } catch (NoSuchElementException nse) {
             Terminal.printError(String.format("invalid command token : %s%s:%s,%s,%s",
-                    ADDARTICLE, PatternHolder.TOPUBPATTERN, PatternHolder.IDPATTERN,
+                    ADDARTICLE, edu.kit.informatik.management.literature.system.command.PatternHolder.TOPUBPATTERN, PatternHolder.IDPATTERN,
                     PatternHolder.YEARPATTERN, PatternHolder.ARTICLETITLEPATTERN));
             return true;
         }

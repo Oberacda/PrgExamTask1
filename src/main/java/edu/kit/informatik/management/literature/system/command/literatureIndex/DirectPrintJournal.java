@@ -53,8 +53,8 @@ public class DirectPrintJournal implements Command {
             sc.skip(":");
             sc.useDelimiter(",");
 
-            while (sc.hasNext(PatternHolder.AUTHORPATTERN)) {
-                authorList.add(sc.next(PatternHolder.AUTHORPATTERN));
+            while (sc.hasNext(edu.kit.informatik.management.literature.system.command.PatternHolder.AUTHORPATTERN)) {
+                authorList.add(sc.next(edu.kit.informatik.management.literature.system.command.PatternHolder.AUTHORPATTERN));
             }
             int cnt = authorList.size();
 

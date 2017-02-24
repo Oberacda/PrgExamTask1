@@ -296,7 +296,7 @@ public class LiteratureManagement {
      * </p>
      *
      * @param authorNames
-     *         a collection of author names (See {@link PatternHolder#AUTHORPATTERN}).
+     *         a collection of author names (See {@link edu.kit.informatik.management.literature.system.command.PatternHolder#AUTHORPATTERN}).
      *
      * @return Stream of authors.
      *

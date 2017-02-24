@@ -56,8 +56,8 @@ public class DirectPrintConference implements Command {
             sc.skip(":");
             sc.useDelimiter(",");
 
-            while (sc.hasNext(PatternHolder.AUTHORPATTERN)) {
-                authorSet.add(sc.next(PatternHolder.AUTHORPATTERN));
+            while (sc.hasNext(edu.kit.informatik.management.literature.system.command.PatternHolder.AUTHORPATTERN)) {
+                authorSet.add(sc.next(edu.kit.informatik.management.literature.system.command.PatternHolder.AUTHORPATTERN));
             }
             int cnt = authorSet.size();
 

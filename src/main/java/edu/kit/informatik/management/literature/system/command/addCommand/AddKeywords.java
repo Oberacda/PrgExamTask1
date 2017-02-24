@@ -46,12 +46,12 @@ public class AddKeywords implements Command {
         sc.skip(ADDKEYWORD);
         try {
             sc.useDelimiter(":");
-            String entityId = sc.next(PatternHolder.TOENTITY);
+            String entityId = sc.next(edu.kit.informatik.management.literature.system.command.PatternHolder.TOENTITY);
             sc.skip(":");
             sc.useDelimiter(";");
             HashSet<String> paramSet = new HashSet<>();
 
-            if (!sc.hasNext(PatternHolder.KEYWORDSPATTERN)) {
+            if (!sc.hasNext(edu.kit.informatik.management.literature.system.command.PatternHolder.KEYWORDSPATTERN)) {
                 throw new BadSyntaxException("there are no keywords given!");
             }
 

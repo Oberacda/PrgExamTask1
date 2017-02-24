@@ -1,11 +1,9 @@
 package edu.kit.informatik.management.literature.system;
 
 import edu.kit.informatik.management.literature.*;
-import edu.kit.informatik.management.literature.system.command.CommandLoader;
-import edu.kit.informatik.management.literature.system.command.controller.Controller;
+import edu.kit.informatik.management.literature.system.command.controller.*;
 import edu.kit.informatik.terminal.Terminal;
 
-import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -15,15 +13,11 @@ import java.util.regex.Pattern;
  * </p>
  * @author David Oberacker
  */
-public final class LiteratureManagementSystem {
+public final class LiteratureManagementSystem extends Controller {
 
     //=================fields==========================
 
     private static final Pattern QUIT = Pattern.compile("quit");
-
-    private final LiteratureManagement literatureManagement;
-
-    private final Collection<Controller> commandControllerList;
 
     //=================constructor======================
 
@@ -31,13 +25,15 @@ public final class LiteratureManagementSystem {
      * Creates a new literature management system.
      * <p>
      * A new literature management system knows all
-     * commands specified in
-     * {@linkplain CommandLoader#loadCommands(LiteratureManagement)}.
+     * commands specified in it's constructor.
      * </p>
      */
     private LiteratureManagementSystem() {
-        this.literatureManagement = new LiteratureManagement();
-        commandControllerList = CommandLoader.loadCommands(this.literatureManagement);
+        super( new LiteratureManagement());
+        super.addCommand(new AddController(getLiteratureManagement()));
+        super.addCommand(new ComplexController(getLiteratureManagement()));
+        super.addCommand(new GetController(getLiteratureManagement()));
+        super.addCommand(new LiteratureIndexController(getLiteratureManagement()));
     }
 
     //=================main method======================
@@ -54,11 +50,8 @@ public final class LiteratureManagementSystem {
         String userInput = Terminal.readLine();
         while (!(QUIT.matcher(userInput).matches())) {
             boolean result = false;
-            for (Controller c : lms.commandControllerList) {
-                if (c.execute(userInput)) {
-                    result = true;
-                    break;
-                }
+            if(lms.execute(userInput)) {
+                result = true;
             }
             if (!result) {
                 Terminal.printError("invalid syntax! no command detected!");

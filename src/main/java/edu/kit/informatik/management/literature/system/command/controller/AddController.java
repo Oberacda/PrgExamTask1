@@ -1,13 +1,10 @@
 package edu.kit.informatik.management.literature.system.command.controller;
 
-import edu.kit.informatik.management.literature.Author;
-import edu.kit.informatik.management.literature.LiteratureManagement;
-import edu.kit.informatik.management.literature.Publication;
-import edu.kit.informatik.management.literature.Publishers;
+import edu.kit.informatik.management.literature.*;
 import edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException;
 import edu.kit.informatik.management.literature.interfaces.Entity;
 import edu.kit.informatik.management.literature.system.command.addCommand.*;
-import edu.kit.informatik.management.literature.util.CommandUtil;
+import edu.kit.informatik.management.literature.util.PatternHolder;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -39,6 +36,7 @@ public class AddController extends Controller {
         super.addCommand(new WrittenBy(this));
     }
 
+
     /**
      * Adds a publication to a specified publisher.
      *
@@ -63,8 +61,8 @@ public class AddController extends Controller {
                                final String publisherTitle)
             throws NoSuchElementException,
             IllegalArgumentException {
-        Publishers publishers = CommandUtil
-                .getPublisherFromPrefix(getLiteratureManagement(), publisherTitle);
+        Publishers publishers =
+                getPublisherFromPrefix(publisherTitle);
         publishers.addArticle(publicationId, publicationYear, publicationTitle);
     }
 
@@ -149,7 +147,7 @@ public class AddController extends Controller {
      * @param entityId
      *         prefix containg the enitiy
      *         the keyword should be added to.
-     *         (See: {@link CommandUtil#getEntityFormPrefix(LiteratureManagement, String)}).
+     *         (See: {@link AddController#getEntityFormPrefix(String)}).
      * @param keywords
      *         a set of keywords that should be added.
      *
@@ -161,7 +159,7 @@ public class AddController extends Controller {
     public void addKeywords(final String entityId,
                             final Set<String> keywords)
             throws IllegalArgumentException, NoSuchElementException {
-        Entity e = CommandUtil.getEntityFormPrefix(getLiteratureManagement(), entityId);
+        Entity e = getEntityFormPrefix(entityId);
         for (String keyword : keywords) {
             e.addKeyword(keyword);
         }
@@ -235,5 +233,127 @@ public class AddController extends Controller {
         Stream<Author> authorStream = getLiteratureManagement()
                 .getAuthors(authorsList);
         authorStream.forEach(publication::addAuthor);
+    }
+
+
+    /**
+     * Returns the the publisher specified in a command prefix.
+     *
+     * <table>
+     * <caption>examples:</caption>
+     * <tr>
+     * <td>
+     * {@code ... to series TA -> Conference Series with the title TA}
+     * </td>
+     * </tr>
+     * <tr>
+     * <td>
+     * {@code ... to journal TA -> Journal with the title TA}
+     * </td>
+     * </tr>
+     * </table>
+     *
+     * @param userInput
+     *         the prefix entered by the user.
+     *
+     * @return if present the publisher specified by the prefix.
+     *
+     * @throws NoSuchElementException
+     *         if there is no publisher with the
+     *         specified title this exception is thrown.
+     * @throws IllegalArgumentException
+     *         if there is a syntax error in the prefix
+     *         this exception is thrown.
+     */
+    public Publishers getPublisherFromPrefix(final String userInput)
+            throws NoSuchElementException, IllegalArgumentException {
+        if (edu.kit.informatik.management.literature.system.command.PatternHolder.TOSERIESPATTERN.matcher(userInput).matches()) {
+            Scanner sc = new Scanner(userInput);
+            sc.skip(edu.kit.informatik.management.literature.system.command.PatternHolder.TOSERIESPREFIX);
+            Optional<ConferenceSeries> conferenceSeries = getLiteratureManagement().getConferenceSeries(sc.next());
+            if (conferenceSeries.isPresent()) {
+                return conferenceSeries.get();
+            } else {
+                throw new NoSuchElementException("There is no conference series with this name!");
+            }
+        } else if (edu.kit.informatik.management.literature.system.command.PatternHolder.TOJOURNALPATTERN.matcher(userInput).matches()) {
+            Scanner sc = new Scanner(userInput);
+            sc.skip(edu.kit.informatik.management.literature.system.command.PatternHolder.TOJOURNALPREFIX);
+            Optional<Journal> journal = getLiteratureManagement().getJournal(sc.next());
+            if (journal.isPresent()) {
+                return journal.get();
+            } else {
+                throw new NoSuchElementException("There is no journal with this name!");
+            }
+        } else {
+            throw new IllegalArgumentException("unsupported command pattern!");
+        }
+    }
+
+    /**
+     * Returns the the entity specified in a command prefix.
+     * <table>
+     * <caption>examples:</caption>
+     * <tr>
+     * <td>
+     * {@code ... to series TA -> Conference Series with the title TA}
+     * </td>
+     * </tr>
+     * <tr>
+     * <td>
+     * {@code ... to journal TA -> Journal with the title TA}
+     * </td>
+     * </tr>
+     * <tr>
+     * <td>
+     * {@code ... to conference TA,1997 -> Conference in the year 1997 }
+     * </td>
+     * </tr>
+     * </table>
+     *
+     * @param userInput
+     *         the prefix entered by the user.
+     *
+     * @return if present the entity specified by the prefix.
+     *
+     * @throws NoSuchElementException
+     *         if there is no publisher with the
+     *         specified title this exception is thrown.
+     * @throws IllegalArgumentException
+     *         if there is a syntax error in the prefix
+     *         this exception is thrown.
+     */
+    private Entity getEntityFormPrefix(final String userInput)
+            throws NoSuchElementException, IllegalArgumentException {
+        if (edu.kit.informatik.management.literature.system.command.PatternHolder.TOPUBPATTERN.matcher(userInput).matches()) {
+
+            Scanner sc = new Scanner(userInput);
+            sc.skip(edu.kit.informatik.management.literature.system.command.PatternHolder.TOPUBPREFIX);
+
+            Optional<Publication> publication = getLiteratureManagement().getPublication(sc.next());
+
+            if (publication.isPresent()) {
+                return publication.get();
+            } else {
+                throw new NoSuchElementException("there is no publication with this id!");
+            }
+        } else if (edu.kit.informatik.management.literature.system.command.PatternHolder.TOCONFERENCEPATTERN.matcher(userInput).matches()) {
+
+            Scanner sc = new Scanner(userInput);
+            sc.skip(edu.kit.informatik.management.literature.system.command.PatternHolder.TOCONFERENCEPREFIX);
+            sc.useDelimiter(",");
+
+            String seriesName = sc.next(PatternHolder.TITLEPATTERN);
+            int year = Integer.parseInt(sc.next(PatternHolder.YEARPATTERN));
+
+            Optional<Conference> conference = getLiteratureManagement().getConferenceFromSeries(seriesName, year);
+            if (conference.isPresent()) {
+                return conference.get();
+            } else {
+                throw new NoSuchElementException("There is no conference in this year!");
+            }
+        } else {
+            return getPublisherFromPrefix(userInput);
+        }
     }
 }
