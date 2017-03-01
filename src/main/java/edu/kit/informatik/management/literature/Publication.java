@@ -138,6 +138,10 @@ public abstract class Publication implements Entity {
      */
     public void addCitation(final Publication citedPublication)
             throws IllegalArgumentException {
+        if (this.literatureIndex.hasEntry(citedPublication)) {
+            throw new IllegalArgumentException("cited publication"
+                    + " is referenced already!");
+        }
         if (citedPublication.getYear() < this.getYear()) {
             this.literatureIndex.addEntry(citedPublication);
         } else {
