@@ -61,8 +61,8 @@ public class AddController extends Controller {
                                final String publisherTitle)
             throws NoSuchElementException,
             IllegalArgumentException {
-        Publishers publishers =
-                getPublisherFromPrefix(publisherTitle);
+        Publishers publishers
+                = getPublisherFromPrefix(publisherTitle);
         publishers.addArticle(publicationId, publicationYear, publicationTitle);
     }
 
@@ -267,16 +267,19 @@ public class AddController extends Controller {
      */
     public Publishers getPublisherFromPrefix(final String userInput)
             throws NoSuchElementException, IllegalArgumentException {
-        if (edu.kit.informatik.management.literature.system.command.PatternHolder.TOSERIESPATTERN.matcher(userInput).matches()) {
+        if (edu.kit.informatik.management.literature.system.command.
+                PatternHolder.TOSERIESPATTERN.matcher(userInput).matches()) {
             Scanner sc = new Scanner(userInput);
-            sc.skip(edu.kit.informatik.management.literature.system.command.PatternHolder.TOSERIESPREFIX);
+            sc.skip(edu.kit.informatik.management.literature.system.command.
+                    PatternHolder.TOSERIESPREFIX);
             Optional<ConferenceSeries> conferenceSeries = getLiteratureManagement().getConferenceSeries(sc.next());
             if (conferenceSeries.isPresent()) {
                 return conferenceSeries.get();
             } else {
                 throw new NoSuchElementException("There is no conference series with this name!");
             }
-        } else if (edu.kit.informatik.management.literature.system.command.PatternHolder.TOJOURNALPATTERN.matcher(userInput).matches()) {
+        } else if (edu.kit.informatik.management.literature.system.command.
+                PatternHolder.TOJOURNALPATTERN.matcher(userInput).matches()) {
             Scanner sc = new Scanner(userInput);
             sc.skip(edu.kit.informatik.management.literature.system.command.PatternHolder.TOJOURNALPREFIX);
             Optional<Journal> journal = getLiteratureManagement().getJournal(sc.next());
@@ -325,7 +328,8 @@ public class AddController extends Controller {
      */
     private Entity getEntityFormPrefix(final String userInput)
             throws NoSuchElementException, IllegalArgumentException {
-        if (edu.kit.informatik.management.literature.system.command.PatternHolder.TOPUBPATTERN.matcher(userInput).matches()) {
+        if (edu.kit.informatik.management.literature.system.command.
+                PatternHolder.TOPUBPATTERN.matcher(userInput).matches()) {
 
             Scanner sc = new Scanner(userInput);
             sc.skip(edu.kit.informatik.management.literature.system.command.PatternHolder.TOPUBPREFIX);
@@ -337,10 +341,12 @@ public class AddController extends Controller {
             } else {
                 throw new NoSuchElementException("there is no publication with this id!");
             }
-        } else if (edu.kit.informatik.management.literature.system.command.PatternHolder.TOCONFERENCEPATTERN.matcher(userInput).matches()) {
+        } else if (edu.kit.informatik.management.literature.system.command.
+                PatternHolder.TOCONFERENCEPATTERN.matcher(userInput).matches()) {
 
             Scanner sc = new Scanner(userInput);
-            sc.skip(edu.kit.informatik.management.literature.system.command.PatternHolder.TOCONFERENCEPREFIX);
+            sc.skip(edu.kit.informatik.management.literature.system.command.
+                    PatternHolder.TOCONFERENCEPREFIX);
             sc.useDelimiter(",");
 
             String seriesName = sc.next(PatternHolder.TITLEPATTERN);

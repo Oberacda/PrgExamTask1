@@ -1,7 +1,6 @@
 package edu.kit.informatik.management.literature.util;
 
 import edu.kit.informatik.management.literature.*;
-import edu.kit.informatik.management.literature.Publication;
 
 import java.util.ArrayList;
 import java.util.stream.Stream;

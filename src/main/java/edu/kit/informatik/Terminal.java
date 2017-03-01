@@ -1,4 +1,4 @@
-package edu.kit.informatik.terminal;
+package edu.kit.informatik;
 
 import org.hamcrest.Matcher;
 

@@ -3,7 +3,7 @@ package edu.kit.informatik.management.literature.system.command.addCommand;
 import edu.kit.informatik.management.literature.system.command.Command;
 import edu.kit.informatik.management.literature.system.command.controller.AddController;
 import edu.kit.informatik.management.literature.util.PatternHolder;
-import edu.kit.informatik.terminal.Terminal;
+import edu.kit.informatik.Terminal;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  */
 public class WrittenBy implements Command {
     private static final Pattern WRITTENBY
-            = Pattern.compile("written by ");
+            = Pattern.compile("written-by ");
 
     private static final Pattern COMMANDPATTERN = Pattern.compile(WRITTENBY.pattern()
             + "\\S((.)+\\S)*");
@@ -53,8 +53,10 @@ public class WrittenBy implements Command {
             articleId = sc.next(PatternHolder.IDPATTERN);
             sc.skip(",");
             sc.useDelimiter(";");
-            while (sc.hasNext(edu.kit.informatik.management.literature.system.command.PatternHolder.AUTHORPATTERN)) {
-                paramList.add(sc.next(edu.kit.informatik.management.literature.system.command.PatternHolder.AUTHORPATTERN));
+            while (sc.hasNext(edu.kit.informatik.management.literature.
+                    system.command.PatternHolder.AUTHORPATTERN)) {
+                paramList.add(sc.next(edu.kit.informatik.management.
+                        literature.system.command.PatternHolder.AUTHORPATTERN));
             }
         } catch (NoSuchElementException nse) {
             Terminal.printError("missing command token :" + nse.getMessage());

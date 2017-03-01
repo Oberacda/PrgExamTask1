@@ -3,7 +3,7 @@ package edu.kit.informatik.management.literature.system.command.literatureIndex;
 import edu.kit.informatik.management.literature.system.command.Command;
 import edu.kit.informatik.management.literature.system.command.controller.LiteratureIndexController;
 import edu.kit.informatik.management.literature.util.PatternHolder;
-import edu.kit.informatik.terminal.Terminal;
+import edu.kit.informatik.Terminal;
 
 import java.util.HashSet;
 import java.util.NoSuchElementException;
@@ -12,6 +12,8 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
+ * Parser class for the bibliography command.
+ *
  * @author David Oberacker
  */
 public class Bibliography implements Command {

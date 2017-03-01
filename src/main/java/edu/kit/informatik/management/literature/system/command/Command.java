@@ -15,6 +15,9 @@ package edu.kit.informatik.management.literature.system.command;
  *     classes. The data logic should be implemented in the
  *     {@link edu.kit.informatik.management.literature.system.command.controller.Controller}.
  * </p>
+ * <p>
+ *     A exception is the {@link edu.kit.informatik.management.literature.system.command.controller.Controller}
+ * </p>
  *
  * @author David Oberacker
  * @version 1.0.1

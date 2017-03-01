@@ -1,7 +1,6 @@
 package edu.kit.informatik.management.literature.system.command.controller;
 
 import edu.kit.informatik.management.literature.*;
-import edu.kit.informatik.management.literature.system.command.PatternHolder;
 import edu.kit.informatik.management.literature.system.command.literatureIndex.Bibliography;
 import edu.kit.informatik.management.literature.system.command.literatureIndex.DirectPrintConference;
 import edu.kit.informatik.management.literature.system.command.literatureIndex.DirectPrintJournal;
@@ -53,9 +52,7 @@ public class LiteratureIndexController extends Controller {
      * @param articleTitle
      *         the title of the aricle.
      * @param authorList
-     *         a
-     *         {@link PatternHolder#AUTHORLISTPATTERN}
-     *         of author names (max 3.).
+     *         a list of author names (max 3.).
      * @param style
      *         the output format
      *         ({@link edu.kit.informatik.management.literature.util.LiteratureIndexStyles}).
@@ -103,7 +100,7 @@ public class LiteratureIndexController extends Controller {
      *         the title of the article.
      * @param authorList
      *         a
-     *         {@link PatternHolder#AUTHORLISTPATTERN}
+     *         list
      *         of author names (max 3.).
      * @param style
      *         the output format

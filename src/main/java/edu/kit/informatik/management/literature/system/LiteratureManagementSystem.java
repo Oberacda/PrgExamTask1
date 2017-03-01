@@ -2,7 +2,7 @@ package edu.kit.informatik.management.literature.system;
 
 import edu.kit.informatik.management.literature.*;
 import edu.kit.informatik.management.literature.system.command.controller.*;
-import edu.kit.informatik.terminal.Terminal;
+import edu.kit.informatik.Terminal;
 
 import java.util.regex.Pattern;
 
@@ -29,7 +29,7 @@ public final class LiteratureManagementSystem extends Controller {
      * </p>
      */
     private LiteratureManagementSystem() {
-        super( new LiteratureManagement());
+        super(new LiteratureManagement());
         super.addCommand(new AddController(getLiteratureManagement()));
         super.addCommand(new ComplexController(getLiteratureManagement()));
         super.addCommand(new GetController(getLiteratureManagement()));
@@ -50,7 +50,7 @@ public final class LiteratureManagementSystem extends Controller {
         String userInput = Terminal.readLine();
         while (!(QUIT.matcher(userInput).matches())) {
             boolean result = false;
-            if(lms.execute(userInput)) {
+            if (lms.execute(userInput)) {
                 result = true;
             }
             if (!result) {

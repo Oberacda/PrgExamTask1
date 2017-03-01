@@ -2,7 +2,7 @@ package edu.kit.informatik.management.literature.system.command.getCommand;
 
 import edu.kit.informatik.management.literature.system.command.Command;
 import edu.kit.informatik.management.literature.system.command.controller.GetController;
-import edu.kit.informatik.terminal.Terminal;
+import edu.kit.informatik.Terminal;
 
 import java.util.regex.Pattern;
 

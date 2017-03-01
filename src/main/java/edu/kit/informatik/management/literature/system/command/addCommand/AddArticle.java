@@ -3,14 +3,19 @@ package edu.kit.informatik.management.literature.system.command.addCommand;
 import edu.kit.informatik.management.literature.system.command.Command;
 import edu.kit.informatik.management.literature.system.command.controller.AddController;
 import edu.kit.informatik.management.literature.util.PatternHolder;
-import edu.kit.informatik.terminal.Terminal;
+import edu.kit.informatik.Terminal;
 
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
+ * Parsing class for the add article command.
+ * <p>
+ *     This class parses the {@literal "add article}
+ * </p>
  * @author David Oberacker
+ * @version 1.0.1
  */
 public class AddArticle implements Command {
     private static final Pattern ADDARTICLE
@@ -48,7 +53,8 @@ public class AddArticle implements Command {
         int publicationYear;
         String publicationTitle;
         try {
-            publisherTitle = sc.next(edu.kit.informatik.management.literature.system.command.PatternHolder.TOPUBLISHERPATTERN);
+            publisherTitle = sc.next(edu.kit.informatik.management
+                    .literature.system.command.PatternHolder.TOPUBLISHERPATTERN);
             sc.skip(":");
             sc.useDelimiter(",");
             publicationId = sc.next(PatternHolder.TITLEPATTERN);
@@ -57,8 +63,11 @@ public class AddArticle implements Command {
 
         } catch (NoSuchElementException nse) {
             Terminal.printError(String.format("invalid command token : %s%s:%s,%s,%s",
-                    ADDARTICLE, edu.kit.informatik.management.literature.system.command.PatternHolder.TOPUBPATTERN, PatternHolder.IDPATTERN,
-                    PatternHolder.YEARPATTERN, PatternHolder.ARTICLETITLEPATTERN));
+                    ADDARTICLE,
+                    edu.kit.informatik.management.literature.system.command.PatternHolder.TOPUBPATTERN,
+                    PatternHolder.IDPATTERN,
+                    PatternHolder.YEARPATTERN,
+                    PatternHolder.ARTICLETITLEPATTERN));
             return true;
         }
         try {

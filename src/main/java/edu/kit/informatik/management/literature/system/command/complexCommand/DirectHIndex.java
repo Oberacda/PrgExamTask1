@@ -2,7 +2,7 @@ package edu.kit.informatik.management.literature.system.command.complexCommand;
 
 import edu.kit.informatik.management.literature.system.command.Command;
 import edu.kit.informatik.management.literature.system.command.controller.ComplexController;
-import edu.kit.informatik.terminal.Terminal;
+import edu.kit.informatik.Terminal;
 
 import java.util.ArrayList;
 import java.util.Scanner;

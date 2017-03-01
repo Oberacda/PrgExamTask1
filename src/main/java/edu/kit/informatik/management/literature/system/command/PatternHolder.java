@@ -18,6 +18,9 @@ public final class PatternHolder {
 
     /**
      * Regex Pattern for to series.
+     * <p>
+     *     Pattern: {@literal "to series <conference series title>"}
+     * </p>
      */
     public static final Pattern TOSERIESPATTERN = Pattern.compile(TOSERIESPREFIX.pattern()
             + edu.kit.informatik.management.literature.util.PatternHolder.TITLEPATTERN.pattern());
@@ -29,28 +32,31 @@ public final class PatternHolder {
 
     /**
      * Regex Pattern for the to journal.
+     *  <p>
+     *     Pattern: {@literal "to journal <journal title>"}
+     * </p>
      */
     public static final Pattern TOJOURNALPATTERN = Pattern.compile(TOJOURNALPREFIX.pattern()
             + edu.kit.informatik.management.literature.util.PatternHolder.TITLEPATTERN.pattern());
 
     /**
      * Regex Pattern for to publisher.
+     * <p>
+     *     Pattern: {@literal "to series | to journal <publisher title>"}
+     * </p>
      */
     public static final Pattern TOPUBLISHERPATTERN = Pattern.compile(String.format("%s|%s"
             , TOJOURNALPATTERN.pattern(), TOSERIESPATTERN.pattern()));
 
     /**
      * Regex Pattern for author names.
+     * <p>
+     *     Pattern: {@literal "<author first name> <author last name>"}
+     * </p>
      */
-    public static final Pattern AUTHORPATTERN =
-            Pattern.compile(edu.kit.informatik.management.literature.util.PatternHolder.NAMEPATTERN
+    public static final Pattern AUTHORPATTERN
+            = Pattern.compile(edu.kit.informatik.management.literature.util.PatternHolder.NAMEPATTERN
             + " " + edu.kit.informatik.management.literature.util.PatternHolder.NAMEPATTERN);
-
-    /**
-     * Regex Pattern for a list of authors with the delimiter {@literal ";"}.
-     */
-    public static final Pattern AUTHORLISTPATTERN = Pattern.compile(String.format("%s([;]{1}[%s]{1})*"
-            , AUTHORPATTERN, AUTHORPATTERN));
 
     /**
      * Regex Pattern for to publication prefix.
@@ -59,6 +65,9 @@ public final class PatternHolder {
 
     /**
      * Regex Pattern for to publication.
+     * <p>
+     *     Pattern: {@literal "to pub <publication id>"}
+     * </p>
      */
     public static final Pattern TOPUBPATTERN = Pattern.compile(TOPUBPREFIX.pattern()
             + edu.kit.informatik.management.literature.util.PatternHolder.IDPATTERN.pattern());
@@ -70,6 +79,15 @@ public final class PatternHolder {
 
     /**
      * Regex Pattern for to conference.
+     * <p>
+     *     Pattern: {@literal "to conference <conference series title>,<year of the conference>"}
+     * </p>
+     * <p>
+     *     year: {@link edu.kit.informatik.management.literature.util.PatternHolder#YEARPATTERN}
+     * </p>
+     * <p>
+     *     title: {@link edu.kit.informatik.management.literature.util.PatternHolder#TITLEPATTERN}
+     * </p>
      */
     public static final Pattern TOCONFERENCEPATTERN = Pattern.compile(
             TOCONFERENCEPREFIX.pattern()
@@ -79,6 +97,12 @@ public final class PatternHolder {
 
     /**
      * Regex Pattern for to entity.
+     * <p>
+     *     Pattern: {@literal "to conference <conference series title>,<year of the conference>
+     *         | to publication <publication id>
+     *         | to series <conference series title>
+     *         | to journal <journal series title>"}
+     * </p>
      */
     public static final Pattern TOENTITY = Pattern.compile(String.format("%s|%s|%s|%s"
             , TOJOURNALPATTERN.pattern(), TOSERIESPATTERN.pattern()
@@ -91,5 +115,6 @@ public final class PatternHolder {
      * </p>
      */
     public static final Pattern KEYWORDSPATTERN = Pattern.compile(String.format("%s([;]{1}[%s]{1})*"
-            , edu.kit.informatik.management.literature.util.PatternHolder.KEYWORDPATTERN, edu.kit.informatik.management.literature.util.PatternHolder.KEYWORDPATTERN));
+            , edu.kit.informatik.management.literature.util.PatternHolder.KEYWORDPATTERN
+            , edu.kit.informatik.management.literature.util.PatternHolder.KEYWORDPATTERN));
 }
