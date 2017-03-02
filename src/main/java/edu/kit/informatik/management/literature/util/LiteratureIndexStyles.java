@@ -174,7 +174,7 @@ public enum LiteratureIndexStyles {
      *         if the specified publisher has no known representation style
      *         found this exception is thrown.
      */
-    public abstract String printInStyle(final int order, final Publication publication, final Publishers publishers)
+    public abstract String printInStyle(int order, Publication publication, Publishers publishers)
             throws IllegalArgumentException;
 
     /**

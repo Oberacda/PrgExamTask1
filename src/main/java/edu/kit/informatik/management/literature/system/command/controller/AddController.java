@@ -7,7 +7,7 @@ import edu.kit.informatik.management.literature.system.command.addCommand.*;
 import edu.kit.informatik.management.literature.util.PatternHolder;
 
 import java.util.*;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 /**
  * Controller for add commands in
@@ -216,10 +216,12 @@ public class AddController extends Controller {
      * @param authorsList a list of one or more authors.
      * @throws NoSuchElementException if the publication with this
      * id doesn't exist or one of the authors does't exist this error is thrown.
+     * @throws ElementAlreadyPresentException if one of the authors already writes
+     * this article this exception is thrown.
      */
     public void writtenBy(final String publicationId,
                           final List<String> authorsList)
-            throws NoSuchElementException {
+            throws NoSuchElementException, ElementAlreadyPresentException {
         Optional<Publication> publicationOptional = getLiteratureManagement()
                 .getPublication(publicationId);
 
@@ -230,9 +232,12 @@ public class AddController extends Controller {
             throw new NoSuchElementException(String.format("publication with"
                     + " id \"%s\" not found!", publicationId));
         }
-        Stream<Author> authorStream = getLiteratureManagement()
-                .getAuthors(authorsList);
-        authorStream.forEach(publication::addAuthor);
+
+        List<Author> authorList = getLiteratureManagement()
+                .getAuthors(authorsList).collect(Collectors.toList());
+        for (Author author:authorList) {
+            publication.addAuthor(author);
+        }
     }
 
 

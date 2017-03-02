@@ -1,5 +1,6 @@
 package edu.kit.informatik.management.literature.system.command.addCommand;
 
+import edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException;
 import edu.kit.informatik.management.literature.system.command.Command;
 import edu.kit.informatik.management.literature.system.command.controller.AddController;
 import edu.kit.informatik.management.literature.util.PatternHolder;
@@ -58,14 +59,19 @@ public class WrittenBy implements Command {
                 paramList.add(sc.next(edu.kit.informatik.management.
                         literature.system.command.PatternHolder.AUTHORPATTERN));
             }
+            if (sc.hasNext()) {
+                throw new NoSuchElementException(String.format("unexpected token \"%s\"; expected pattern: <%s>"
+                        , sc.next()
+                        , edu.kit.informatik.management.literature.system.command.PatternHolder.AUTHORPATTERN));
+            }
         } catch (NoSuchElementException nse) {
-            Terminal.printError("missing command token :" + nse.getMessage());
+            Terminal.printError("parsing error: " + nse.getMessage());
             return true;
         }
         try {
             lms.writtenBy(articleId, paramList);
             Terminal.printLine("Ok");
-        } catch (NoSuchElementException exc) {
+        } catch (NoSuchElementException | ElementAlreadyPresentException exc) {
             Terminal.printError(exc.getMessage());
         }
         return true;

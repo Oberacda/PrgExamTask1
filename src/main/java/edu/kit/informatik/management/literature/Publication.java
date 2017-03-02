@@ -1,9 +1,10 @@
 package edu.kit.informatik.management.literature;
 
+import edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException;
 import edu.kit.informatik.management.literature.interfaces.Entity;
 import edu.kit.informatik.management.literature.util.PatternHolder;
 
-import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Stream;
@@ -11,12 +12,13 @@ import java.util.stream.Stream;
 /**
  * A publication is a base element of the literature management.
  * <p>
- *     All classes that represent something that can be published
- *     should extend this class.
+ * All classes that represent something that can be published
+ * should extend this class.
  * </p>
  * <p>
- *     A publication always has to have a publisher managing it.
+ * A publication always has to have a publisher managing it.
  * </p>
+ *
  * @author David Oberacker
  * @version 1.0.1
  */
@@ -27,7 +29,7 @@ public abstract class Publication implements Entity {
     private final String id;
     private final String title;
     private final int year;
-    private final ArrayList<Author> authorList;
+    private final LinkedHashSet<Author> authorList;
     private final LiteratureIndex literatureIndex;
     private final TreeSet<String> keywords;
 
@@ -52,13 +54,13 @@ public abstract class Publication implements Entity {
      *         publishes the article
      */
     public Publication(final String id,
-                                final String title,
-                                final int year,
-                                final SortedSet<String> keywords) {
+                       final String title,
+                       final int year,
+                       final SortedSet<String> keywords) {
         this.id = id;
         this.title = title;
         this.year = year;
-        this.authorList = new ArrayList<>();
+        this.authorList = new LinkedHashSet<>();
         this.literatureIndex = new LiteratureIndex();
         this.keywords = new TreeSet<>(keywords);
     }
@@ -116,9 +118,18 @@ public abstract class Publication implements Entity {
      *
      * @param author
      *         the instance of a author that should be added.
+     *
+     * @throws ElementAlreadyPresentException
+     *         if the given author already wites this publication this exception is thrown.
      */
-    public void addAuthor(Author author) {
-        this.authorList.add(author);
+    public void addAuthor(Author author) throws ElementAlreadyPresentException {
+        if (!this.authorList.contains(author)) {
+            this.authorList.add(author);
+        } else {
+            throw new ElementAlreadyPresentException(String.format("the author \"%s\" already writes \"%s\"!"
+                    , author.toString(), this.getId()));
+        }
+
     }
 
     /**
@@ -164,7 +175,10 @@ public abstract class Publication implements Entity {
 
     /**
      * Checks if this article cites another one.
-     * @param publication the article that should be checked if cited.
+     *
+     * @param publication
+     *         the article that should be checked if cited.
+     *
      * @return true - this article cites the other article.
      */
     public boolean cites(final Publication publication) {

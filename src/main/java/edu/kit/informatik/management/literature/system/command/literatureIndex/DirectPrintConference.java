@@ -1,5 +1,6 @@
 package edu.kit.informatik.management.literature.system.command.literatureIndex;
 
+import edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException;
 import edu.kit.informatik.management.literature.system.command.Command;
 import edu.kit.informatik.management.literature.system.command.controller.LiteratureIndexController;
 import edu.kit.informatik.management.literature.util.PatternHolder;
@@ -81,7 +82,7 @@ public class DirectPrintConference implements Command {
 
             Terminal.printLine(lms.directPrintConference(conferenceTitle,
                     location, year, articleTitel, authorSet, style));
-        } catch (NoSuchElementException exc) {
+        } catch (NoSuchElementException | ElementAlreadyPresentException exc) {
             Terminal.printError(exc.getMessage());
         }
         return true;

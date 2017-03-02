@@ -1,6 +1,7 @@
 package edu.kit.informatik.management.literature.system.command.controller;
 
 import edu.kit.informatik.management.literature.*;
+import edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException;
 import edu.kit.informatik.management.literature.system.command.literatureIndex.Bibliography;
 import edu.kit.informatik.management.literature.system.command.literatureIndex.DirectPrintConference;
 import edu.kit.informatik.management.literature.system.command.literatureIndex.DirectPrintJournal;
@@ -62,6 +63,8 @@ public class LiteratureIndexController extends Controller {
      * @throws IllegalArgumentException
      *         If either the output format ins unknown or the publisher is of a type
      *         that has no specified output style this exception is thrown.
+     * @throws ElementAlreadyPresentException
+     *         if the given author already wites this publication this exception is thrown.
      */
     public String directPrintConference(final String conferenceSeriesTitle,
                                         final String conferenceLocation,
@@ -69,7 +72,7 @@ public class LiteratureIndexController extends Controller {
                                         final String articleTitle,
                                         final Set<String> authorList,
                                         final String style)
-            throws IllegalArgumentException {
+            throws IllegalArgumentException, ElementAlreadyPresentException {
         Article article = new Article("1", articleTitle, conferenceYear, new TreeSet<>());
         ConferenceSeries conferenceSeries = new ConferenceSeries(conferenceSeriesTitle);
         conferenceSeries.addConference(conferenceYear, conferenceLocation);
@@ -78,6 +81,7 @@ public class LiteratureIndexController extends Controller {
             scanner.useDelimiter(" ");
             article.addAuthor(new Author(scanner.next(), scanner.next()));
         }
+
         return LiteratureIndex.directPrintIndexInStyle(style, article, conferenceSeries);
     }
 
@@ -111,13 +115,15 @@ public class LiteratureIndexController extends Controller {
      * @throws IllegalArgumentException
      *         If either the output format ins unknown or the publisher is of a type
      *         that has no specified output style this exception is thrown.
+     * @throws ElementAlreadyPresentException
+     *         if the given author already wites this publication this exception is thrown.
      */
     public String directPrintJournal(final String journalTitle,
                                      final int year,
                                      final String articleTitle,
                                      final Set<String> authorList,
                                      final String style)
-            throws IllegalArgumentException {
+            throws IllegalArgumentException, ElementAlreadyPresentException {
         Article article = new Article("1", articleTitle, year, new TreeSet<>());
         Journal journal = new Journal(journalTitle, "empty");
         for (String s : authorList) {
@@ -155,8 +161,9 @@ public class LiteratureIndexController extends Controller {
     public Stream<String> printBibliography(final String style,
                                             final Set<String> publicationId)
             throws IllegalArgumentException {
-        Set<Optional<Publication>> optionalPublication = new HashSet<>();
-        publicationId.forEach(s -> optionalPublication.add(getLiteratureManagement().getPublication(s)));
+        Set<Optional<Publication>> optionalPublication = new LinkedHashSet<>();
+        publicationId.forEach(publication ->
+                optionalPublication.add(getLiteratureManagement().getPublication(publication)));
         if (!optionalPublication.stream().allMatch(Optional::isPresent)) {
             throw new IllegalArgumentException("one publication not found!");
         }

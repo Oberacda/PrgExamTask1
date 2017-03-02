@@ -5,10 +5,7 @@ import edu.kit.informatik.management.literature.system.command.controller.Litera
 import edu.kit.informatik.management.literature.util.PatternHolder;
 import edu.kit.informatik.Terminal;
 
-import java.util.HashSet;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -50,7 +47,7 @@ public class Bibliography implements Command {
         sc.skip(BIBLIOGRAPHY);
 
         String style;
-        Set<String> articleList = new HashSet<>();
+        Set<String> articleList = new LinkedHashSet<>();
         sc.useDelimiter(":");
         try {
             style = sc.next("[a-z]+");

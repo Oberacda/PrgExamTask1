@@ -309,7 +309,7 @@ public class LiteratureManagement {
     public Stream<Author> getAuthors(Collection<String> authorNames)
             throws NoSuchElementException {
 
-        ArrayList<Author> authors = new ArrayList<>();
+        LinkedHashSet<Author> authors = new LinkedHashSet<>();
         for (String s : authorNames) {
             Scanner sc = new Scanner(s);
             sc.useDelimiter(" ");
@@ -317,13 +317,14 @@ public class LiteratureManagement {
             String lastName = sc.next(PatternHolder.NAMEPATTERN);
             Author listAuthor = new Author(firstName, lastName);
             if (this.authorsList.contains(listAuthor)) {
-                authors.add(listAuthor);
+                authors.add(this.authorsList.get(this.authorsList.indexOf(listAuthor)));
             } else {
                 throw new NoSuchElementException(String.format("author"
                         + " \"%s\" not found", listAuthor.toString()));
             }
         }
-        return this.authorsList.stream().filter(authors::contains);
+        return authors.stream();
+        //return this.authorsList.stream().filter(authors::contains);
     }
 
     //=================has methods======================
