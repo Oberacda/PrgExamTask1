@@ -39,23 +39,24 @@ public class Similarity implements Command {
         if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
             return false;
         }
-        Scanner sc = new Scanner(userCommand);
-        sc.skip(SIMILARITY);
-
-        sc.useDelimiter(",");
 
         String articleId1;
         String articleId2;
 
         try {
+            Scanner sc = new Scanner(userCommand);
+            sc.skip(SIMILARITY);
+
+            sc.useDelimiter(",");
             articleId1 = sc.next(PatternHolder.IDPATTERN);
             articleId2 = sc.next(PatternHolder.IDPATTERN);
+
+            sc.reset();
+            if (sc.hasNext()) {
+                throw new NoSuchElementException();
+            }
         } catch (NoSuchElementException nse) {
-            Terminal.printError("missing command token: \""
-                    + SIMILARITY
-                    + PatternHolder.IDPATTERN
-                    + "," + PatternHolder.IDPATTERN
-                    + "\"");
+            Terminal.printError("invalid syntax, expected: \"similarity <id1>,<id2>\"!");
             return true;
         }
 

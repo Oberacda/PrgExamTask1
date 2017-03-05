@@ -87,11 +87,9 @@ public class LiteratureIndex {
                 return o1.getTitle().compareTo(o2.getTitle());
             }
             if (Integer.compare(o1.getYear(), o2.getYear()) != 0) {
-                return o1.getTitle().compareTo(o2.getTitle());
+                return Integer.compare(o1.getYear(), o2.getYear());
             }
             return o1.getId().compareTo(o2.getId());
-
-
         });
     }
 
@@ -114,12 +112,7 @@ public class LiteratureIndex {
      */
     public void addEntry(final Publication newPublication)
             throws IllegalArgumentException {
-        if (newPublication.isComplete()) {
-            this.literatureIndex.add(newPublication);
-        } else {
-            throw new IllegalArgumentException(String.format("article \"%s\" has"
-                    + " no authors and therefore can't be added!", newPublication.getId()));
-        }
+        this.literatureIndex.add(newPublication);
     }
 
     /**
@@ -132,19 +125,9 @@ public class LiteratureIndex {
      *
      * @param publicationSet
      *         the publications that should be added.
-     *
-     * @throws IllegalArgumentException
-     *         if one of the publications is
-     *         incomplete this exception is thrown!
      */
-    public void addAllEntrys(Collection<Publication> publicationSet)
-            throws IllegalArgumentException {
-        if (publicationSet.stream().allMatch(Publication::isComplete)) {
-            this.literatureIndex.addAll(publicationSet);
-        } else {
-            throw new IllegalArgumentException("one of the articles has"
-                    + " no authors and therefore none can be added!");
-        }
+    public void addAllEntrys(Collection<Publication> publicationSet) {
+        this.literatureIndex.addAll(publicationSet);
     }
 
     /**
@@ -197,6 +180,10 @@ public class LiteratureIndex {
         List<String> result = new ArrayList<>();
 
         for (Publication publication : this.literatureIndex) {
+            if (!publication.isComplete()) {
+                throw new IllegalArgumentException(String.format("\"%s\" has no authors assigned,"
+                        + " therefore no bibliography is created!", publication.getId()));
+            }
             Publishers publishers = lm.getPublisher(publication);
             result.add(indexStyles.printInStyle(order, publication, publishers));
             order++;
@@ -208,12 +195,18 @@ public class LiteratureIndex {
      * Directly prints out a string representation
      * of a article with the specified style.
      *
-     * @param style {@linkplain LiteratureIndexStyles}
-     * @param article the instance of a article that
-     *                should be printed out.
-     * @param publishers the publisher of the article.
+     * @param style
+     *         {@linkplain LiteratureIndexStyles}
+     * @param article
+     *         the instance of a article that
+     *         should be printed out.
+     * @param publishers
+     *         the publisher of the article.
+     *
      * @return a string representation of the article in the specified style.
-     * @throws IllegalArgumentException if either the style isnt a valid enum constant or
+     *
+     * @throws IllegalArgumentException
+     *         if either the style isnt a valid enum constant or
      *         one of the publisher type is unknown this exception is thrown!
      */
     public static String directPrintIndexInStyle(final String style,

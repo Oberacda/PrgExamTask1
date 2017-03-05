@@ -150,14 +150,15 @@ public abstract class Publication implements Entity {
     public void addCitation(final Publication citedPublication)
             throws IllegalArgumentException {
         if (this.literatureIndex.hasEntry(citedPublication)) {
-            throw new IllegalArgumentException("cited publication"
-                    + " is referenced already!");
+            throw new IllegalArgumentException(String.format("\"%s\""
+                    + " is already referenced by \"%s\"!", citedPublication.getId(), this.getId()));
         }
         if (citedPublication.getYear() < this.getYear()) {
             this.literatureIndex.addEntry(citedPublication);
         } else {
-            throw new IllegalArgumentException("cited publication"
-                    + " wasn't released before!");
+            throw new IllegalArgumentException(String.format("\"%s(%4d)\" wasn`t released before \"%s(%4d)\"!"
+                    , citedPublication.getId(), citedPublication.getYear()
+                    , this.getId(), this.getYear()));
         }
     }
 

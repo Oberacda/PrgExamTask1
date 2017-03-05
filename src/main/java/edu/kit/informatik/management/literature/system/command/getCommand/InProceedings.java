@@ -40,20 +40,25 @@ public class InProceedings implements Command {
         if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
             return false;
         }
-        Scanner sc = new Scanner(userCommand);
-        sc.skip(INPROCEEDINGS);
-
-        sc.useDelimiter(",");
-
         String seriesTitle;
         int year;
 
         try {
+            Scanner sc = new Scanner(userCommand);
+            sc.skip(INPROCEEDINGS);
+
+            sc.useDelimiter(",");
+
             seriesTitle = sc.next(PatternHolder.TITLEPATTERN);
 
             year = Integer.parseInt(sc.next(PatternHolder.YEARPATTERN));
+            sc.reset();
+            if (sc.hasNext()) {
+                throw new NoSuchElementException();
+            }
         } catch (NoSuchElementException nse) {
-            Terminal.printError("missing command token :" + nse.getMessage());
+            Terminal.printError("invalid syntax, expected: "
+                    + "\"in proceedings <conferenceSeries>,<year>\"");
             return true;
         }
         try {

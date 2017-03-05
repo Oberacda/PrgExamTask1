@@ -16,10 +16,7 @@ import java.util.regex.Pattern;
 public class AddAuthor implements Command {
 
     private static final Pattern ADDAUTHOR
-            = Pattern.compile("add author ");
-
-    private static final Pattern COMMANDPATTERN = Pattern.compile(ADDAUTHOR.pattern()
-            + "\\S((.)+\\S)*");
+            = Pattern.compile("add author");
 
     private AddController lms;
 
@@ -39,13 +36,13 @@ public class AddAuthor implements Command {
      */
     @Override
     public boolean execute(final String userCommand) {
-        if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
+        if (!(userCommand.startsWith(ADDAUTHOR.pattern()))) {
             return false;
         }
-        Scanner sc = new Scanner(userCommand);
-        sc.skip(ADDAUTHOR);
-        sc.useDelimiter(",");
         try {
+            Scanner sc = new Scanner(userCommand);
+            sc.skip(ADDAUTHOR + " ");
+            sc.useDelimiter(",");
             String firstName = sc.next(PatternHolder.NAMEPATTERN);
             String lastName = sc.next(PatternHolder.NAMEPATTERN);
             lms.addAuthor(firstName, lastName);
@@ -53,8 +50,7 @@ public class AddAuthor implements Command {
         } catch (ElementAlreadyPresentException exc) {
             Terminal.printError(exc.getMessage());
         } catch (NoSuchElementException nse) {
-            Terminal.printError(String.format("missing command token: \"%s%s,%s\"!", ADDAUTHOR,
-                    PatternHolder.NAMEPATTERN, PatternHolder.NAMEPATTERN));
+            Terminal.printError("invalid command token, expected: \"add author <firstname>,<lastname>\"!");
         }
         return true;
     }

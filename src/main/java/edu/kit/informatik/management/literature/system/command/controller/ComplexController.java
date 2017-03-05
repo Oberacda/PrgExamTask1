@@ -149,8 +149,8 @@ public class ComplexController extends Controller {
         TreeSet<Author> coAuthors = new TreeSet<>();
 
         //Gets a coAuthors of the author
-        getLiteratureManagement().getAllPublications().forEach(article -> article.getAuthors()
-                .filter(author::equals).forEach(coAuthors::add));
+        getLiteratureManagement().getAllPublications().filter(article -> article.getAuthors()
+                .anyMatch(author::equals)).forEach(publication -> publication.getAuthors().forEach(coAuthors::add));
 
         HashSet<String> articleSet = new HashSet<>();
 

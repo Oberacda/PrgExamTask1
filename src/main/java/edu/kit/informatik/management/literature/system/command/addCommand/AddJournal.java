@@ -18,7 +18,7 @@ public class AddJournal implements Command {
             = Pattern.compile("add journal ");
 
     private static final Pattern COMMANDPATTERN = Pattern.compile(ADDJOURNAL.pattern()
-            + "\\S((.)+\\S)*");
+            + "[^,;]+,[^,;]+");
 
     private AddController lms;
 

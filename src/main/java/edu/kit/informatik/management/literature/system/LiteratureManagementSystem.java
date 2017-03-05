@@ -1,16 +1,17 @@
 package edu.kit.informatik.management.literature.system;
 
-import edu.kit.informatik.management.literature.*;
-import edu.kit.informatik.management.literature.system.command.controller.*;
 import edu.kit.informatik.Terminal;
+import edu.kit.informatik.management.literature.LiteratureManagement;
+import edu.kit.informatik.management.literature.system.command.controller.*;
 
 import java.util.regex.Pattern;
 
 /**
  * The main class of the terminal based literature management system.
  * <p>
- *     This class starts an manages the terminal based literature management.
+ * This class starts an manages the terminal based literature management.
  * </p>
+ *
  * @author David Oberacker
  */
 public final class LiteratureManagementSystem extends Controller {
@@ -50,7 +51,15 @@ public final class LiteratureManagementSystem extends Controller {
         String userInput = Terminal.readLine();
         while (!(QUIT.matcher(userInput).matches())) {
             boolean result = false;
-            if (lms.execute(userInput)) {
+            if (userInput.matches("\\s+.")) {
+                Terminal.printError("input starts with whitespace!");
+                result = true;
+            }
+            /*if (userInput.matches("\\S((.)+)*\\s+")) {
+                Terminal.printError("input has tailing whitespaces!");
+                result = true;
+            }*/
+            if (!result && lms.execute(userInput)) {
                 result = true;
             }
             if (!result) {

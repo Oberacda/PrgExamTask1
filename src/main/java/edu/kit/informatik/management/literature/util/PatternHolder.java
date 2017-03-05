@@ -45,7 +45,7 @@ public final class PatternHolder {
      * with the minimum length of 1.
      * </p>
      */
-    public static final Pattern TITLEPATTERN = Pattern.compile("([^,;]+)([\\u0020][^,;])*");
+    public static final Pattern TITLEPATTERN = Pattern.compile("(([^,;]+)([\\u0020][^,;])*)");
 
 
     /**
@@ -64,7 +64,7 @@ public final class PatternHolder {
      * with the minimum length of 1 are accepted.
      * </p>
      */
-    public static final Pattern LOCATIONPATTERN = Pattern.compile("([^:;]+)([\\u0020][^;:]+)*");
+    public static final Pattern LOCATIONPATTERN = Pattern.compile("([^,;]+)([\\u0020][^;,]+)*");
 
     /**
      * Regex Pattern for article titles.
@@ -73,6 +73,6 @@ public final class PatternHolder {
      * with the minimum length of 1 are accepted.
      * </p>
      */
-    public static final Pattern ARTICLETITLEPATTERN = Pattern.compile("([\\w]+)([\\u0020][\\w]+)*");
+    public static final Pattern ARTICLETITLEPATTERN = Pattern.compile("([^,;]+)([\\u0020][^;,]+)*");
 
 }

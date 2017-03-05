@@ -28,8 +28,8 @@ public class AddController extends Controller {
 
         super.addCommand(new AddArticle(this));
         super.addCommand(new AddAuthor(this));
-        super.addCommand(new AddConference(this));
         super.addCommand(new AddConferenceSeries(this));
+        super.addCommand(new AddConference(this));
         super.addCommand(new AddJournal(this));
         super.addCommand(new AddKeywords(this));
         super.addCommand(new Cites(this));

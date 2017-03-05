@@ -40,17 +40,18 @@ public class AddConference implements Command {
     @Override
     public boolean execute(final String userCommand) {
         if (!(COMMANDPATTERN.matcher(userCommand).matches())
-                || Pattern.matches("add conference series \\S((.)+\\S)*",
+                || Pattern.matches("add conference series " + PatternHolder.TITLEPATTERN,
                 userCommand)) {
             return false;
         }
-        Scanner sc = new Scanner(userCommand);
-        sc.skip(ADDCONFERENCE);
+
         ArrayList<String> parameterList = new ArrayList<>();
         String conferenceSeriesName;
         int conferenceYear;
         String conferenceLocation;
         try {
+            Scanner sc = new Scanner(userCommand);
+            sc.skip(ADDCONFERENCE);
             sc.useDelimiter(",");
             conferenceSeriesName = sc.next(PatternHolder.TITLEPATTERN);
             conferenceYear = Integer.parseInt(sc.next(PatternHolder.YEARPATTERN));

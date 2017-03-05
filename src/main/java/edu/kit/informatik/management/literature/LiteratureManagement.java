@@ -259,13 +259,13 @@ public class LiteratureManagement {
      */
     public Publishers getPublisher(final Publication publication)
             throws IllegalArgumentException {
-        Stream<Publishers> publisherStream = Stream.concat(this.journalsList.stream()
-                , this.conferenceSeriesList.stream());
-        Optional<Publishers> publishers = publisherStream.filter(publisher ->
-                publisher.getPublication(publication.getId()).isPresent()).findFirst();
+        Set<Publishers> publishers = Stream.concat(this.journalsList.stream()
+                , this.conferenceSeriesList.stream()).collect(Collectors.toSet());
+        Optional<Publishers> publisher = publishers.stream().filter(publishers1 -> publishers1
+                .getPublication(publication.getId()).isPresent()).findFirst();
 
-        if (publishers.isPresent()) {
-            return publishers.get();
+        if (publisher.isPresent()) {
+            return publisher.get();
         } else {
             throw new IllegalArgumentException(String.format("article  \"%s\" not found!",
                     publication.getId()));

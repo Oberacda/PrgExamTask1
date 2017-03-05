@@ -18,7 +18,7 @@ public class AddConferenceSeries implements Command {
             = Pattern.compile("add conference series ");
 
     private static final Pattern COMMANDPATTERN = Pattern.compile(ADDCONFERENCESERIES.pattern()
-            + "\\S((.)+\\S)*");
+            + PatternHolder.TITLEPATTERN);
 
     private AddController lms;
 
@@ -43,8 +43,10 @@ public class AddConferenceSeries implements Command {
         }
         Scanner sc = new Scanner(userCommand);
         sc.skip(ADDCONFERENCESERIES);
+        sc.useDelimiter("[;:]");
         try {
             String conferenceSeriesTitle = sc.next(PatternHolder.TITLEPATTERN);
+            sc.reset();
             if (sc.hasNext()) {
                 throw new NoSuchElementException();
             }

@@ -39,19 +39,22 @@ public class HIndex implements Command {
         if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
             return false;
         }
-        Scanner sc = new Scanner(userCommand);
-        sc.skip(HINDEX);
-
-        sc.useDelimiter(" ");
 
         String firstName;
         String lastName;
 
         try {
+            Scanner sc = new Scanner(userCommand);
+            sc.skip(HINDEX);
+
+            sc.useDelimiter(" ");
             firstName = sc.next(PatternHolder.NAMEPATTERN);
             lastName = sc.next(PatternHolder.NAMEPATTERN);
+            if (sc.hasNext()) {
+                throw new NoSuchElementException();
+            }
         } catch (NoSuchElementException nse) {
-            Terminal.printError("missing command token :" + nse.getMessage());
+            Terminal.printError("invalid syntax, expected: \"h-index <firstname> <lastname>\"!");
             return true;
         }
         try {

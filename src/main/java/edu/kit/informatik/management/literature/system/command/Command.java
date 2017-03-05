@@ -1,5 +1,7 @@
 package edu.kit.informatik.management.literature.system.command;
 
+import edu.kit.informatik.management.literature.exceptions.BadSyntaxException;
+
 /**
  * Interface for all command of the terminal based
  * literature management system.

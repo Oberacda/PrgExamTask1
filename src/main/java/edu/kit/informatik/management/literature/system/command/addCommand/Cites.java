@@ -39,16 +39,22 @@ public class Cites implements Command {
         if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
             return false;
         }
-        Scanner sc = new Scanner(userCommand);
-        sc.skip(CITES);
 
-        sc.useDelimiter(",");
         String articleId;
         String citedArticleId;
 
         try {
+            Scanner sc = new Scanner(userCommand);
+            sc.skip(CITES);
+
+            sc.useDelimiter(",");
             articleId = sc.next(PatternHolder.IDPATTERN);
             citedArticleId = sc.next(PatternHolder.IDPATTERN);
+
+            sc.reset();
+            if (sc.hasNext()) {
+                throw new NoSuchElementException();
+            }
         } catch (NoSuchElementException nse) {
             Terminal.printError("missing command token :" + nse.getMessage());
             return true;

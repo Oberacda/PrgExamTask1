@@ -64,6 +64,10 @@ public class DirectPrintConference implements Command {
             }
             int cnt = authorSet.size();
 
+            if (cnt <= 0) {
+                throw new NoSuchElementException();
+            }
+
             while (cnt < 3) {
                 sc.skip(",");
                 cnt++;
@@ -74,15 +78,21 @@ public class DirectPrintConference implements Command {
             location = sc.next(PatternHolder.LOCATIONPATTERN);
             year = Integer.parseInt(sc.next(PatternHolder.YEARPATTERN));
 
+            sc.reset();
+            if (sc.hasNext()) {
+                throw new NoSuchElementException();
+            }
+
         } catch (NoSuchElementException nse) {
-            Terminal.printError("missing command token :" + nse.getMessage());
+            Terminal.printError("invalid syntax, expected: \"direct print conference <style>:<author1>,<author2*>"
+                    + ",<author3*>,<title>,<series>,<year>\"!");
             return true;
         }
         try {
 
             Terminal.printLine(lms.directPrintConference(conferenceTitle,
                     location, year, articleTitel, authorSet, style));
-        } catch (NoSuchElementException | ElementAlreadyPresentException exc) {
+        } catch (IllegalArgumentException | ElementAlreadyPresentException exc) {
             Terminal.printError(exc.getMessage());
         }
         return true;

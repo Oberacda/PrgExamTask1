@@ -58,6 +58,7 @@ public class AddKeywords implements Command {
             while (sc.hasNext(PatternHolder.KEYWORDPATTERN)) {
                 paramSet.add(sc.next(PatternHolder.KEYWORDPATTERN));
             }
+            sc.reset();
             if (sc.hasNext()) {
                 throw new BadSyntaxException("invalid keywords!");
             }

@@ -5,6 +5,7 @@ import edu.kit.informatik.management.literature.system.command.controller.Comple
 import edu.kit.informatik.Terminal;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -16,7 +17,7 @@ public class DirectHIndex implements Command {
             = Pattern.compile("direct h-index ");
 
     private static final Pattern COMMANDPATTERN = Pattern.compile(DIRECTHINDEX.pattern()
-            + "\\S(.)+\\S");
+            + "\\S((.)+\\S)*");
 
     private ComplexController lms;
 
@@ -38,14 +39,22 @@ public class DirectHIndex implements Command {
         if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
             return false;
         }
-        Scanner sc = new Scanner(userCommand);
-        sc.skip(DIRECTHINDEX);
-
-        sc.useDelimiter(";");
         ArrayList<Integer> paramList1 = new ArrayList<>();
+        try {
+            Scanner sc = new Scanner(userCommand);
+            sc.skip(DIRECTHINDEX);
 
-        while (sc.hasNextInt()) {
-            paramList1.add(sc.nextInt());
+            sc.useDelimiter(";");
+            while (sc.hasNextInt()) {
+                paramList1.add(sc.nextInt());
+            }
+            sc.reset();
+            if (sc.hasNext()) {
+                throw new NoSuchElementException();
+            }
+        } catch (NoSuchElementException nse) {
+            Terminal.printError("invalid syntax, expected: \"direct h-index <listOfIntgers>\"!");
+            return true;
         }
 
         Terminal.printLine(lms.directHIndexOf(paramList1));

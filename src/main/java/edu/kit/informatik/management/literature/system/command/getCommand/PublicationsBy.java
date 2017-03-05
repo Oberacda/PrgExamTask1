@@ -41,14 +41,25 @@ public class PublicationsBy implements Command {
         if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
             return false;
         }
-        Scanner sc = new Scanner(userCommand);
-        sc.skip(PUBICATIONSBY);
 
-        Set<String> paramSet = new HashSet<>();
+        Set<String> paramSet;
+        try {
+            Scanner sc = new Scanner(userCommand);
+            sc.skip(PUBICATIONSBY);
 
-        sc.useDelimiter(";");
-        while (sc.hasNext(edu.kit.informatik.management.literature.system.command.PatternHolder.AUTHORPATTERN)) {
-            paramSet.add(sc.next(edu.kit.informatik.management.literature.system.command.PatternHolder.AUTHORPATTERN));
+            paramSet = new HashSet<>();
+
+            sc.useDelimiter(";");
+            while (sc.hasNext(edu.kit.informatik.management.literature.system.command.PatternHolder.AUTHORPATTERN)) {
+                paramSet.add(sc.next(edu.kit.informatik.management.literature.system.command.PatternHolder.AUTHORPATTERN));
+            }
+            sc.reset();
+            if (sc.hasNext()) {
+                throw new NoSuchElementException("invalid syntax, expected: \"publications by <list of auhtors>\"!");
+            }
+        } catch (NoSuchElementException nse) {
+            Terminal.printError(nse.getMessage());
+            return true;
         }
         try {
             lms.publicationsBy(paramSet).forEach(Terminal::printLine);

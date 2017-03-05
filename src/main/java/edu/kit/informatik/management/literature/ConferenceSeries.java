@@ -162,8 +162,7 @@ public class ConferenceSeries extends Publishers {
      */
     @Override
     public Optional<Publication> getPublication(final String id) {
-        return this.getPublications().
-                findAny().filter(article -> id.equals(article.getId()));
+        return this.getPublications().filter(article -> id.equals(article.getId())).findFirst();
     }
 
     @Override

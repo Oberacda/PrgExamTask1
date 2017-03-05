@@ -4,6 +4,8 @@ import edu.kit.informatik.management.literature.LiteratureManagement;
 import edu.kit.informatik.management.literature.system.command.Command;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.stream.Stream;
 
 /**
@@ -32,7 +34,7 @@ public abstract class Controller implements Command {
     //=================fields==========================
 
     private LiteratureManagement literatureManagement;
-    private HashSet<Command> controlledCommands;
+    private LinkedHashSet<Command> controlledCommands;
 
     //=================constructor======================
 
@@ -51,7 +53,7 @@ public abstract class Controller implements Command {
      *         the commands should work on.
      */
     public Controller(final LiteratureManagement literatureManagement) {
-        this.controlledCommands = new HashSet<>();
+        this.controlledCommands = new LinkedHashSet<>();
         this.literatureManagement = literatureManagement;
     }
 
@@ -79,8 +81,8 @@ public abstract class Controller implements Command {
      *
      * @return managed command stream.
      */
-    public Stream<Command> getControlledCommands() {
-        return controlledCommands.stream();
+    public Set<Command> getControlledCommands() {
+        return controlledCommands;
     }
 
     //=================methods==========================
@@ -112,7 +114,7 @@ public abstract class Controller implements Command {
      * matched and executed the command provided by the user.
      */
     public final boolean execute(final String userInput) {
-        return getControlledCommands()
+        return getControlledCommands().stream()
                 .anyMatch(command -> command.execute(userInput));
     }
 }

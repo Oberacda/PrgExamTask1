@@ -59,13 +59,17 @@ public class Bibliography implements Command {
                 articleList.add(sc.next(PatternHolder.IDPATTERN));
             }
 
+            sc.reset();
+            if (sc.hasNext()) {
+                throw new NoSuchElementException();
+            }
         } catch (NoSuchElementException nse) {
-            Terminal.printError("missing command token :" + nse.getMessage());
+            Terminal.printError("invalid syntax, expected: \"print bibliography <style>:<id1>;<id2>;...\"!");
             return true;
         }
         try {
             lms.printBibliography(style, articleList).forEach(Terminal::printLine);
-        } catch (NoSuchElementException exc) {
+        } catch (NoSuchElementException | IllegalArgumentException exc) {
             Terminal.printError(exc.getMessage());
         }
         return true;

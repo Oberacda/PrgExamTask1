@@ -19,10 +19,7 @@ import java.util.regex.Pattern;
  */
 public class AddArticle implements Command {
     private static final Pattern ADDARTICLE
-            = Pattern.compile("add article ");
-
-    private static final Pattern COMMANDPATTERN = Pattern.compile(ADDARTICLE.pattern()
-            + "\\S((.)+\\S)*");
+            = Pattern.compile("add article");
 
     private AddController lms;
 
@@ -41,33 +38,31 @@ public class AddArticle implements Command {
      */
     @Override
     public boolean execute(final String userCommand) {
-        if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
+        if (!(userCommand.startsWith(ADDARTICLE.pattern()))) {
             return false;
         }
-        Scanner sc = new Scanner(userCommand);
-        sc.skip(ADDARTICLE);
-        sc.useDelimiter(":");
 
         String publisherTitle;
         String publicationId;
         int publicationYear;
         String publicationTitle;
         try {
+            Scanner sc = new Scanner(userCommand);
+            sc.skip(ADDARTICLE + " ");
+            sc.useDelimiter(":");
+
             publisherTitle = sc.next(edu.kit.informatik.management
                     .literature.system.command.PatternHolder.TOPUBLISHERPATTERN);
             sc.skip(":");
             sc.useDelimiter(",");
-            publicationId = sc.next(PatternHolder.TITLEPATTERN);
+            publicationId = sc.next(PatternHolder.IDPATTERN);
             publicationYear = Integer.parseInt(sc.next(PatternHolder.YEARPATTERN));
             publicationTitle = sc.next(PatternHolder.ARTICLETITLEPATTERN);
 
         } catch (NoSuchElementException nse) {
-            Terminal.printError(String.format("invalid command token : %s%s:%s,%s,%s",
-                    ADDARTICLE,
-                    edu.kit.informatik.management.literature.system.command.PatternHolder.TOPUBPATTERN,
-                    PatternHolder.IDPATTERN,
-                    PatternHolder.YEARPATTERN,
-                    PatternHolder.ARTICLETITLEPATTERN));
+            Terminal.printError(String.format("invalid token, expected: \"%s to pub <conference"
+                            + " series/journal>:<id>,<year>,<title>\"!",
+                    ADDARTICLE));
             return true;
         }
         try {

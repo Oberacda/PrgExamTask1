@@ -59,6 +59,7 @@ public class WrittenBy implements Command {
                 paramList.add(sc.next(edu.kit.informatik.management.
                         literature.system.command.PatternHolder.AUTHORPATTERN));
             }
+            sc.reset();
             if (sc.hasNext()) {
                 throw new NoSuchElementException(String.format("unexpected token \"%s\"; expected pattern: <%s>"
                         , sc.next()

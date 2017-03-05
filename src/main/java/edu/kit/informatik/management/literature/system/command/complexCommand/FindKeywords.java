@@ -6,6 +6,7 @@ import edu.kit.informatik.management.literature.util.PatternHolder;
 import edu.kit.informatik.Terminal;
 
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -40,16 +41,27 @@ public class FindKeywords implements Command {
         if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
             return false;
         }
-        Scanner sc = new Scanner(userCommand);
-        sc.skip(FINDKEYWORDS);
 
-        sc.useDelimiter(";");
         Set<String> paramSet = new HashSet<>();
 
-        while (sc.hasNext(PatternHolder.KEYWORDPATTERN)) {
-            paramSet.add(sc.next(PatternHolder.KEYWORDPATTERN));
-        }
+        try {
 
+            Scanner sc = new Scanner(userCommand);
+            sc.skip(FINDKEYWORDS);
+
+            sc.useDelimiter(";");
+
+            while (sc.hasNext(PatternHolder.KEYWORDPATTERN)) {
+                paramSet.add(sc.next(PatternHolder.KEYWORDPATTERN));
+            }
+            sc.reset();
+            if (sc.hasNext()) {
+                throw new NoSuchElementException();
+            }
+        } catch (NoSuchElementException nse) {
+            Terminal.printError("invalid syntax, expected: \"find keywords <keyword>;<keyword>;...\"!");
+            return true;
+        }
         lms.findKeywords(paramSet).forEach(Terminal::printLine);
         return true;
     }
