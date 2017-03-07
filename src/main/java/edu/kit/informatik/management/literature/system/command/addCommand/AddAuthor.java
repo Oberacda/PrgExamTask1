@@ -11,7 +11,12 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
+ * Parsing class for the add author command.
+ * <p>
+ *     Syntax: {@literal "add author <firstname>,<lastname>"}.
+ * </p>
  * @author David Oberacker
+ * @version 1.0.0
  */
 public class AddAuthor implements Command {
 
@@ -45,12 +50,18 @@ public class AddAuthor implements Command {
             sc.useDelimiter(",");
             String firstName = sc.next(PatternHolder.NAMEPATTERN);
             String lastName = sc.next(PatternHolder.NAMEPATTERN);
+            sc.reset();
+            if (sc.hasNext()) {
+                throw new NoSuchElementException();
+            }
+
             lms.addAuthor(firstName, lastName);
             Terminal.printLine("Ok");
         } catch (ElementAlreadyPresentException exc) {
             Terminal.printError(exc.getMessage());
         } catch (NoSuchElementException nse) {
-            Terminal.printError("invalid command token, expected: \"add author <firstname>,<lastname>\"!");
+            Terminal.printError(String.format("invalid command token, expected:"
+                    + " \"%s <firstname>,<lastname>\"!", ADDAUTHOR));
         }
         return true;
     }

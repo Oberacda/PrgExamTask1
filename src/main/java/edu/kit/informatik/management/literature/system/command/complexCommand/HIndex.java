@@ -10,14 +10,16 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
+ * Output/Parsing class for the h-index command.
+ * <p>
+ *     Syntax: {@literal "h-index <firstname> <lastname>"}!
+ * </p>
  * @author David Oberacker
+ * @version 1.0.0
  */
 public class HIndex implements Command {
     private static final Pattern HINDEX
-            = Pattern.compile("h-index ");
-
-    private static final Pattern COMMANDPATTERN = Pattern.compile(HINDEX.pattern()
-            + "\\S(.)+\\S");
+            = Pattern.compile("h-index");
 
     private ComplexController lms;
 
@@ -36,7 +38,7 @@ public class HIndex implements Command {
      */
     @Override
     public boolean execute(final String userCommand) {
-        if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
+        if (!(userCommand.startsWith(HINDEX.pattern()))) {
             return false;
         }
 
@@ -45,7 +47,7 @@ public class HIndex implements Command {
 
         try {
             Scanner sc = new Scanner(userCommand);
-            sc.skip(HINDEX);
+            sc.skip(HINDEX + " ");
 
             sc.useDelimiter(" ");
             firstName = sc.next(PatternHolder.NAMEPATTERN);

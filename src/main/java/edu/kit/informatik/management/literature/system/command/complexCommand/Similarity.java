@@ -10,14 +10,16 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
+ * Output/Parsing class for the similarity command.
+ * <p>
+ *     Syntax: {@literal "similarity <id1>,<id2>"}!
+ * </p>
  * @author David Oberacker
+ * @version 1.0.1
  */
 public class Similarity implements Command {
     private static final Pattern SIMILARITY
-            = Pattern.compile("similarity ");
-
-    private static final Pattern COMMANDPATTERN = Pattern.compile(SIMILARITY.pattern()
-            + "\\S(.)+\\S");
+            = Pattern.compile("similarity");
 
     private ComplexController lms;
 
@@ -36,7 +38,7 @@ public class Similarity implements Command {
      */
     @Override
     public boolean execute(final String userCommand) {
-        if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
+        if (!(userCommand.startsWith(SIMILARITY.pattern()))) {
             return false;
         }
 
@@ -45,7 +47,7 @@ public class Similarity implements Command {
 
         try {
             Scanner sc = new Scanner(userCommand);
-            sc.skip(SIMILARITY);
+            sc.skip(SIMILARITY + " ");
 
             sc.useDelimiter(",");
             articleId1 = sc.next(PatternHolder.IDPATTERN);

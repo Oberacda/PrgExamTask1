@@ -45,7 +45,7 @@ public final class PatternHolder {
      *     Pattern: {@literal "to series | to journal <publisher title>"}
      * </p>
      */
-    public static final Pattern TOPUBLISHERPATTERN = Pattern.compile(String.format("%s|%s"
+    public static final Pattern TOPUBLISHERPATTERN = Pattern.compile(String.format("%s:|%s:"
             , TOJOURNALPATTERN.pattern(), TOSERIESPATTERN.pattern()));
 
     /**
@@ -104,7 +104,7 @@ public final class PatternHolder {
      *         | to journal <journal series title>"}
      * </p>
      */
-    public static final Pattern TOENTITY = Pattern.compile(String.format("%s|%s|%s|%s"
+    public static final Pattern TOENTITY = Pattern.compile(String.format("%s:|%s:|%s:|%s:"
             , TOJOURNALPATTERN.pattern(), TOSERIESPATTERN.pattern()
             , TOPUBPATTERN.pattern(), TOCONFERENCEPATTERN.pattern()));
 

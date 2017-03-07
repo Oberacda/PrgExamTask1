@@ -11,14 +11,16 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
+ * Parsing/Output class for the add journal command.
+ * <p>
+ *     Syntax: {@literal "add journal <title>,<publisher>"}!
+ * </p>
  * @author David Oberacker
+ * @version 1.0.0
  */
 public class AddJournal implements Command {
     private static final Pattern ADDJOURNAL
-            = Pattern.compile("add journal ");
-
-    private static final Pattern COMMANDPATTERN = Pattern.compile(ADDJOURNAL.pattern()
-            + "[^,;]+,[^,;]+");
+            = Pattern.compile("add journal");
 
     private AddController lms;
 
@@ -37,21 +39,26 @@ public class AddJournal implements Command {
      */
     @Override
     public boolean execute(final String userCommand) {
-        if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
+        if (!(userCommand.startsWith(ADDJOURNAL.pattern()))) {
             return false;
         }
-        Scanner sc = new Scanner(userCommand);
-        sc.skip(ADDJOURNAL);
-        sc.useDelimiter(",");
         try {
+            Scanner sc = new Scanner(userCommand);
+            sc.skip(ADDJOURNAL + " ");
+            sc.useDelimiter(",");
             String journalTitle = sc.next(PatternHolder.TITLEPATTERN);
-            String journalPublisher = sc.next();
+            String journalPublisher = sc.next(PatternHolder.TITLEPATTERN);
+            sc.reset();
+            if (sc.hasNext()) {
+                throw new NoSuchElementException();
+            }
+
             lms.addJournal(journalTitle, journalPublisher);
             Terminal.printLine("Ok");
         } catch (ElementAlreadyPresentException exc) {
             Terminal.printError(exc.getMessage());
         } catch (NoSuchElementException nse) {
-            Terminal.printError("missing command token :" + nse.getMessage());
+            Terminal.printError("invalid syntax, expected: \"add journal <title>,<publisher>\"!");
         }
         return true;
     }

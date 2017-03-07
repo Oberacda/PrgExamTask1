@@ -51,7 +51,7 @@ public class AddController extends Controller {
      *
      * @throws NoSuchElementException
      *         if there is no known prefix for this publisher this exception is thrown.
-     * @throws IllegalArgumentException
+     * @throws ElementAlreadyPresentException
      *         if the publication is already present
      *         or there is a syntax error in the publisher prefix.
      */
@@ -60,10 +60,11 @@ public class AddController extends Controller {
                                final String publicationTitle,
                                final String publisherTitle)
             throws NoSuchElementException,
-            IllegalArgumentException {
+            ElementAlreadyPresentException {
         Publishers publishers
                 = getPublisherFromPrefix(publisherTitle);
-        publishers.addArticle(publicationId, publicationYear, publicationTitle);
+        //publishers.addArticle(publicationId, publicationYear, publicationTitle);
+        getLiteratureManagement().addArticle(publishers, publicationId, publicationYear, publicationTitle);
     }
 
     /**
@@ -277,21 +278,23 @@ public class AddController extends Controller {
             Scanner sc = new Scanner(userInput);
             sc.skip(edu.kit.informatik.management.literature.system.command.
                     PatternHolder.TOSERIESPREFIX);
-            Optional<ConferenceSeries> conferenceSeries = getLiteratureManagement().getConferenceSeries(sc.next());
+            String series = sc.next();
+            Optional<ConferenceSeries> conferenceSeries = getLiteratureManagement().getConferenceSeries(series);
             if (conferenceSeries.isPresent()) {
                 return conferenceSeries.get();
             } else {
-                throw new NoSuchElementException("There is no conference series with this name!");
+                throw new NoSuchElementException(String.format("series \"%s\" not found!", series));
             }
         } else if (edu.kit.informatik.management.literature.system.command.
                 PatternHolder.TOJOURNALPATTERN.matcher(userInput).matches()) {
             Scanner sc = new Scanner(userInput);
             sc.skip(edu.kit.informatik.management.literature.system.command.PatternHolder.TOJOURNALPREFIX);
-            Optional<Journal> journal = getLiteratureManagement().getJournal(sc.next());
+            String journaltitle = sc.next();
+            Optional<Journal> journal = getLiteratureManagement().getJournal(journaltitle);
             if (journal.isPresent()) {
                 return journal.get();
             } else {
-                throw new NoSuchElementException("There is no journal with this name!");
+                throw new NoSuchElementException(String.format("journal\"%s\" not found!", journaltitle));
             }
         } else {
             throw new IllegalArgumentException("unsupported command pattern!");

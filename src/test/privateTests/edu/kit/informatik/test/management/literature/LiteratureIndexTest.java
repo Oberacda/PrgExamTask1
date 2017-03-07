@@ -71,7 +71,6 @@ public class LiteratureIndexTest {
         a1.addCitation(a3);
         a1.addCitation(a4);
         a1.addCitation(a5);
-        System.out.println(a1.toString());
     }
 
 }

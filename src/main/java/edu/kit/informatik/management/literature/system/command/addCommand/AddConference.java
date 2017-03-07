@@ -12,14 +12,16 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
+ * Parsing/Output class for the add conference command.
+ * <p>
+ *     Syntax: {@literal "add conference <series title>,<year>,<location>"}!
+ * </p>
  * @author David Oberacker
+ * @version 1.0.0
  */
 public class AddConference implements Command {
     private static final Pattern ADDCONFERENCE
-            = Pattern.compile("add conference ");
-
-    private static final Pattern COMMANDPATTERN = Pattern.compile(ADDCONFERENCE.pattern()
-            + "\\S((.)+\\S)*");
+            = Pattern.compile("add conference");
 
     private AddController lms;
 
@@ -31,7 +33,6 @@ public class AddConference implements Command {
         this.lms = lms;
     }
 
-
     /**
      * Executes the Command on the {@code LiteratureManagement} with the parameters
      * given in the {@code userCommand} parameter.
@@ -39,27 +40,29 @@ public class AddConference implements Command {
      */
     @Override
     public boolean execute(final String userCommand) {
-        if (!(COMMANDPATTERN.matcher(userCommand).matches())
+        if (!(userCommand.startsWith(ADDCONFERENCE.pattern()))
                 || Pattern.matches("add conference series " + PatternHolder.TITLEPATTERN,
                 userCommand)) {
             return false;
         }
 
-        ArrayList<String> parameterList = new ArrayList<>();
         String conferenceSeriesName;
         int conferenceYear;
         String conferenceLocation;
         try {
             Scanner sc = new Scanner(userCommand);
-            sc.skip(ADDCONFERENCE);
+            sc.skip(ADDCONFERENCE + " ");
             sc.useDelimiter(",");
             conferenceSeriesName = sc.next(PatternHolder.TITLEPATTERN);
             conferenceYear = Integer.parseInt(sc.next(PatternHolder.YEARPATTERN));
             conferenceLocation = sc.next(PatternHolder.LOCATIONPATTERN);
+            sc.reset();
+            if (sc.hasNext()) {
+                throw new NoSuchElementException();
+            }
         } catch (NoSuchElementException exc) {
-            Terminal.printError(String.format("invalid command token :\"%s%s%s%s\"",
-                    ADDCONFERENCE, PatternHolder.TITLEPATTERN,
-                    PatternHolder.YEARPATTERN, PatternHolder.LOCATIONPATTERN));
+            Terminal.printError(String.format("invalid syntax, expected:\"%s <conference series>,<year>,<location>\"!",
+                    ADDCONFERENCE));
             return true;
         }
         try {

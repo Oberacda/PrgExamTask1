@@ -11,14 +11,16 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
+ * Parsing/Output class for the add conference series command.
+ * <p>
+ *     Syntax: {@literal "add conference series <title>"}!
+ * </p>
  * @author David Oberacker
+ * @version 1.0.0
  */
 public class AddConferenceSeries implements Command {
     private static final Pattern ADDCONFERENCESERIES
             = Pattern.compile("add conference series ");
-
-    private static final Pattern COMMANDPATTERN = Pattern.compile(ADDCONFERENCESERIES.pattern()
-            + PatternHolder.TITLEPATTERN);
 
     private AddController lms;
 
@@ -38,12 +40,12 @@ public class AddConferenceSeries implements Command {
      */
     @Override
     public boolean execute(final String userCommand) {
-        if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
+        if (!(userCommand.startsWith(ADDCONFERENCESERIES.pattern()))) {
             return false;
         }
         Scanner sc = new Scanner(userCommand);
         sc.skip(ADDCONFERENCESERIES);
-        sc.useDelimiter("[;:]");
+        sc.useDelimiter(";");
         try {
             String conferenceSeriesTitle = sc.next(PatternHolder.TITLEPATTERN);
             sc.reset();

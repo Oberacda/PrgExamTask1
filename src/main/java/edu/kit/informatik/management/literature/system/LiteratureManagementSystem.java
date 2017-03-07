@@ -63,7 +63,7 @@ public final class LiteratureManagementSystem extends Controller {
                 result = true;
             }
             if (!result) {
-                Terminal.printError("invalid syntax! no command detected!");
+                Terminal.printError(String.format("invalid syntax! no command detected in input: \"%s\"!",userInput));
             }
             userInput = Terminal.readLine();
         }

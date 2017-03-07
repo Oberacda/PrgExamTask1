@@ -8,6 +8,7 @@ import edu.kit.informatik.Terminal;
 
 import java.util.HashSet;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -16,10 +17,7 @@ import java.util.regex.Pattern;
  */
 public class AddKeywords implements Command {
     private static final Pattern ADDKEYWORD
-            = Pattern.compile("add keywords ");
-
-    private static final Pattern COMMANDPATTERN = Pattern.compile(ADDKEYWORD.pattern()
-            + "\\S(.)+\\S");
+            = Pattern.compile("add keywords");
 
     private AddController lms;
 
@@ -39,36 +37,44 @@ public class AddKeywords implements Command {
      */
     @Override
     public boolean execute(final String userCommand) {
-        if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
+        if (!(userCommand.startsWith(ADDKEYWORD.pattern()))) {
             return false;
         }
-        Scanner sc = new Scanner(userCommand);
-        sc.skip(ADDKEYWORD);
+        String entityId;
+        HashSet<String> paramSet = new HashSet<>();
         try {
-            sc.useDelimiter(":");
-            String entityId = sc.next(edu.kit.informatik.management.literature.system.command.PatternHolder.TOENTITY);
-            sc.skip(":");
-            sc.useDelimiter(";");
-            HashSet<String> paramSet = new HashSet<>();
-
-            if (!sc.hasNext(edu.kit.informatik.management.literature.system.command.PatternHolder.KEYWORDSPATTERN)) {
-                throw new BadSyntaxException("there are no keywords given!");
+            Scanner sc = new Scanner(userCommand);
+            sc.skip(ADDKEYWORD + " ");
+            //sc.useDelimiter(":");
+            Optional<String> optional = Optional.ofNullable(sc.findInLine(edu.kit.informatik.management
+                    .literature.system.command.PatternHolder.TOENTITY));
+            if (optional.isPresent()) {
+                entityId = optional.get();
+                entityId = entityId.substring(0, entityId.length() - 1);
+            } else {
+                throw new NoSuchElementException();
             }
-
+            //sc.skip(":");
+            sc.useDelimiter(";");
+            if (!sc.hasNext(edu.kit.informatik.management.literature.system.command.PatternHolder.KEYWORDSPATTERN)) {
+                throw new NoSuchElementException("there are no keywords given!");
+            }
             while (sc.hasNext(PatternHolder.KEYWORDPATTERN)) {
                 paramSet.add(sc.next(PatternHolder.KEYWORDPATTERN));
             }
             sc.reset();
             if (sc.hasNext()) {
-                throw new BadSyntaxException("invalid keywords!");
+                throw new NoSuchElementException("invalid keywords!");
             }
-
-            lms.addKeywords(entityId, paramSet);
-            Terminal.printLine("Ok");
-        } catch (BadSyntaxException exc) {
-            Terminal.printError(exc.getMessage());
         } catch (NoSuchElementException nse) {
             Terminal.printError("missing command token :" + nse.getMessage());
+            return true;
+        }
+        try {
+            lms.addKeywords(entityId, paramSet);
+            Terminal.printLine("Ok");
+        } catch (IllegalArgumentException | NoSuchElementException exc) {
+            Terminal.printError(exc.getMessage());
         }
         return true;
     }

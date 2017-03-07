@@ -10,14 +10,16 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
+ * Output/Parsing class for coauthors of command.
+ * <p>
+ *     Syntax: {@literal "coauthors of <firstname> <lastname>"}!
+ * </p>
  * @author David Oberacker
+ * @version 1.0.1
  */
 public class CoauthorsOf implements Command {
     private static final Pattern COAUTHORSOF
-            = Pattern.compile("coauthors of ");
-
-    private static final Pattern COMMANDPATTERN = Pattern.compile(COAUTHORSOF.pattern()
-            + "\\S(.)+\\S");
+            = Pattern.compile("coauthors of");
 
     private ComplexController lms;
 
@@ -36,20 +38,20 @@ public class CoauthorsOf implements Command {
      */
     @Override
     public boolean execute(final String userCommand) {
-        if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
+        if (!(userCommand.startsWith(COAUTHORSOF.pattern()))) {
             return false;
         }
-        Scanner sc = new Scanner(userCommand);
-        sc.skip(COAUTHORSOF);
-
-        sc.useDelimiter(" ");
         String firstName;
         String lastName;
         try {
+            Scanner sc = new Scanner(userCommand);
+            sc.skip(COAUTHORSOF + " ");
+
+            sc.useDelimiter(" ");
             firstName = sc.next(PatternHolder.NAMEPATTERN);
             lastName = sc.next(PatternHolder.NAMEPATTERN);
         } catch (NoSuchElementException nse) {
-            Terminal.printError("missing command token :" + nse.getMessage());
+            Terminal.printError("invalid syntax, expected: \"coauthors of <firstname> <lastname>\"!");
             return true;
         }
         try {

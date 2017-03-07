@@ -12,14 +12,16 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
+ * Parsing/Output class for the written-by command.
+ * <p>
+ *     Syntax: {@literal "written-by <author1>;<author2*>;..."}!
+ * </p>
  * @author David Oberacker
+ * @version 1.0.0
  */
 public class WrittenBy implements Command {
     private static final Pattern WRITTENBY
-            = Pattern.compile("written-by ");
-
-    private static final Pattern COMMANDPATTERN = Pattern.compile(WRITTENBY.pattern()
-            + "\\S((.)+\\S)*");
+            = Pattern.compile("written-by");
 
     private AddController lms;
 
@@ -39,11 +41,11 @@ public class WrittenBy implements Command {
      */
     @Override
     public boolean execute(final String userCommand) {
-        if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
+        if (!(userCommand.startsWith(WRITTENBY.pattern()))) {
             return false;
         }
         Scanner sc = new Scanner(userCommand);
-        sc.skip(WRITTENBY);
+        sc.skip(WRITTENBY + " ");
 
         String articleId;
         ArrayList<String> paramList = new ArrayList<>();
@@ -61,12 +63,10 @@ public class WrittenBy implements Command {
             }
             sc.reset();
             if (sc.hasNext()) {
-                throw new NoSuchElementException(String.format("unexpected token \"%s\"; expected pattern: <%s>"
-                        , sc.next()
-                        , edu.kit.informatik.management.literature.system.command.PatternHolder.AUTHORPATTERN));
+                throw new NoSuchElementException();
             }
         } catch (NoSuchElementException nse) {
-            Terminal.printError("parsing error: " + nse.getMessage());
+            Terminal.printError("invalid syntax, expected: \"written-by <author1>;<author2*>;...\"!");
             return true;
         }
         try {

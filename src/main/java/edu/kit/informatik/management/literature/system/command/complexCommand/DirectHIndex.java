@@ -10,14 +10,16 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
+ * Output/Parsing class for the direct h index command.
+ * <p>
+ *     Syntax: {@literal "direct h-index <list of integers>"}!
+ * </p>
  * @author David Oberacker
+ * @version 1.0.1
  */
 public class DirectHIndex implements Command {
     private static final Pattern DIRECTHINDEX
-            = Pattern.compile("direct h-index ");
-
-    private static final Pattern COMMANDPATTERN = Pattern.compile(DIRECTHINDEX.pattern()
-            + "\\S((.)+\\S)*");
+            = Pattern.compile("direct h-index");
 
     private ComplexController lms;
 
@@ -36,13 +38,13 @@ public class DirectHIndex implements Command {
      */
     @Override
     public boolean execute(final String userCommand) {
-        if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
+        if (!(userCommand.startsWith(DIRECTHINDEX.pattern()))) {
             return false;
         }
         ArrayList<Integer> paramList1 = new ArrayList<>();
         try {
             Scanner sc = new Scanner(userCommand);
-            sc.skip(DIRECTHINDEX);
+            sc.skip(DIRECTHINDEX + " ");
 
             sc.useDelimiter(";");
             while (sc.hasNextInt()) {

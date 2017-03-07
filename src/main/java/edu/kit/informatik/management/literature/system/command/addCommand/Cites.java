@@ -10,14 +10,16 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
+ * Parsing/Output class for the cites command.
+ * <p>
+ *     Syntax: {@literal "cites <id1>,<id2>"}!
+ * </p>
  * @author David Oberacker
+ * @version 1.0.1
  */
 public class Cites implements Command {
     private static final Pattern CITES
-            = Pattern.compile("cites ");
-
-    private static final Pattern COMMANDPATTERN = Pattern.compile(CITES.pattern()
-            + "\\S(.)+\\S");
+            = Pattern.compile("cites");
 
     private AddController lms;
 
@@ -36,7 +38,7 @@ public class Cites implements Command {
      */
     @Override
     public boolean execute(final String userCommand) {
-        if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
+        if (!(userCommand.startsWith(CITES.pattern()))) {
             return false;
         }
 
@@ -45,7 +47,7 @@ public class Cites implements Command {
 
         try {
             Scanner sc = new Scanner(userCommand);
-            sc.skip(CITES);
+            sc.skip(CITES + " ");
 
             sc.useDelimiter(",");
             articleId = sc.next(PatternHolder.IDPATTERN);
@@ -56,7 +58,7 @@ public class Cites implements Command {
                 throw new NoSuchElementException();
             }
         } catch (NoSuchElementException nse) {
-            Terminal.printError("missing command token :" + nse.getMessage());
+            Terminal.printError("invalid syntax, expected: \"cites <id>,<id>\"!");
             return true;
         }
 

@@ -12,14 +12,16 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
+ * Parsing/Output class for the jaccard command.
+ * <p>
+ *     Syntax: {@literal "jaccard <keywords> <keywords>"}!
+ * </p>
  * @author David Oberacker
+ * @version 1.0.1
  */
 public class Jaccard implements Command {
     private static final Pattern JACCARD
-            = Pattern.compile("jaccard ");
-
-    private static final Pattern COMMANDPATTERN = Pattern.compile(JACCARD.pattern()
-            + "\\S(.)+\\S");
+            = Pattern.compile("jaccard");
 
     private ComplexController lms;
 
@@ -39,14 +41,14 @@ public class Jaccard implements Command {
      */
     @Override
     public boolean execute(final String userCommand) {
-        if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
+        if (!(userCommand.startsWith(JACCARD.pattern()))) {
             return false;
         }
         String list1;
         String list2;
         try {
             Scanner sc = new Scanner(userCommand);
-            sc.skip(JACCARD);
+            sc.skip(JACCARD + " ");
 
             sc.useDelimiter("\u0020");
 

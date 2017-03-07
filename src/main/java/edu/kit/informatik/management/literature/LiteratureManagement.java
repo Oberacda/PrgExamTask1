@@ -156,6 +156,34 @@ public class LiteratureManagement {
         }
     }
 
+    /**
+     * Method to add a article to the literature management system.
+     *
+     * @param publisher
+     *         the publisher of the article.
+     * @param publicationId
+     *         the id of the publication.
+     * @param publicationYear
+     *         the year the article was published.
+     * @param publicationTitle
+     *         the title of the article.
+     *
+     * @throws ElementAlreadyPresentException
+     *         if this article id is already
+     *         in use this exception is thrown.
+     */
+    public void addArticle(final Publishers publisher,
+                           final String publicationId,
+                           final int publicationYear,
+                           final String publicationTitle)
+            throws ElementAlreadyPresentException {
+        if (!hasPublication(publicationId)) {
+            publisher.addArticle(publicationId, publicationYear, publicationTitle);
+        } else {
+            throw new ElementAlreadyPresentException(String.format("article \"%s\" already present!", publicationId));
+        }
+    }
+
     //=================get methods======================
 
     /**

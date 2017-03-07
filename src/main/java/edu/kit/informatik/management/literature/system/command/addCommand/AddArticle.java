@@ -1,11 +1,13 @@
 package edu.kit.informatik.management.literature.system.command.addCommand;
 
+import edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException;
 import edu.kit.informatik.management.literature.system.command.Command;
 import edu.kit.informatik.management.literature.system.command.controller.AddController;
 import edu.kit.informatik.management.literature.util.PatternHolder;
 import edu.kit.informatik.Terminal;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -49,11 +51,17 @@ public class AddArticle implements Command {
         try {
             Scanner sc = new Scanner(userCommand);
             sc.skip(ADDARTICLE + " ");
-            sc.useDelimiter(":");
+           // sc.useDelimiter(":");
 
-            publisherTitle = sc.next(edu.kit.informatik.management
-                    .literature.system.command.PatternHolder.TOPUBLISHERPATTERN);
-            sc.skip(":");
+            Optional<String> optional = Optional.ofNullable(sc.findInLine(edu.kit.informatik.management
+                    .literature.system.command.PatternHolder.TOPUBLISHERPATTERN));
+            if (optional.isPresent()) {
+                publisherTitle = optional.get();
+                publisherTitle = publisherTitle.substring(0, publisherTitle.length() - 1);
+            } else {
+                throw new NoSuchElementException();
+            }
+            //sc.skip(":");
             sc.useDelimiter(",");
             publicationId = sc.next(PatternHolder.IDPATTERN);
             publicationYear = Integer.parseInt(sc.next(PatternHolder.YEARPATTERN));
@@ -68,7 +76,7 @@ public class AddArticle implements Command {
         try {
             lms.addPublication(publicationId, publicationYear, publicationTitle, publisherTitle);
             Terminal.printLine("Ok");
-        } catch (IllegalArgumentException | NoSuchElementException exc) {
+        } catch (ElementAlreadyPresentException| NoSuchElementException exc) {
             Terminal.printError(exc.getMessage());
         }
         return true;
