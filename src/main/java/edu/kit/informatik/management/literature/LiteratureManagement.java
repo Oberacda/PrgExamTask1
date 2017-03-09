@@ -51,12 +51,11 @@ public class LiteratureManagement {
      *
      * @param name
      *         the title of the journal
-     *         (See {@link PatternHolder#TITLEPATTERN}).
+     *         (See {@link edu.kit.informatik.management.literature.util.PatternHolder#TITLEPATTERN}).
      * @param publisher
      *         the publisher of the journal
      *         (See {@code [a-zA-Z]+}).
-     *
-     * @throws ElementAlreadyPresentException
+     * @throws edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException
      *         This exception is
      *         thrown if there already is a journal with this name.
      */
@@ -75,18 +74,18 @@ public class LiteratureManagement {
      *
      * @param conferenceSeriesTitle
      *         the title of the series
-     *         conference should be added to (See {@link PatternHolder#TITLEPATTERN}).
+     *         conference should be added to
+     *         (See {@link edu.kit.informatik.management.literature.util.PatternHolder#TITLEPATTERN}).
      * @param conferenceLocation
      *         the location of the conference
-     *         (See {@link PatternHolder#LOCATIONPATTERN}).
+     *         (See {@link edu.kit.informatik.management.literature.util.PatternHolder#LOCATIONPATTERN}).
      * @param conferenceYear
      *         the year the conference took place
-     *         (See {@link PatternHolder#YEARPATTERN}):
-     *
-     * @throws NoSuchElementException
+     *         (See {@link edu.kit.informatik.management.literature.util.PatternHolder#YEARPATTERN}):
+     * @throws java.util.NoSuchElementException
      *         if the conference series doesn't exist
      *         this exception is thrown.
-     * @throws ElementAlreadyPresentException
+     * @throws edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException
      *         if the already is a conference
      *         in this year in this series this exception is thrown.
      */
@@ -114,9 +113,9 @@ public class LiteratureManagement {
      * Adds a conference series to the LiteratureManagement.
      *
      * @param title
-     *         the title of the series (See {@link PatternHolder#TITLEPATTERN}).
-     *
-     * @throws ElementAlreadyPresentException
+     *         the title of the series
+     *         (See {@link edu.kit.informatik.management.literature.util.PatternHolder#TITLEPATTERN}).
+     * @throws edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException
      *         if the already is a conference series
      *         with this title this exception is thrown.
      */
@@ -136,11 +135,12 @@ public class LiteratureManagement {
      * Adds a author to the LiteratureManagement.
      *
      * @param firstName
-     *         the first name of the author (See {@link PatternHolder#NAMEPATTERN}).
+     *         the first name of the author
+     *         (See {@link edu.kit.informatik.management.literature.util.PatternHolder#NAMEPATTERN}).
      * @param lastName
-     *         the last name of the author (See {@link PatternHolder#NAMEPATTERN}).
-     *
-     * @throws ElementAlreadyPresentException
+     *         the last name of the author
+     *         (See {@link edu.kit.informatik.management.literature.util.PatternHolder#NAMEPATTERN}).
+     * @throws edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException
      *         if the already is a author
      *         with this name this exception is thrown.
      */
@@ -167,8 +167,7 @@ public class LiteratureManagement {
      *         the year the article was published.
      * @param publicationTitle
      *         the title of the article.
-     *
-     * @throws ElementAlreadyPresentException
+     * @throws edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException
      *         if this article id is already
      *         in use this exception is thrown.
      */
@@ -193,9 +192,9 @@ public class LiteratureManagement {
      * </p>
      *
      * @param title
-     *         the title of the series (See {@link PatternHolder#TITLEPATTERN}).
-     *
-     * @return if present {@link ConferenceSeries}.
+     *         the title of the series
+     *         (See {@link edu.kit.informatik.management.literature.util.PatternHolder#TITLEPATTERN}).
+     * @return if present {@link edu.kit.informatik.management.literature.ConferenceSeries}.
      */
     public Optional<ConferenceSeries> getConferenceSeries(final String title) {
         return this.conferenceSeriesList.stream().filter(conferenceSeries ->
@@ -209,9 +208,9 @@ public class LiteratureManagement {
      * </p>
      *
      * @param title
-     *         the title of the journal (See {@link PatternHolder#TITLEPATTERN}).
-     *
-     * @return if present {@link Journal}.
+     *         the title of the journal
+     *         (See {@link edu.kit.informatik.management.literature.util.PatternHolder#TITLEPATTERN}).
+     * @return if present {@link edu.kit.informatik.management.literature.Journal}.
      */
     public Optional<Journal> getJournal(final String title) {
         return this.journalsList.stream().filter(journal ->
@@ -222,11 +221,12 @@ public class LiteratureManagement {
      * Returns a optional conference from a series in this year.
      *
      * @param seriesTitle
-     *         the title of the series (See {@link PatternHolder#TITLEPATTERN}).
+     *         the title of the series
+     *         (See {@link edu.kit.informatik.management.literature.util.PatternHolder#TITLEPATTERN}).
      * @param conferenceYear
-     *         the year of the conference (See {@link PatternHolder#YEARPATTERN}).
-     *
-     * @return if present {@link Conference}.
+     *         the year of the conference
+     *         (See {@link edu.kit.informatik.management.literature.util.PatternHolder#YEARPATTERN}).
+     * @return if present {@link edu.kit.informatik.management.literature.Conference}.
      */
     public Optional<Conference> getConferenceFromSeries(final String seriesTitle,
                                                         final int conferenceYear) {
@@ -264,9 +264,9 @@ public class LiteratureManagement {
      * Returns a Optional for a article with this unique id.
      *
      * @param id
-     *         unique id of the article (See {@link PatternHolder#IDPATTERN}).
-     *
-     * @return if present {@link Article}.
+     *         unique id of the article
+     *         (See {@link edu.kit.informatik.management.literature.util.PatternHolder#IDPATTERN}).
+     * @return if present {@link edu.kit.informatik.management.literature.Article}.
      */
     public Optional<Publication> getPublication(final String id) {
         return this.getAllPublications().filter(publication ->
@@ -277,11 +277,9 @@ public class LiteratureManagement {
      * Returns the publisher of a publication.
      *
      * @param publication
-     *         instanceof {@link Publication}.
-     *
+     *         instanceof {@link edu.kit.informatik.management.literature.Publication}.
      * @return publisher of the Publication.
-     *
-     * @throws IllegalArgumentException
+     * @throws java.lang.IllegalArgumentException
      *         if the publication isnt found in
      *         the system this exception is thrown
      */
@@ -304,11 +302,12 @@ public class LiteratureManagement {
      * Returns a optional containing a author if he is known to the system.
      *
      * @param firstName
-     *         the first name of the author (See {@link PatternHolder#NAMEPATTERN}).
+     *         the first name of the author
+     *         (See {@link edu.kit.informatik.management.literature.util.PatternHolder#NAMEPATTERN}).
      * @param lastName
-     *         the last name of the author (See {@link PatternHolder#NAMEPATTERN}).
-     *
-     * @return if present {@link Author}.
+     *         the last name of the author
+     *         (See {@link edu.kit.informatik.management.literature.util.PatternHolder#NAMEPATTERN}).
+     * @return if present {@link edu.kit.informatik.management.literature.Author}.
      */
     public Optional<Author> getAuthor(final String firstName, final String lastName) {
         Author newAuthor = new Author(firstName, lastName);
@@ -320,17 +319,16 @@ public class LiteratureManagement {
      * Returns a stream of the instance of author
      * if he is known by the system.
      * <p>
-     * This method works similar to {@link LiteratureManagement#getAuthor(String, String)}.
+     * This method works similar to
+     * {@link edu.kit.informatik.management.literature.LiteratureManagement#getAuthor(String, String)}.
      * </p>
      *
      * @param authorNames
      *         a collection of author
      *         names (See
      *         {@link edu.kit.informatik.management.literature.system.command.PatternHolder#AUTHORPATTERN}).
-     *
      * @return Stream of authors.
-     *
-     * @throws NoSuchElementException
+     * @throws java.util.NoSuchElementException
      *         if one of the authors in the collection doesn't exist, this
      *         exception is thrown.
      */
@@ -361,8 +359,8 @@ public class LiteratureManagement {
      * Checks if a article with this id was published before.
      *
      * @param id
-     *         the unique id of the article (See {@link PatternHolder#IDPATTERN}).
-     *
+     *         the unique id of the article
+     *         (See {@link edu.kit.informatik.management.literature.util.PatternHolder#IDPATTERN}).
      * @return true - the article was published temporally before.
      */
     public boolean hasPublication(final String id) {
@@ -383,7 +381,6 @@ public class LiteratureManagement {
      *         a list of strings.
      * @param list2
      *         a list of strings.
-     *
      * @return the jaccard index of the two sets.
      */
     public static String calculateJaccard(final Collection<String> list1,
@@ -411,7 +408,6 @@ public class LiteratureManagement {
      * @param citations
      *         a collection of integers that each represent a publication
      *         and their value represents the citation count for the publication.
-     *
      * @return the jaccard index of the two sets.
      */
     public static String calculateHIndex(final Collection<Integer> citations) {

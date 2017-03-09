@@ -12,10 +12,11 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
- * Parsing class for the add article command.
+ * Parsing/Output class for the add article command.
  * <p>
- *     This class parses the {@literal "add article}
+ *     Syntax: {@literal "add article to series/journal <title>:<id>,<year>,<article title>"}!
  * </p>
+ *
  * @author David Oberacker
  * @version 1.0.1
  */
@@ -27,6 +28,7 @@ public class AddArticle implements Command {
 
     /**
      * Default constructor for addController commands.
+     *
      * @param lms the addController of the command.
      */
     public AddArticle(final AddController lms) {
@@ -34,9 +36,10 @@ public class AddArticle implements Command {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Executes the Command on the {@code LiteratureManagement} with the parameters
      * given in the {@code userCommand} parameter.
-     *
      */
     @Override
     public boolean execute(final String userCommand) {
@@ -76,7 +79,7 @@ public class AddArticle implements Command {
         try {
             lms.addPublication(publicationId, publicationYear, publicationTitle, publisherTitle);
             Terminal.printLine("Ok");
-        } catch (ElementAlreadyPresentException| NoSuchElementException exc) {
+        } catch (ElementAlreadyPresentException | NoSuchElementException exc) {
             Terminal.printError(exc.getMessage());
         }
         return true;

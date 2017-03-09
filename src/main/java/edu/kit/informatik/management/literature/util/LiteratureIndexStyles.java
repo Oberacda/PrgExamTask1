@@ -131,7 +131,7 @@ public enum LiteratureIndexStyles {
                     authors = String.format("%s, and %s", authorsList.get(0), authorsList.get(1));
                     break;
                 default: {
-                    for (int i = 0; i < authorsList.size() - 2; i++) {
+                    for (int i = 0; i < authorsList.size() - 1; i++) {
                         authors += authorsList.get(i) + ", ";
                     }
                     authors += "and " + authorsList.get(authorsList.size() - 1);
@@ -158,7 +158,7 @@ public enum LiteratureIndexStyles {
 
     /**
      * Returns a string  representing the given
-     * {@link Publication} in
+     * {@link edu.kit.informatik.management.literature.Publication} in
      * the specified style.
      *
      * @param order
@@ -167,10 +167,8 @@ public enum LiteratureIndexStyles {
      *         the publication that should be represented..
      * @param publishers
      *         the publisher of the article.
-     *
      * @return a string.
-     *
-     * @throws IllegalArgumentException
+     * @throws java.lang.IllegalArgumentException
      *         if the specified publisher has no known representation style
      *         found this exception is thrown.
      */
@@ -182,10 +180,8 @@ public enum LiteratureIndexStyles {
      *
      * @param style
      *         the string representation of the style.
-     *
      * @return the enum constant represented by the string.
-     *
-     * @throws IllegalArgumentException
+     * @throws java.lang.IllegalArgumentException
      *         if the string doesn`t represent
      *         a enum constant this exception is thrown.
      */

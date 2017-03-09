@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
  * </p>
  *
  * @author David Oberacker
+ * @version $Id: $Id
  */
 public final class LiteratureManagementSystem extends Controller {
 
@@ -63,7 +64,7 @@ public final class LiteratureManagementSystem extends Controller {
                 result = true;
             }
             if (!result) {
-                Terminal.printError(String.format("invalid syntax! no command detected in input: \"%s\"!",userInput));
+                Terminal.printError(String.format("invalid syntax! no command detected in input: \"%s\"!", userInput));
             }
             userInput = Terminal.readLine();
         }

@@ -25,7 +25,6 @@ import java.util.stream.Stream;
  * @author David Oberacker
  * @version 1.0.1
  */
-
 public class Conference implements Entity, Venue {
 
     //=================fields==========================
@@ -92,13 +91,9 @@ public class Conference implements Entity, Venue {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Returns a special article published by this conference.
-     *
-     * @param id
-     *         the unique id of the desired article.
-     *
-     * @return the article with the specified id published by
-     * this conference.
      */
     public Optional<Publication> getPublication(final String id) {
         return this.conferencePublications.values().stream()
@@ -127,8 +122,7 @@ public class Conference implements Entity, Venue {
      *         the unique of the new article
      * @param title
      *         the title of the article.
-     *
-     * @throws IllegalArgumentException
+     * @throws java.lang.IllegalArgumentException
      *         this exception is thrown
      *         if there already is a article with this id.
      */
@@ -145,6 +139,7 @@ public class Conference implements Entity, Venue {
 
     //=================override methods=================
 
+    /** {@inheritDoc} */
     @Override
     public void addKeyword(final String keyword) throws IllegalArgumentException {
         if (PatternHolder.KEYWORDPATTERN.matcher(keyword).matches()) {
@@ -160,6 +155,7 @@ public class Conference implements Entity, Venue {
         }
     }
 
+    /** {@inheritDoc} */
     @Override
     public Stream<String> getKeywords() {
         return this.keywordsList.stream();

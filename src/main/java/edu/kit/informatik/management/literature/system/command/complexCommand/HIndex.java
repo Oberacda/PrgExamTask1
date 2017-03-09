@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
  * <p>
  *     Syntax: {@literal "h-index <firstname> <lastname>"}!
  * </p>
+ *
  * @author David Oberacker
  * @version 1.0.0
  */
@@ -25,6 +26,7 @@ public class HIndex implements Command {
 
     /**
      * Default constructor for complexController commands.
+     *
      * @param lms the complexController of the command.
      */
     public HIndex(final ComplexController lms) {
@@ -32,9 +34,10 @@ public class HIndex implements Command {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Executes the Command on the {@code LiteratureManagement} with the parameters
      * given in the {@code userCommand} parameter.
-     *
      */
     @Override
     public boolean execute(final String userCommand) {

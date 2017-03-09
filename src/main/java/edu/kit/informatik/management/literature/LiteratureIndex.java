@@ -15,7 +15,7 @@ import java.util.stream.Stream;
  * The content of a literature index can be printed out in different styles.
  * </p>
  * <p>
- * See: {@link LiteratureIndexStyles}.
+ * See: {@link edu.kit.informatik.management.literature.util.LiteratureIndexStyles}.
  * </p>
  *
  * @author David Oberacker
@@ -105,8 +105,7 @@ public class LiteratureIndex {
      *
      * @param newPublication
      *         the publication that was added.
-     *
-     * @throws IllegalArgumentException
+     * @throws java.lang.IllegalArgumentException
      *         if the publication is
      *         incomplete this exception is thrown!
      */
@@ -135,7 +134,6 @@ public class LiteratureIndex {
      *
      * @param serachedPublication
      *         the serached article.
-     *
      * @return true - the article is in the index.
      */
     public boolean hasEntry(final Publication serachedPublication) {
@@ -163,10 +161,8 @@ public class LiteratureIndex {
      *         {@linkplain LiteratureIndexStyles}
      * @param lm
      *         the {@linkplain LiteratureManagement} the publications are part of.
-     *
      * @return representation of all indexed articles in the specified style.
-     *
-     * @throws IllegalArgumentException
+     * @throws java.lang.IllegalArgumentException
      *         if either the style isnt a valid enum constant or
      *         one of the articles wasn't found this exception is thrown!
      */
@@ -202,10 +198,8 @@ public class LiteratureIndex {
      *         should be printed out.
      * @param publishers
      *         the publisher of the article.
-     *
      * @return a string representation of the article in the specified style.
-     *
-     * @throws IllegalArgumentException
+     * @throws java.lang.IllegalArgumentException
      *         if either the style isnt a valid enum constant or
      *         one of the publisher type is unknown this exception is thrown!
      */

@@ -1,6 +1,5 @@
 package edu.kit.informatik.management.literature.system.command.addCommand;
 
-import edu.kit.informatik.management.literature.exceptions.BadSyntaxException;
 import edu.kit.informatik.management.literature.system.command.Command;
 import edu.kit.informatik.management.literature.system.command.controller.AddController;
 import edu.kit.informatik.management.literature.util.PatternHolder;
@@ -13,7 +12,13 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
+ * Parsing/outpit class for the add keywords commmand.
+ * <p>
+ *     Syntax: {@literal "add keywords to journal/series <title> | to conference <title>:<year> | to pub <id>"}!
+ * </p>
+ *
  * @author David Oberacker
+ * @version 1.0.1
  */
 public class AddKeywords implements Command {
     private static final Pattern ADDKEYWORD
@@ -23,6 +28,7 @@ public class AddKeywords implements Command {
 
     /**
      * Default constructor for addController commands.
+     *
      * @param lms the addController of the command.
      */
     public AddKeywords(final AddController lms) {
@@ -31,9 +37,10 @@ public class AddKeywords implements Command {
 
 
     /**
+     * {@inheritDoc}
+     *
      * Executes the Command on the {@code LiteratureManagement} with the parameters
      * given in the {@code userCommand} parameter.
-     *
      */
     @Override
     public boolean execute(final String userCommand) {
@@ -67,7 +74,8 @@ public class AddKeywords implements Command {
                 throw new NoSuchElementException("invalid keywords!");
             }
         } catch (NoSuchElementException nse) {
-            Terminal.printError("missing command token :" + nse.getMessage());
+            Terminal.printError("invalid syntax, expected: \"add keywords to journal/series <title>"
+                    + " | to conference <title>:<year> | to pub <id>\"!");
             return true;
         }
         try {

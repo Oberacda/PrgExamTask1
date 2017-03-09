@@ -118,8 +118,7 @@ public abstract class Publication implements Entity {
      *
      * @param author
      *         the instance of a author that should be added.
-     *
-     * @throws ElementAlreadyPresentException
+     * @throws edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException
      *         if the given author already wites this publication this exception is thrown.
      */
     public void addAuthor(Author author) throws ElementAlreadyPresentException {
@@ -142,8 +141,7 @@ public abstract class Publication implements Entity {
      * @param citedPublication
      *         Another publication which was published
      *         before this article.
-     *
-     * @throws IllegalArgumentException
+     * @throws java.lang.IllegalArgumentException
      *         if the cited articles publication year isn`t absolute
      *         before this articles publication year this exception is thrown.
      */
@@ -179,7 +177,6 @@ public abstract class Publication implements Entity {
      *
      * @param publication
      *         the article that should be checked if cited.
-     *
      * @return true - this article cites the other article.
      */
     public boolean cites(final Publication publication) {
@@ -188,6 +185,7 @@ public abstract class Publication implements Entity {
 
     //=================override methods=================
 
+    /** {@inheritDoc} */
     @Override
     public void addKeyword(final String keyword) throws IllegalArgumentException {
         if (PatternHolder.KEYWORDPATTERN.matcher(keyword).matches()) {
@@ -200,12 +198,14 @@ public abstract class Publication implements Entity {
 
     }
 
+    /** {@inheritDoc} */
     @Override
     public Stream<String> getKeywords() {
         return this.keywords.stream();
     }
 
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -220,6 +220,7 @@ public abstract class Publication implements Entity {
         return getId().equals(article.getId());
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         return getId().hashCode();

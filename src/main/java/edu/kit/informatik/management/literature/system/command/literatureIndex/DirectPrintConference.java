@@ -10,19 +10,24 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 /**
+ * Output/Parsing class for the direct print conference command.
+ * <p>
+ *     Syntax: "direct print conference {@code&lt;style&gt;}&lt;style&gt;:&lt;author1&gt;,&lt;author2*&gt;
+ *     ,&lt;author3*&gt;,&lt;title&gt;,&lt;series&gt;,&lt;year&gt;"}.
+ * </p>
+ *
  * @author David Oberacker
+ * @version 1.0.1
  */
 public class DirectPrintConference implements Command {
     private static final Pattern DIRECTPRINTCONFERENCE
-            = Pattern.compile("direct print conference ");
-
-    private static final Pattern COMMANDPATTERN = Pattern.compile(DIRECTPRINTCONFERENCE.pattern()
-            + "\\S(.)+\\S");
+            = Pattern.compile("direct print conference");
 
     private LiteratureIndexController lms;
 
     /**
      * Default constructor for literatureIndexController commands.
+     *
      * @param lms the literatureIndexController of the command.
      */
     public DirectPrintConference(final LiteratureIndexController lms) {
@@ -30,17 +35,18 @@ public class DirectPrintConference implements Command {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Executes the Command on the {@code LiteratureManagement} with the parameters
      * given in the {@code userCommand} parameter.
-     *
      */
     @Override
     public boolean execute(final String userCommand) {
-        if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
+        if (!(userCommand.startsWith(DIRECTPRINTCONFERENCE.pattern()))) {
             return false;
         }
         Scanner sc = new Scanner(userCommand);
-        sc.skip(DIRECTPRINTCONFERENCE);
+        sc.skip(DIRECTPRINTCONFERENCE + " ");
 
         sc.useDelimiter(":");
 

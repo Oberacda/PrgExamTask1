@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
  * <p>
  *     Syntax: {@literal "jaccard <keywords> <keywords>"}!
  * </p>
+ *
  * @author David Oberacker
  * @version 1.0.1
  */
@@ -36,6 +37,8 @@ public class Jaccard implements Command {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Executes the Command on the {@code LiteratureManagement} with the parameters
      * given in the {@code userCommand} parameter.
      */

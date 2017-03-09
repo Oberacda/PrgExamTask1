@@ -55,30 +55,28 @@ public class GetController extends Controller {
      *         the title of the conference series.
      * @param year
      *         the year of the conference.
-     *
      * @return a stream of publication ids.
-     *
-     * @throws NoSuchElementException
+     * @throws java.util.NoSuchElementException
      *         If either the conference series or the
      *         conference itself dosn't exist this exception is thrown.
      */
     public Stream<String> inProceedings(final String conferenceSeries,
                                         final int year)
             throws NoSuchElementException {
-        Optional<ConferenceSeries> c = getLiteratureManagement().getConferenceSeries(conferenceSeries);
-        if (c.isPresent()) {
-            Optional<Conference> conference = c.get().getConference(year);
+        Optional<ConferenceSeries> seriesOptional = getLiteratureManagement().getConferenceSeries(conferenceSeries);
+        if (seriesOptional.isPresent()) {
+            Optional<Conference> conference = seriesOptional.get().getConference(year);
             if (conference.isPresent()) {
                 return conference.get()
                         .getPublications()
                         .flatMap(article -> Stream.of(article.getId()));
             } else {
-                throw new NoSuchElementException(String.format("conference"
-                        + " in hte year \"%4d\" wasn't found!", year));
+                throw new NoSuchElementException(String.format("no conference"
+                        + " in the series \"%s\" in the year \"%4d\" found!", conferenceSeries, year));
             }
         } else {
-            throw new NoSuchElementException(String.format("conference with"
-                    + " the title \"%s\" wasn`t found!", conferenceSeries));
+            throw new NoSuchElementException(String.format("conference"
+                    + " \"%s\" wasn`t found!", conferenceSeries));
         }
     }
 
@@ -100,10 +98,8 @@ public class GetController extends Controller {
      *
      * @param authorSet
      *         a list of authors.
-     *
      * @return all publications one of the authors was participating.
-     *
-     * @throws NoSuchElementException
+     * @throws java.util.NoSuchElementException
      *         If one of the authors doesn't
      *         exist this exception is thrown.
      */

@@ -6,9 +6,10 @@ import java.util.SortedSet;
  * A article is a representation of a publication.
  * <p>
  *     Articles are publications published by
- *     either a {@link Conference}
- *     or a {@link Journal}.
+ *     either a {@link edu.kit.informatik.management.literature.Conference}
+ *     or a {@link edu.kit.informatik.management.literature.Journal}.
  * </p>
+ *
  * @author David Oberacker
  * @version 1.0.5
  */
@@ -45,6 +46,7 @@ public class Article extends Publication {
 
     //=================override methods=================
 
+    /** {@inheritDoc} */
     @Override
     public String toString() {
         return String.format("%s:%4d-%s", this.getId(), this.getYear(), this.getTitle());

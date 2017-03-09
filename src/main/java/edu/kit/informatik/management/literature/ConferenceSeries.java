@@ -40,8 +40,7 @@ public class ConferenceSeries extends Publishers {
      * @param title
      *         The title of the conference
      *         (has to be a Sequence of chars only consisting of a-z and A-Z).
-     *
-     * @throws IllegalArgumentException
+     * @throws java.lang.IllegalArgumentException
      *         if the title is containing illegal chars
      *         this exception is thrown.
      */
@@ -62,7 +61,6 @@ public class ConferenceSeries extends Publishers {
      * @param year
      *         The year the conference from the series
      *         should have been set.
-     *
      * @return Optional containing the conference. If there is
      * no conference in this year the optional is empty.
      */
@@ -86,8 +84,7 @@ public class ConferenceSeries extends Publishers {
      *         the year the conference should be at
      * @param location
      *         the location of the conference
-     *
-     * @throws IllegalArgumentException
+     * @throws java.lang.IllegalArgumentException
      *         if there already is a conference
      *         in this year this exception is thrown.
      */
@@ -105,6 +102,7 @@ public class ConferenceSeries extends Publishers {
 
     //=================override methods=================
 
+    /** {@inheritDoc} */
     @Override
     public void addKeyword(final String keyword)
             throws IllegalArgumentException {
@@ -121,24 +119,13 @@ public class ConferenceSeries extends Publishers {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Publishes a article by the venue its called on.
      * <p>
      * While publishing a {@linkplain Article#Article(String, String,
      * int, SortedSet) incomplete} article is created.
      * </p>
-     *
-     * @param id
-     *         the unique of the new article
-     * @param year
-     *         the year the article is published
-     * @param title
-     *         the title of the article.
-     *
-     * @throws IllegalArgumentException
-     *         this exception is thrown
-     *         if there already is a article with this id.
-     * @throws NoSuchElementException
-     *         If there is no conference in this year this exception is called.
      */
     @Override
     public void addArticle(final String id, final int year, final String title)
@@ -152,19 +139,16 @@ public class ConferenceSeries extends Publishers {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Returns a article form a conference form this series.
-     *
-     * @param id
-     *         the id of the desired article.
-     *
-     * @return Optional containing the article. If there is no article
-     * with this id the optional is empty.
      */
     @Override
     public Optional<Publication> getPublication(final String id) {
         return this.getPublications().filter(article -> id.equals(article.getId())).findFirst();
     }
 
+    /** {@inheritDoc} */
     @Override
     public Stream<Publication> getPublications() {
         TreeSet<Publication> publications = new TreeSet<>(Comparator.comparing(Publication::getId));
@@ -176,6 +160,8 @@ public class ConferenceSeries extends Publishers {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Returns a hash code value for the object. This method is
      * supported for the benefit of hash tables such as those provided by
      * {@link HashMap}.
@@ -205,9 +191,6 @@ public class ConferenceSeries extends Publishers {
      * address of the object into an integer, but this implementation
      * technique is not required by the
      * Java&trade; programming language.)
-     *
-     * @return a hash code value for this object.
-     *
      * @see Object#equals(Object)
      * @see System#identityHashCode
      */
@@ -218,6 +201,8 @@ public class ConferenceSeries extends Publishers {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Indicates whether some other object is "equal to" this one.
      * <p>
      * The {@code equals} method implements an equivalence relation
@@ -256,14 +241,8 @@ public class ConferenceSeries extends Publishers {
      * method whenever this method is overridden, so as to maintain the
      * general contract for the {@code hashCode} method, which states
      * that equal objects must have equal hash codes.
-     *
-     * @param obj
-     *         the reference object with which to compare.
-     *
-     * @return {@code true} if this object is the same as the obj
-     * argument; {@code false} otherwise.
-     *
      * @see #hashCode()
+     * @see HashMap
      * @see HashMap
      */
     @Override

@@ -12,7 +12,13 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
+ * Output/Parsing class for the find keywords command.
+ * <p>
+ *     Syntax: {@literal "find keywords <keyword>;<keyword*>;..."}.
+ * </p>
+ *
  * @author David Oberacker
+ * @version 1.0.0
  */
 public class FindKeywords implements Command {
     private static final Pattern FINDKEYWORDS
@@ -25,6 +31,7 @@ public class FindKeywords implements Command {
 
     /**
      * Default constructor for complexController commands.
+     *
      * @param lms the complexController of the command.
      */
     public FindKeywords(final ComplexController lms) {
@@ -32,9 +39,10 @@ public class FindKeywords implements Command {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Executes the Command on the {@code LiteratureManagement} with the parameters
      * given in the {@code userCommand} parameter.
-     *
      */
     @Override
     public boolean execute(final String userCommand) {
@@ -59,7 +67,7 @@ public class FindKeywords implements Command {
                 throw new NoSuchElementException();
             }
         } catch (NoSuchElementException nse) {
-            Terminal.printError("invalid syntax, expected: \"find keywords <keyword>;<keyword>;...\"!");
+            Terminal.printError("invalid syntax, expected: \"find keywords <keyword>;<keyword*>;...\"!");
             return true;
         }
         lms.findKeywords(paramSet).forEach(Terminal::printLine);

@@ -10,19 +10,23 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
+ * Parsing/Output class for the in proceedings command.
+ * <p>
+ *     Syntax: {@literal "in proceedings <title>,<year>}
+ * </p>
+ *
  * @author David Oberacker
+ * @version 1.0.1
  */
 public class InProceedings implements Command {
     private static final Pattern INPROCEEDINGS
-            = Pattern.compile("in proceedings ");
-
-    private static final Pattern COMMANDPATTERN = Pattern.compile(INPROCEEDINGS.pattern()
-            + "\\S(.)+\\S");
+            = Pattern.compile("in proceedings");
 
     private GetController lms;
 
     /**
      * Default constructor for getController commands.
+     *
      * @param lms the gerController of the command.
      */
     public InProceedings(final GetController lms) {
@@ -31,13 +35,14 @@ public class InProceedings implements Command {
 
 
     /**
+     * {@inheritDoc}
+     *
      * Executes the Command on the {@code LiteratureManagement} with the parameters
      * given in the {@code userCommand} parameter.
-     *
      */
     @Override
     public boolean execute(final String userCommand) {
-        if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
+        if (!(userCommand.startsWith(INPROCEEDINGS.pattern()))) {
             return false;
         }
         String seriesTitle;
@@ -45,7 +50,7 @@ public class InProceedings implements Command {
 
         try {
             Scanner sc = new Scanner(userCommand);
-            sc.skip(INPROCEEDINGS);
+            sc.skip(INPROCEEDINGS + " ");
 
             sc.useDelimiter(",");
 

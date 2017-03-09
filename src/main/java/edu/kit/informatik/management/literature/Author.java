@@ -37,8 +37,7 @@ public class Author implements Comparable<Author> {
      *         list name of the author.
      * @param lastName
      *         last name of the author.
-     *
-     * @throws IllegalArgumentException
+     * @throws java.lang.IllegalArgumentException
      *         If the first or last name
      *         contain illegal chars (special chars or whitespaces) this
      *         exception is thrown.
@@ -87,6 +86,8 @@ public class Author implements Comparable<Author> {
 
 
     /**
+     * {@inheritDoc}
+     *
      * Compares this object with the specified object for order.  Returns a
      * negative integer, zero, or a positive integer as this object is less
      * than, equal to, or greater than the specified object.
@@ -116,12 +117,6 @@ public class Author implements Comparable<Author> {
      * <tt>0</tt>, or <tt>1</tt> according to whether the value of
      * <i>expression</i> is negative, zero or positive.
      * </p>
-     *
-     * @param o
-     *         the object to be compared.
-     *
-     * @return a negative integer, zero, or a positive integer as this object
-     * is less than, equal to, or greater than the specified object.
      */
     @Override
     public int compareTo(final Author o) {
@@ -137,13 +132,13 @@ public class Author implements Comparable<Author> {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Returns a string representation of the author.
      * <p>
      * The format is {@code "<firstName> <lastName>"}.
      * (Without {@literal the <> and the "" chars}.
      * </p>
-     *
-     * @return string representation of the author
      */
     @Override
     public String toString() {
@@ -151,17 +146,14 @@ public class Author implements Comparable<Author> {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Checks if the other instance and this instance of
      * author identify the same author.
      * <p>
      * Two authors are equal if the first and last name
      * are the same (case sensitive)!
      * </p>
-     *
-     * @param o
-     *         instance that should be checked.
-     *
-     * @return true - this and o describe the same author.
      */
     @Override
     public boolean equals(final Object o) {
@@ -179,9 +171,9 @@ public class Author implements Comparable<Author> {
     }
 
     /**
-     * Calculates the hashCode for this author instance.
+     * {@inheritDoc}
      *
-     * @return hashCode of this.
+     * Calculates the hashCode for this author instance.
      */
     @Override
     public int hashCode() {

@@ -35,8 +35,7 @@ public abstract class Publishers implements Entity, Venue {
      *
      * @param title
      *         the title of the publisher (unique id).
-     *
-     * @throws IllegalArgumentException
+     * @throws java.lang.IllegalArgumentException
      *         If the title doesn't match
      *         the requirements this error is thrown.
      */
@@ -86,8 +85,7 @@ public abstract class Publishers implements Entity, Venue {
      *         the year the article is published
      * @param title
      *         the title of the article.
-     *
-     * @throws IllegalArgumentException
+     * @throws java.lang.IllegalArgumentException
      *         this exception is thrown
      *         if there already is a article with this id.
      */
@@ -96,11 +94,13 @@ public abstract class Publishers implements Entity, Venue {
 
     //=================override methods=================
 
+    /** {@inheritDoc} */
     @Override
     public Stream<String> getKeywords() {
         return this.getKeywordsTree().stream();
     }
 
+    /** {@inheritDoc} */
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -115,6 +115,7 @@ public abstract class Publishers implements Entity, Venue {
         return getTitle().equals(publishers.getTitle());
     }
 
+    /** {@inheritDoc} */
     @Override
     public int hashCode() {
         return getTitle().hashCode();

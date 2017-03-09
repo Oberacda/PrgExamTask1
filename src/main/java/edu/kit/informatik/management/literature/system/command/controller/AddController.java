@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 /**
  * Controller for add commands in
  * the literature management system.
+ *
  * @author David Oberacker
  * @version 1.0.1
  */
@@ -48,10 +49,9 @@ public class AddController extends Controller {
      *         a string representating the publication title.
      * @param publisherTitle
      *         a prefix representating the publisher.
-     *
-     * @throws NoSuchElementException
+     * @throws java.util.NoSuchElementException
      *         if there is no known prefix for this publisher this exception is thrown.
-     * @throws ElementAlreadyPresentException
+     * @throws edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException
      *         if the publication is already present
      *         or there is a syntax error in the publisher prefix.
      */
@@ -74,8 +74,7 @@ public class AddController extends Controller {
      *         first name of the author.
      * @param lastName
      *         last name of the author.
-     *
-     * @throws ElementAlreadyPresentException
+     * @throws edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException
      *         if there already is a author with this name
      *         this exception is thrown.
      */
@@ -94,10 +93,9 @@ public class AddController extends Controller {
      *         the year the conference took place.
      * @param conferenceLocation
      *         the location of the conference.
-     *
-     * @throws ElementAlreadyPresentException
+     * @throws edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException
      *         If there already is  a conference in this year in the series this exception is thrown,
-     * @throws NoSuchElementException
+     * @throws java.util.NoSuchElementException
      *         if the conference series doesn't exist, this exception is thrown.
      */
     public void addConference(final String conferenceSeriesTitle,
@@ -114,8 +112,7 @@ public class AddController extends Controller {
      *
      * @param conferenceSeriesTitel
      *         the title of the conference series.
-     *
-     * @throws ElementAlreadyPresentException
+     * @throws edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException
      *         if there already is a conference series
      *         with this title this exception is thrown.
      */
@@ -131,8 +128,7 @@ public class AddController extends Controller {
      *         the title of the journal.
      * @param journalPublisher
      *         the publisher of the journal.
-     *
-     * @throws ElementAlreadyPresentException
+     * @throws edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException
      *         if there already is a
      *         journal with this name this exception is thrown.
      */
@@ -148,13 +144,13 @@ public class AddController extends Controller {
      * @param entityId
      *         prefix containg the enitiy
      *         the keyword should be added to.
-     *         (See: {@link AddController#getEntityFormPrefix(String)}).
+     *         (See:
+{@link edu.kit.informatik.management.literature.system.command.controller.AddController#getEntityFormPrefix(String)}).
      * @param keywords
      *         a set of keywords that should be added.
-     *
-     * @throws IllegalArgumentException
+     * @throws java.lang.IllegalArgumentException
      *         if the prefix doesn't match any known prefix this exception is thrown.
-     * @throws NoSuchElementException
+     * @throws java.util.NoSuchElementException
      *         if there is no enitity with the id given in the prefix.
      */
     public void addKeywords(final String entityId,
@@ -173,11 +169,10 @@ public class AddController extends Controller {
      *         the id of the publication that cites another.
      * @param citedPublicationId
      *         the id of the publication that is cited by the first one.
-     *
-     * @throws IllegalArgumentException
+     * @throws java.lang.IllegalArgumentException
      *         if the release of the cited article wasn't before the release
      *         of the article that cites, this exception is thrown.
-     * @throws NoSuchElementException
+     * @throws java.util.NoSuchElementException
      *         if one of the articles don't exist in the system this exception
      *         is thrown.
      */
@@ -215,9 +210,10 @@ public class AddController extends Controller {
      *
      * @param publicationId the id of the publication.
      * @param authorsList a list of one or more authors.
-     * @throws NoSuchElementException if the publication with this
+     * @throws java.util.NoSuchElementException if the publication with this
      * id doesn't exist or one of the authors does't exist this error is thrown.
-     * @throws ElementAlreadyPresentException if one of the authors already writes
+     * @throws edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException
+     * if one of the authors already writes
      * this article this exception is thrown.
      */
     public void writtenBy(final String publicationId,
@@ -261,13 +257,11 @@ public class AddController extends Controller {
      *
      * @param userInput
      *         the prefix entered by the user.
-     *
      * @return if present the publisher specified by the prefix.
-     *
-     * @throws NoSuchElementException
+     * @throws java.util.NoSuchElementException
      *         if there is no publisher with the
      *         specified title this exception is thrown.
-     * @throws IllegalArgumentException
+     * @throws java.lang.IllegalArgumentException
      *         if there is a syntax error in the prefix
      *         this exception is thrown.
      */

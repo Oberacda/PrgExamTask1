@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
  * <p>
  *     Syntax: {@literal "add conference series <title>"}!
  * </p>
+ *
  * @author David Oberacker
  * @version 1.0.0
  */
@@ -26,6 +27,7 @@ public class AddConferenceSeries implements Command {
 
     /**
      * Default constructor for addController commands.
+     *
      * @param lms the addController of the command.
      */
     public AddConferenceSeries(final AddController lms) {
@@ -34,9 +36,10 @@ public class AddConferenceSeries implements Command {
 
 
     /**
+     * {@inheritDoc}
+     *
      * Executes the Command on the {@code LiteratureManagement} with the parameters
      * given in the {@code userCommand} parameter.
-     *
      */
     @Override
     public boolean execute(final String userCommand) {

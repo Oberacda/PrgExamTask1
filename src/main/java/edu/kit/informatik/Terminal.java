@@ -23,7 +23,6 @@ import static org.junit.Assert.fail;
  * the outputs made with {@link #printLine} to match certain criteria, expressed
  * in {@literal http://hamcrest.org/JavaHamcrest/ Hamcrest matchers}.
  * <p>
- * <p>
  * The idea is to first specify an input and a matcher that checks the output
  * which is printed by the tested program upon that input. When the tested
  * program calls {@link #readLine()}, the predefined input will be returned.
@@ -36,7 +35,6 @@ import static org.junit.Assert.fail;
  * check the latest output lines by hand.
  * </p>
  * <p>
- * <p>
  * There is no method to provide input for the {@link #readFile(String)} method.
  * This is on purpose, as implementations are allowed to read files by other
  * means. There should always be a real (temporary) file to read when testing.
@@ -47,8 +45,7 @@ import static org.junit.Assert.fail;
  *
  * @author Moritz Halm
  * @author Joshua Gleitze
- * @author ITI, VeriAlg Group
- * @author IPD, SDQ Group
+ * @version $Id: $Id
  */
 @SuppressWarnings("ALL")
 public class Terminal {
@@ -86,15 +83,12 @@ public class Terminal {
     /**
      * Prints the string representation of an {@code Object} and then terminate
      * the line.
-     * <p>
-     * <p>
      * If the argument is {@code null}, then the string {@code "null"} is
      * printed, otherwise the object's string value {@code obj.toString()} is
      * printed.
      *
      * @param object
      *         the {@code Object} to be printed
-     *
      * @see String#valueOf(Object)
      */
     public static void printLine(Object object) {
@@ -107,15 +101,12 @@ public class Terminal {
 
     /**
      * Prints an array of characters and then terminate the line.
-     * <p>
-     * <p>
      * If the argument is {@code null}, then a {@code NullPointerException} is
      * thrown, otherwise the value of {@code
      * new String(charArray)} is printed.
      *
      * @param charArray
      *         an array of chars to be printed
-     *
      * @see String#valueOf(char[])
      */
     public static void printLine(final char[] charArray) {
@@ -176,20 +167,13 @@ public class Terminal {
 
     /**
      * Prints the given error-{@code message} with the prefix "{@code Error, }".
-     * <p>
-     * <p>
      * More specific, this method behaves exactly as if the following code got
      * executed: <blockquote>
-     * <p>
-     * <pre>
      * Terminal.printLine("Error, " + message);
-     * </pre>
-     * <p>
      * </blockquote>
      *
      * @param message
      *         the error message to be printed
-     *
      * @see #printLine(Object)
      */
     public static void printError(final String message) {
@@ -215,6 +199,9 @@ public class Terminal {
     /**
      * Convenience method. Specify several lines that should be exactly the
      * output of the program.
+     *
+     * @param input a {@link java.lang.String} object.
+     * @param expectedOutput a {@link java.util.List} object.
      */
     public static void addMultipleLinesOutputThatIsExactly(String input, List<String> expectedOutput) {
         addMultipleLinesOutputThatIsExactly(input, expectedOutput.toArray(new String[0]));
@@ -223,6 +210,9 @@ public class Terminal {
     /**
      * Convenience method. Specify several lines that should be exactly the
      * output of the program.
+     *
+     * @param input a {@link java.lang.String} object.
+     * @param expectedOutput a {@link java.lang.String} object.
      */
     public static void addMultipleLinesOutputThatIsExactly(String input, String... expectedOutput) {
         addMultipleLineOutputThatMatches(input, contains(expectedOutput));
@@ -231,6 +221,9 @@ public class Terminal {
     /**
      * Convenience method. Specify a matcher that checks a single line of
      * output. The tested program is expected to print out only a single line.
+     *
+     * @param input a {@link java.lang.String} object.
+     * @param matcher a {@link org.hamcrest.Matcher} object.
      */
     public static void addSingleLineOutputThatMatches(String input, Matcher<String> matcher) {
         addMultipleLineOutputThatMatches(input, allOf(iterableWithSize(1), hasItem(matcher)));
@@ -239,6 +232,9 @@ public class Terminal {
     /**
      * Convenience method. Specify a single line of output that should be
      * printed upon a call of input.
+     *
+     * @param input a {@link java.lang.String} object.
+     * @param expectedOutput a {@link java.lang.String} object.
      */
     public static void addSingleLineOutputThatIsExactly(String input, String expectedOutput) {
         addSingleLineOutputThatMatches(input, is(expectedOutput));
@@ -246,6 +242,8 @@ public class Terminal {
 
     /**
      * Convenience method. Specify an input which expects no output.
+     *
+     * @param input a {@link java.lang.String} object.
      */
     public static void addNoOutput(String input) {
         addMultipleLineOutputThatMatches(input, empty());
@@ -258,7 +256,6 @@ public class Terminal {
      *
      * @param path
      *         the path of the file to be read
-     *
      * @return the content of the file stored in a {@code String} array
      */
     public static String[] readFile(final String path) {
@@ -306,8 +303,6 @@ public class Terminal {
      * Enables testing mode. This means that the class will not behave like the
      * normal Terminal class, but return predefined input and check the
      * program’s output.
-     *
-     * @see {@link #disableTestingMode()}
      */
     public static void enableTestingMode() {
         testMode = true;
@@ -317,8 +312,6 @@ public class Terminal {
      * Disables testing mode. This means that the class will behave like
      * {@literal https://sdqweb.ipd.kit.edu/lehre/WS1617-Programmieren/Terminal.java
      * the SDQ’s Terminal class}.
-     *
-     * @see {@link #enableTestingMode()}
      */
     public static void disableTestingMode() {
         testMode = false;

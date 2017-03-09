@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
  * <p>
  *     Syntax: {@literal "written-by <author1>;<author2*>;..."}!
  * </p>
+ *
  * @author David Oberacker
  * @version 1.0.0
  */
@@ -27,6 +28,7 @@ public class WrittenBy implements Command {
 
     /**
      * Default constructor for addController commands.
+     *
      * @param lms the addController of the command.
      */
     public WrittenBy(final AddController lms) {
@@ -35,9 +37,10 @@ public class WrittenBy implements Command {
 
 
     /**
+     * {@inheritDoc}
+     *
      * Executes the Command on the {@code LiteratureManagement} with the parameters
      * given in the {@code userCommand} parameter.
-     *
      */
     @Override
     public boolean execute(final String userCommand) {

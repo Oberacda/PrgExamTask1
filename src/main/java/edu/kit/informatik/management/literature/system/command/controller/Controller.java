@@ -3,10 +3,8 @@ package edu.kit.informatik.management.literature.system.command.controller;
 import edu.kit.informatik.management.literature.LiteratureManagement;
 import edu.kit.informatik.management.literature.system.command.Command;
 
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.stream.Stream;
 
 /**
  * This class represents a controller for
@@ -22,7 +20,7 @@ import java.util.stream.Stream;
  * Commands to. But a controller can only work as
  * wrapper class and not represent a actual command.
  * The execution method of this class only runs the
- * {@link Command#execute(String)} command in its
+ * {@link edu.kit.informatik.management.literature.system.command.Command#execute(String)} command in its
  * managed instances.
  * </p>
  *
@@ -95,7 +93,7 @@ public abstract class Controller implements Command {
      * </p>
      *
      * @param newCommand
-     *         a instance of a subclass of {@link Command}.
+     *         a instance of a subclass of {@link edu.kit.informatik.management.literature.system.command.Command}.
      */
     public void addCommand(final Command newCommand) {
         controlledCommands.add(newCommand);
@@ -104,14 +102,10 @@ public abstract class Controller implements Command {
     //=================override methods=================
 
     /**
+     * {@inheritDoc}
+     *
      * Runs the {@link Command#execute(String)} method on all
      * managed commands(including other controllers).
-     *
-     * @param userInput
-     *         the input entered by the user.
-     *
-     * @return true - one of the managed classes successfully
-     * matched and executed the command provided by the user.
      */
     public final boolean execute(final String userInput) {
         return getControlledCommands().stream()

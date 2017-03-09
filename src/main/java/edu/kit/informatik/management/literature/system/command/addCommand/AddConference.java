@@ -6,7 +6,6 @@ import edu.kit.informatik.management.literature.system.command.controller.AddCon
 import edu.kit.informatik.management.literature.util.PatternHolder;
 import edu.kit.informatik.Terminal;
 
-import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -16,6 +15,7 @@ import java.util.regex.Pattern;
  * <p>
  *     Syntax: {@literal "add conference <series title>,<year>,<location>"}!
  * </p>
+ *
  * @author David Oberacker
  * @version 1.0.0
  */
@@ -27,6 +27,7 @@ public class AddConference implements Command {
 
     /**
      * Default constructor for addController commands.
+     *
      * @param lms the addController of the command.
      */
     public AddConference(final AddController lms) {
@@ -34,9 +35,10 @@ public class AddConference implements Command {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Executes the Command on the {@code LiteratureManagement} with the parameters
      * given in the {@code userCommand} parameter.
-     *
      */
     @Override
     public boolean execute(final String userCommand) {

@@ -41,7 +41,7 @@ public class LiteratureIndexController extends Controller {
      * {@link edu.kit.informatik.management.literature.util.LiteratureIndexStyles}
      * </p>
      * <p>
-     * While executing nothing is dependent to a {@link LiteratureManagement}.
+     * While executing nothing is dependent to a {@link edu.kit.informatik.management.literature.LiteratureManagement}.
      * </p>
      *
      * @param conferenceSeriesTitle
@@ -57,13 +57,11 @@ public class LiteratureIndexController extends Controller {
      * @param style
      *         the output format
      *         ({@link edu.kit.informatik.management.literature.util.LiteratureIndexStyles}).
-     *
      * @return a representation of the article published by a conference in a certain format.
-     *
-     * @throws IllegalArgumentException
+     * @throws java.lang.IllegalArgumentException
      *         If either the output format ins unknown or the publisher is of a type
      *         that has no specified output style this exception is thrown.
-     * @throws ElementAlreadyPresentException
+     * @throws edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException
      *         if the given author already wites this publication this exception is thrown.
      */
     public String directPrintConference(final String conferenceSeriesTitle,
@@ -93,7 +91,7 @@ public class LiteratureIndexController extends Controller {
      * {@link edu.kit.informatik.management.literature.util.LiteratureIndexStyles}
      * </p>
      * <p>
-     * While executing nothing is dependent to a {@link LiteratureManagement}.
+     * While executing nothing is dependent to a {@link edu.kit.informatik.management.literature.LiteratureManagement}.
      * </p>
      *
      * @param journalTitle
@@ -109,13 +107,11 @@ public class LiteratureIndexController extends Controller {
      * @param style
      *         the output format
      *         ({@link edu.kit.informatik.management.literature.util.LiteratureIndexStyles}).
-     *
      * @return a representation of the article published by a conference in a certain format.
-     *
-     * @throws IllegalArgumentException
+     * @throws java.lang.IllegalArgumentException
      *         If either the output format ins unknown or the publisher is of a type
      *         that has no specified output style this exception is thrown.
-     * @throws ElementAlreadyPresentException
+     * @throws edu.kit.informatik.management.literature.exceptions.ElementAlreadyPresentException
      *         if the given author already wites this publication this exception is thrown.
      */
     public String directPrintJournal(final String journalTitle,
@@ -137,12 +133,11 @@ public class LiteratureIndexController extends Controller {
     /**
      * Methode to get the representation of a set of articles in a specified output format.
      * <p>
-     * <p>
      * For the styles see:
      * {@link edu.kit.informatik.management.literature.util.LiteratureIndexStyles}
      * </p>
      * <p>
-     * This method is dependent to a {@link LiteratureManagement}.
+     * This method is dependent to a {@link edu.kit.informatik.management.literature.LiteratureManagement}.
      * </p>
      *
      * @param style
@@ -150,10 +145,8 @@ public class LiteratureIndexController extends Controller {
      *         ({@link edu.kit.informatik.management.literature.util.LiteratureIndexStyles}).
      * @param publicationId
      *         a list of publication ids.
-     *
      * @return a stream of string representations.
-     *
-     * @throws IllegalArgumentException
+     * @throws java.lang.IllegalArgumentException
      *         If either the output format ins unknown, the publisher is of a type
      *         that has no specified output style or one of the articles is
      *         incomplete this exception is thrown.

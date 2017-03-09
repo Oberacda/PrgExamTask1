@@ -10,7 +10,13 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
+ * Parsing/Output class for the foreigin citations command.
+ * <p>
+ *     Syntax: {@literal "foreign citations of <firstname> <lastname>"}!
+ * </p>
+ *
  * @author David Oberacker
+ * @version $Id: $Id
  */
 public class ForeignCitations implements Command {
     private static final Pattern FOREIGNCITATIONS
@@ -23,6 +29,7 @@ public class ForeignCitations implements Command {
 
     /**
      * Default constructor for complexController commands.
+     *
      * @param lms the complexController of the command.
      */
     public ForeignCitations(final ComplexController lms) {
@@ -30,9 +37,10 @@ public class ForeignCitations implements Command {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Executes the Command on the {@code LiteratureManagement} with the parameters
      * given in the {@code userCommand} parameter.
-     *
      */
     @Override
     public boolean execute(final String userCommand) {
@@ -57,7 +65,7 @@ public class ForeignCitations implements Command {
                 throw new NoSuchElementException();
             }
         } catch (NoSuchElementException nse) {
-            Terminal.printError("invalid syntax, expected: \" foreign citations of <firstname> <lastname>\"!");
+            Terminal.printError("invalid syntax, expected: \"foreign citations of <firstname> <lastname>\"!");
             return true;
         }
         try {

@@ -12,18 +12,17 @@ import java.util.regex.Pattern;
  * Parser class for the bibliography command.
  *
  * @author David Oberacker
+ * @version $Id: $Id
  */
 public class Bibliography implements Command {
     private static final Pattern BIBLIOGRAPHY
-            = Pattern.compile("print bibliography ");
-
-    private static final Pattern COMMANDPATTERN = Pattern.compile(BIBLIOGRAPHY.pattern()
-            + "\\S(.)+\\S");
+            = Pattern.compile("print bibliography");
 
     private LiteratureIndexController lms;
 
     /**
      * Default constructor for literatureIndexController commands.
+     *
      * @param lms the literatureIndexController of the command.
      */
     public Bibliography(final LiteratureIndexController lms) {
@@ -31,20 +30,18 @@ public class Bibliography implements Command {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Executes the Command on the {@code CampusManagement} with the parameters
      * given in the {@code userCommand} parameter.
-     *
-     * @param userCommand
-     *         String entered by the terminal user.
-     * @return true - execution was succesful.
      */
     @Override
     public boolean execute(final String userCommand) {
-        if (!(COMMANDPATTERN.matcher(userCommand).matches())) {
+        if (!(userCommand.startsWith(BIBLIOGRAPHY.pattern()))) {
             return false;
         }
         Scanner sc = new Scanner(userCommand);
-        sc.skip(BIBLIOGRAPHY);
+        sc.skip(BIBLIOGRAPHY + " ");
 
         String style;
         Set<String> articleList = new LinkedHashSet<>();

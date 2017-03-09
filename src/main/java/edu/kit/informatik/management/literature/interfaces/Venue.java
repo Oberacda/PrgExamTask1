@@ -38,7 +38,6 @@ public interface Venue {
      *
      * @param id
      *         the id of the desired article.
-     *
      * @return article from the conference with this id.
      */
     Optional<Publication> getPublication(String id);

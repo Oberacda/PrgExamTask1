@@ -27,8 +27,7 @@ public interface Entity {
      *
      * @param keyword
      *         the keyword that should be added.
-     *
-     * @throws IllegalArgumentException
+     * @throws java.lang.IllegalArgumentException
      *         if the keyword that
      *         should be added does not match the requirements
      *         for keywords this exception is thrown.

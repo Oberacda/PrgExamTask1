@@ -1,6 +1,5 @@
 package edu.kit.informatik.management.literature.system.command;
 
-import edu.kit.informatik.management.literature.exceptions.BadSyntaxException;
 
 /**
  * Interface for all command of the terminal based
@@ -27,14 +26,13 @@ import edu.kit.informatik.management.literature.exceptions.BadSyntaxException;
 @FunctionalInterface
 public interface Command {
 
-    /**
-     * Executes the Command on the {@code Literature Management} with the parameters
-     * given in the {@code userCommand} parameter.
-     *
-     * @param userCommand
-     *         String entered by the terminal user.
-     *
-     * @return true - execution was succesful.
-     */
+     /**
+      * Executes the Command on the {@code Literature Management} with the parameters
+      * given in the {@code userCommand} parameter.
+      *
+      * @param userCommand
+      *         String entered by the terminal user.
+      * @return true - execution was succesful.
+      */
      boolean execute(String userCommand);
 }

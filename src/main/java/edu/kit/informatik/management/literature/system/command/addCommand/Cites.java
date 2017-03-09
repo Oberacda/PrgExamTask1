@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
  * <p>
  *     Syntax: {@literal "cites <id1>,<id2>"}!
  * </p>
+ *
  * @author David Oberacker
  * @version 1.0.1
  */
@@ -25,6 +26,7 @@ public class Cites implements Command {
 
     /**
      * Default constructor for addController commands.
+     *
      * @param lms the addController of the command.
      */
     public Cites(final AddController lms) {
@@ -32,9 +34,10 @@ public class Cites implements Command {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Executes the Command on the {@code LiteratureManagement} with the parameters
      * given in the {@code userCommand} parameter.
-     *
      */
     @Override
     public boolean execute(final String userCommand) {

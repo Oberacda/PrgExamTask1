@@ -49,10 +49,8 @@ public class ComplexController extends Controller {
      *         the first name of the author you search the coauthors.
      * @param lastName
      *         the last name of the author you search the coauthors.
-     *
      * @return stream of author names who are coauthors to the given author.
-     *
-     * @throws NoSuchElementException
+     * @throws java.util.NoSuchElementException
      *         If the specified author doesn't exist
      *         this exception is thrown.
      */
@@ -84,13 +82,13 @@ public class ComplexController extends Controller {
      * of the integer represents the citation count of the publication.
      * </p>
      * <p>
-     * See: {@link LiteratureManagement#calculateHIndex(Collection)}.
+     * See: {@link edu.kit.informatik.management.literature.LiteratureManagement#calculateHIndex(Collection)}.
      * </p>
      *
      * @param publicationList
      *         a list of integers with the specified meaning.
-     *
-     * @return {@link LiteratureManagement#calculateHIndex(Collection) h-index}
+     * @return
+     * {@link edu.kit.informatik.management.literature.LiteratureManagement#calculateHIndex(Collection) h-index}
      * of the integers.
      */
     public String directHIndexOf(List<Integer> publicationList) {
@@ -104,7 +102,6 @@ public class ComplexController extends Controller {
      * @param keywordSet
      *         a set of keywords that all publications
      *         that are returned should have.
-     *
      * @return ids of all publications with all the specified keywords.
      */
     public Stream<String> findKeywords(Set<String> keywordSet) {
@@ -128,10 +125,8 @@ public class ComplexController extends Controller {
      *         the first name of the author you want to find the foreign citations.
      * @param lastName
      *         the last name of the author you want to find the foreign citations.
-     *
      * @return the articles that are foreign citations of the author.
-     *
-     * @throws NoSuchElementException
+     * @throws java.util.NoSuchElementException
      *         If the specified author doesn`t exist this
      *         exception is thrown.
      */
@@ -174,17 +169,15 @@ public class ComplexController extends Controller {
      * the author participated.
      * </p>
      * <p>
-     * See : {@link LiteratureManagement#calculateHIndex(Collection)}.
+     * See : {@link edu.kit.informatik.management.literature.LiteratureManagement#calculateHIndex(Collection)}.
      * </p>
      *
      * @param firstName
      *         the first name of the author you want the h-index of.
      * @param lastName
      *         the last name of the author you want the h-index of.
-     *
      * @return the h-index of a author.
-     *
-     * @throws NoSuchElementException
+     * @throws java.util.NoSuchElementException
      *         If the specified author doesn`t exist this
      *         exception is thrown.
      */
@@ -213,7 +206,8 @@ public class ComplexController extends Controller {
     /**
      * Returns the jaccard-index of two word sets.
      * <p>
-     * See: {@link LiteratureManagement#calculateJaccard(Collection, Collection)}.
+     * See:
+     * {@link edu.kit.informatik.management.literature.LiteratureManagement#calculateJaccard(Collection, Collection)}.
      * </p>
      * <p>
      * The result string always contains a floating point number,
@@ -224,7 +218,6 @@ public class ComplexController extends Controller {
      *         the first set of words.
      * @param wordSet2
      *         the second set of words.
-     *
      * @return the jaccard index of the two sets (0.000-1.000).
      */
     public String jaccardIndex(final Set<String> wordSet1,
@@ -236,7 +229,8 @@ public class ComplexController extends Controller {
      * Returns the similarity between two articles by calculating
      * the jaccard index for their keywords.
      * <p>
-     * See: {@link LiteratureManagement#calculateJaccard(Collection, Collection)}.
+     * See:
+     * {@link edu.kit.informatik.management.literature.LiteratureManagement#calculateJaccard(Collection, Collection)}.
      * </p>
      * <p>
      * The result string always contains a floating point number,
@@ -247,10 +241,8 @@ public class ComplexController extends Controller {
      *         the first artilce.
      * @param articleId2
      *         the second article.
-     *
      * @return the similarity between the artilces (0.000-1.000).
-     *
-     * @throws NoSuchElementException
+     * @throws java.util.NoSuchElementException
      *         If one of the articles doesn't
      *         exist this exception is thrown.
      */

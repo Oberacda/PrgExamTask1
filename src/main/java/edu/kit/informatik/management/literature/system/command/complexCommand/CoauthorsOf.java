@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
  * <p>
  *     Syntax: {@literal "coauthors of <firstname> <lastname>"}!
  * </p>
+ *
  * @author David Oberacker
  * @version 1.0.1
  */
@@ -25,6 +26,7 @@ public class CoauthorsOf implements Command {
 
     /**
      * Default constructor for complexController commands.
+     *
      * @param lms the complexController of the command.
      */
     public CoauthorsOf(final ComplexController lms) {
@@ -32,9 +34,10 @@ public class CoauthorsOf implements Command {
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Executes the Command on the {@code LiteratureManagement} with the parameters
      * given in the {@code userCommand} parameter.
-     *
      */
     @Override
     public boolean execute(final String userCommand) {

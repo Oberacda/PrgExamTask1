@@ -11,10 +11,11 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
- * Parsing class for the add author command.
+ * Parsing/Output class for the add author command.
  * <p>
  *     Syntax: {@literal "add author <firstname>,<lastname>"}.
  * </p>
+ *
  * @author David Oberacker
  * @version 1.0.0
  */
@@ -27,6 +28,7 @@ public class AddAuthor implements Command {
 
     /**
      * Default constructor for addController commands.
+     *
      * @param lms the addController of the command.
      */
     public AddAuthor(final AddController lms) {
@@ -35,9 +37,10 @@ public class AddAuthor implements Command {
 
 
     /**
+     * {@inheritDoc}
+     *
      * Executes the Command on the {@code LiteratureManagement} with the parameters
      * given in the {@code userCommand} parameter.
-     *
      */
     @Override
     public boolean execute(final String userCommand) {
